@@ -301,13 +301,13 @@ input, select, textarea { font-family: inherit; }
 .destino-btn i { font-size: 1.3rem; color: var(--muted); }
 .destino-btn.sel { border-color: var(--accent); background: #fffbeb; }
 .destino-btn.sel i { color: var(--accent); }
-.reng-cab, .reng-fila { display: grid; grid-template-columns: 22px 1fr 82px 30px; gap: 6px; align-items: center; }
-.reng-cab { font-size: .66rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.reng-cab, .reng-fila { display: grid; grid-template-columns: 20px 76px 1fr 30px; gap: 6px; align-items: center; }   /* v15.1.1: CANT. a la izquierda, como el papel */
+.reng-cab { font-size: .66rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin: 14px 0 4px; }
 .reng-fila { margin-bottom: 6px; }
 .reng-n { font-size: .74rem; color: var(--muted); text-align: right; }
-.reng-fila input { width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .88rem; }
+.reng-fila input { width: 100%; padding: 10px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .95rem; min-height: 44px; }
 .reng-fila input:focus, .campo input:focus, .campo textarea:focus { outline: none; border-color: var(--accent); }
-.reng-fila input.cant { text-align: right; }
+.reng-fila input.cant { text-align: center; }
 .reng-quitar { border: none; background: none; color: var(--muted); font-size: 1.1rem; }
 .reng-quitar:hover { color: var(--danger); }
 .btn-agregar-reng { border: 1px dashed var(--border); background: none; color: var(--accent); font-weight: 700; font-size: .78rem; border-radius: var(--radius-sm); padding: 7px; width: 100%; }
@@ -344,6 +344,37 @@ input, select, textarea { font-family: inherit; }
   .fab span { display: none; }
   .fab { padding: 14px; }
   .badge-conexion .txt-c { display: none; }
+}
+
+/* v15.1.1 — editor: lista con scroll propio, pie fijo y compacto */
+.editor-box { height: min(760px, 92vh); }
+.editor-cuerpo { flex: 1; overflow-y: auto; }
+.destino-btn { padding: 9px 8px; font-size: .88rem; }
+.editor-pie { border-top: 1px solid var(--border); background: #f8fafc; padding: 10px 20px 4px; box-shadow: 0 -4px 10px rgba(0,0,0,.05); }
+.editor-pie .fecha-fila { flex-wrap: nowrap; overflow-x: auto; position: relative; }
+.fecha-oculta { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; right: 0; bottom: 0; }
+.chip-sel.peq.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+.btn-obs { border: none; background: none; color: var(--accent); font-weight: 700; font-size: .76rem; padding: 8px 0 6px; }
+#editor-obs { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: .86rem; resize: none; margin-bottom: 6px; display: block; }
+#editor-obs.hidden { display: none; }
+.editor-acciones { border-top: none; background: #f8fafc; }
+.editor-acciones .btn-chico { padding: 10px 16px; font-size: .82rem; }
+/* pastillas de filtro */
+.pastillas { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 6px; }
+.pastilla { border: 1.5px solid var(--border); background: var(--surface); color: var(--text); border-radius: 99px; padding: 5px 12px; font-size: .76rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+.pastilla .n { background: var(--bg); border-radius: 99px; padding: 0 7px; font-size: .68rem; color: var(--muted); }
+.pastilla.sel { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+.pastilla.sel .n { background: rgba(255,255,255,.18); color: #fff; }
+.pastilla.cero { opacity: .45; }
+/* perfil en el header */
+.hdr-perfil { font-size: .66rem; font-weight: 700; color: #fde68a; background: rgba(217,119,6,.22); border: 1px solid rgba(217,119,6,.5); border-radius: 99px; padding: 2px 10px; white-space: nowrap; cursor: pointer; }
+@media (max-width: 560px) {
+  .hdr-email, .hdr-version { display: none; }
+  .editor-box { height: 100%; }
+  .editor-pie { padding: 8px 14px 2px; }
+  .editor-acciones { padding: 8px 14px 12px; }
+  .editor-acciones .btn-chico { flex: 1; padding: 13px 10px; font-size: .9rem; }
+  .editor-acciones .btn-chico.izq { flex: 0 0 auto; }
 }
 
 </style>
@@ -408,6 +439,7 @@ input, select, textarea { font-family: inherit; }
     <button class="hdr-btn hidden" id="btn-instalar" title="Instalar Vale Digital en este dispositivo"><i class="ti ti-download"></i> Instalar</button>
     <button class="hdr-btn hdr-btn-lapiz" id="btn-lapiz-toggle" onclick="lapizToggle()" title="Lápiz — anotar sobre la pantalla (Esc para salir)"><i class="ti ti-pencil"></i> Lápiz</button>
     <div class="hdr-sep"></div>
+    <span class="hdr-perfil hidden" id="hdr-perfil" title="Tu perfil en esta obra (Ctrl+Alt+U: sesión)"></span>
     <div class="hdr-email" id="hdr-email" title="Sesión (Ctrl+Alt+U)"></div>
   </header>
 
@@ -427,39 +459,32 @@ input, select, textarea { font-family: inherit; }
   <div class="cinta-vent"><div class="cinta-pista" id="cinta-pista"></div></div>
 </div>
 
-<!-- ═══════════════ MODAL: editor de vale ═══════════════ -->
+<!-- ═══════════════ MODAL: editor de vale (v15.1.1: 6 renglones fijos, pie fijo) ═══════════════ -->
 <div class="modal-overlay" id="modal-editor">
-  <div class="modal-box ancho">
+  <div class="modal-box ancho editor-box">
     <div class="modal-head"><h3 id="editor-tit">Nuevo vale</h3><button class="modal-close" onclick="cerrarEditor()">&times;</button></div>
-    <div class="modal-body">
+    <div class="modal-body editor-cuerpo">
       <div id="editor-rechazo" class="motivo-rechazo hidden"></div>
       <div id="editor-error" class="err-editor hidden"></div>
-      <div class="campo">
-        <span class="campo-lbl">¿A dónde va?</span>
-        <div class="destinos-opc" id="editor-destinos"></div>
-      </div>
-      <div class="campo">
-        <span class="campo-lbl">¿Qué necesitás?</span>
-        <div class="reng-cab"><span></span><span>Descripción</span><span style="text-align:right">Cantidad</span><span></span></div>
-        <div id="editor-renglones"></div>
-        <button type="button" class="btn-agregar-reng" id="btn-agregar-reng"><i class="ti ti-plus"></i> Agregar renglón</button>
-        <div class="nota-editor">La cantidad es opcional. Un renglón por cosa, como en el vale de papel.</div>
-      </div>
-      <div class="campo">
-        <span class="campo-lbl">¿Para cuándo? <span style="font-weight:400">(opcional)</span></span>
-        <div class="fecha-fila">
-          <button type="button" class="chip-sel peq" data-cuando="hoy">Hoy</button>
-          <button type="button" class="chip-sel peq" data-cuando="manana">Mañana</button>
-          <input type="date" id="editor-fecha">
-          <button type="button" class="chip-sel peq" data-cuando="">Sin fecha</button>
-        </div>
-      </div>
-      <div class="campo">
-        <span class="campo-lbl">Observaciones <span style="font-weight:400">(opcional)</span></span>
-        <textarea id="editor-obs" maxlength="2000" placeholder="Para qué frente, quién lo retira…"></textarea>
-      </div>
+      <span class="campo-lbl">¿A dónde va?</span>
+      <div class="destinos-opc" id="editor-destinos"></div>
+      <div class="reng-cab"><span></span><span>Cant.</span><span>Descripción</span><span></span></div>
+      <div id="editor-renglones"></div>
+      <button type="button" class="btn-agregar-reng" id="btn-agregar-reng"><i class="ti ti-plus"></i> Agregar renglón</button>
     </div>
-    <div class="modal-actions">
+    <div class="editor-pie">
+      <div class="fecha-fila">
+        <span class="campo-lbl" style="margin:0">Para:</span>
+        <button type="button" class="chip-sel peq" data-cuando="hoy">Hoy</button>
+        <button type="button" class="chip-sel peq" data-cuando="manana">Mañana</button>
+        <button type="button" class="chip-sel peq" id="btn-otra-fecha"><i class="ti ti-calendar"></i> <span id="txt-otra-fecha">Otra fecha</span></button>
+        <button type="button" class="chip-sel peq" data-cuando="">Sin fecha</button>
+        <input type="date" id="editor-fecha" class="fecha-oculta" tabindex="-1" aria-label="Otra fecha">
+      </div>
+      <button type="button" class="btn-obs" id="btn-obs"><i class="ti ti-plus"></i> Agregar observación</button>
+      <textarea id="editor-obs" class="hidden" maxlength="2000" rows="2" placeholder="Para qué frente, quién lo retira…"></textarea>
+    </div>
+    <div class="modal-actions editor-acciones">
       <button class="btn-chico peligro izq hidden" id="btn-editor-eliminar">Eliminar borrador</button>
       <button class="btn-chico peligro izq hidden" id="btn-editor-descartar">Descartar vale</button>
       <button class="btn-chico sec" id="btn-editor-guardar">Guardar borrador</button>
@@ -559,7 +584,18 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_1_0.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_1_1.html  (subir como index.html al repo goeapp/vale)
+// v15.1.1 (11-nov-2026) — prueba real de Ale:
+//  · Nuevo vale como el papel: 6 renglones fijos (no aparecen renglones al escribir y la
+//    pantalla no se mueve), CANT. a la izquierda, renglones más altos para el dedo.
+//    "Agregar renglón" suma de a uno. Los vacíos no se envían.
+//  · Pie fijo y compacto: Para Hoy / Mañana / Otra fecha / Sin fecha en una fila,
+//    observación plegada ("+ Agregar observación") y los botones grandes en el celular.
+//    Solo la lista de renglones tiene scroll.
+//  · Pastillas de filtro con cantidad en Mis vales, Todos y Para gestionar (reemplazan "Ver cerrados").
+//  · Perfil de la obra al lado del mail (Capataz, Jefe de obra…). En el celular queda solo el perfil.
+//  · Lápiz Global v2.2: ya no borra lo dibujado cuando la ventana cambia de tamaño
+//    (la barra "Estás compartiendo esta pestaña" de la primera captura la achicaba).
 // v15.1.0 (11-nov-2026) — PWA NUEVA sobre Supabase PWAgoe (ValeDigital_Diseno_v15_0_1.md, etapa 2):
 //  · Login por código (Supabase Auth), como ClimaObra v17.0.4. storageKey 'vd-sb-auth'.
 //  · Mis vales: para corregir (rechazados), borradores, en curso y cerrados. Número
@@ -580,7 +616,7 @@ input, select, textarea { font-family: inherit; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.1.0';
+const APP_VERSION   = 'v15.1.1';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -936,13 +972,23 @@ const EST_ICO = { BORRADOR: 'ti-pencil', ENVIADO: 'ti-hourglass', APROBADO: 'ti-
 const CERRADOS = ['ENTREGADO', 'CERRADO_PARCIAL', 'CANCELADO', 'DESCARTADO'];
 const DEST_ICO = { ALMACEN: 'ti-building-warehouse', PANOL: 'ti-tool' };
 const VISTAS = ['mis', 'aprobar', 'gestion', 'todos'];
+const RENG_FIJOS = 6;                             // v15.1.1: el vale abre con 6 renglones, como el papel
+const PERFIL_TXT = { invitado: 'Invitado', capataz: 'Capataz', supervisor: 'Supervisor', jefe_obra: 'Jefe de obra', almacenero: 'Almacenero', panolero: 'Pañolero', administrar: 'Administrar' };
+// v15.1.1 — pastillas de filtro por vista: [clave, texto, filtro]
+const PASTILLAS = {
+  mis: [['todos', 'Todos', v => true], ['corregir', 'Para corregir', v => v.estado === 'RECHAZADO' || !!v._error], ['borradores', 'Borradores', v => !v._error && ['BORRADOR', 'LOCAL_BORRADOR'].includes(v.estado)],
+        ['curso', 'En curso', v => !v._error && ['LOCAL_ENVIO', 'ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
+  todos: [['todos', 'Todos', v => true], ['enviado', 'Esperando aprobación', v => v.estado === 'ENVIADO'], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'],
+          ['prep', 'En preparación', v => ['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['rechazado', 'Rechazados', v => v.estado === 'RECHAZADO'], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
+  gestion: [['todos', 'Todos', v => true], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'], ['prep', 'En preparación', v => v.estado === 'EN_PREPARACION'], ['pend', 'Con pendientes', v => v.estado === 'CON_PENDIENTES']]
+};
+let filtro = { mis: 'todos', todos: 'todos', gestion: 'todos' };
 
 let datosObra = null;          // respuesta de vd_cargar_obra (o el caché)
 let datosTs = 0;               // cuándo se trajeron
 let datosDeCache = false;
 let editor = null;             // { id, vale (servidor o local), destino, renglones:[{descripcion,cantidad}], paraCuando, obs }
 let rechazoId = null;
-let verCerrados = {};
 let sincronizando = false;
 let promptInstalar = null;
 let ultimaCarga = 0;
@@ -1091,6 +1137,7 @@ async function cargarObra(primera, forzarCache) {
   else { datosObra = r; datosDeCache = deCache; }
   ultimaCarga = Date.now();
   pintarNav_();
+  pintarPerfil_();
   const disp = vistasDisponibles_();
   if (primera || !disp.includes(vista)) vista = disp[0] || 'mis';
   pintarConexion_();
@@ -1105,6 +1152,12 @@ function vistasDisponibles_() {
   if (['jefe_obra', 'administrar', 'invitado'].includes(o.perfil)) v.push('todos');
   return v;
 }
+function pintarPerfil_() {
+  const o = obraActual(), el = document.getElementById('hdr-perfil');
+  el.textContent = o ? (PERFIL_TXT[o.perfil] || o.perfil) : '';
+  el.classList.toggle('hidden', !o);
+}
+document.getElementById('hdr-perfil').addEventListener('click', () => abrirSessionDialog());
 function pintarSelectorObra_() {
   const sel = document.getElementById('sel-obra');
   sel.innerHTML = inicio.obras.map(o => '<option value="' + o.obraId + '">' + escaparHtml(o.codigo + ' ' + o.nombreCorto) + '</option>').join('');
@@ -1181,29 +1234,37 @@ function enlazarTarjetas_(cont) {
   });
   cont.querySelectorAll('[data-aprobar]').forEach(b => b.addEventListener('click', () => aprobar(b.dataset.aprobar)));
   cont.querySelectorAll('[data-rechazar]').forEach(b => b.addEventListener('click', () => abrirRechazo(b.dataset.rechazar)));
-  cont.querySelectorAll('[data-cerrados]').forEach(b => b.addEventListener('click', () => { verCerrados[b.dataset.cerrados] = !verCerrados[b.dataset.cerrados]; pintarVista(); }));
 }
-function bloqueCerrados_(clave, vales, opc) {
-  if (!vales.length) return '';
-  return verCerrados[clave] ? seccion_('Cerrados', vales, opc) + '<button class="mas-cerrados" data-cerrados="' + clave + '">Ocultar cerrados</button>'
-    : '<button class="mas-cerrados" data-cerrados="' + clave + '"><i class="ti ti-chevron-down"></i> Ver cerrados (' + vales.length + ')</button>';
+function pastillas_(clave, vales) {
+  const ps = PASTILLAS[clave];
+  if (!ps.some(p => p[0] === filtro[clave])) filtro[clave] = 'todos';
+  return '<div class="pastillas" data-pastillas="' + clave + '">' + ps.map(p => {
+    const n = vales.filter(p[2]).length;
+    return '<button type="button" class="pastilla' + (filtro[clave] === p[0] ? ' sel' : '') + (n ? '' : ' cero') + '" data-filtro="' + p[0] + '">' + p[1] + '<span class="n">' + n + '</span></button>';
+  }).join('') + '</div>';
+}
+function filtrar_(clave, vales) { const p = PASTILLAS[clave].find(x => x[0] === filtro[clave]); return p ? vales.filter(p[2]) : vales; }
+function enlazarPastillas_(cont, clave) {
+  cont.querySelectorAll('[data-filtro]').forEach(b => b.addEventListener('click', () => { filtro[clave] = b.dataset.filtro; pintarVista(); }));
 }
 function pintarMis_() {
   const cont = document.getElementById('vista-mis');
-  const vs = misValesConCola_();
+  const todos = misValesConCola_();
+  const vs = filtrar_('mis', todos);
   const errores = vs.filter(v => v._error);
   const corregir = vs.filter(v => !v._error && v.estado === 'RECHAZADO');
   const borr = vs.filter(v => !v._error && ['BORRADOR', 'LOCAL_BORRADOR'].includes(v.estado));
   const curso = vs.filter(v => !v._error && ['LOCAL_ENVIO', 'ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado));
   const cerr = vs.filter(v => !v._error && CERRADOS.includes(v.estado));
   const o = obraActual();
+  const vacio = filtro.mis === 'todos' ? 'No tenés vales. Tocá <b>Nuevo vale</b> para pedir algo.' : 'No hay vales con este filtro.';
   cont.innerHTML = cabVista_('Mis vales', o.requiereAprobacion ? 'Tus vales pasan por aprobación antes de ir a Almacén o Pañol.' : 'Tus vales salen aprobados directo a Almacén o Pañol.') +
-    seccion_('<i class="ti ti-alert-triangle"></i> No se pudieron sincronizar', errores) +
-    seccion_('<i class="ti ti-arrow-back-up"></i> Para corregir', corregir) +
-    seccion_('Borradores', borr) +
-    seccion_('En curso', curso, { siempre: !errores.length && !corregir.length && !borr.length, vacio: 'No tenés vales en curso. Tocá <b>Nuevo vale</b> para pedir algo.' }) +
-    bloqueCerrados_('mis', cerr, {});
-  enlazarTarjetas_(cont);
+    pastillas_('mis', todos) +
+    (vs.length ? seccion_('<i class="ti ti-alert-triangle"></i> No se pudieron sincronizar', errores) +
+      seccion_('<i class="ti ti-arrow-back-up"></i> Para corregir', corregir) +
+      seccion_('Borradores', borr) + seccion_('En curso', curso) + seccion_('Cerrados', cerr)
+      : '<div class="vacio-txt" style="margin-top:12px">' + vacio + '</div>');
+  enlazarTarjetas_(cont); enlazarPastillas_(cont, 'mis');
 }
 function pintarAprobar_() {
   const cont = document.getElementById('vista-aprobar');
@@ -1215,22 +1276,26 @@ function pintarAprobar_() {
 function pintarGestion_() {
   const cont = document.getElementById('vista-gestion');
   const o = obraActual();
-  const vs = datosObra.gestion || [];
+  const todos = datosObra.gestion || [];
+  const vs = filtrar_('gestion', todos);
   const nombres = (o.gestiona || []).map(nombreDestino).join(' y ');
   cont.innerHTML = cabVista_('Para gestionar', 'Vales aprobados para ' + escaparHtml(nombres) + '.') +
     '<div class="aviso-etapa"><i class="ti ti-info-circle"></i><span>Por ahora se ven y se consultan. Preparar y entregar por renglón llega en la próxima versión (v15.2).</span></div>' +
-    seccion_('En cola', vs, { siempre: true, conSolicitante: true, vacio: 'No hay vales para gestionar.' }) +
+    pastillas_('gestion', todos) +
+    seccion_('En cola', vs, { siempre: true, conSolicitante: true, vacio: todos.length ? 'No hay vales con este filtro.' : 'No hay vales para gestionar.' }) +
     (datosObra.entregadosHoy ? '<div class="vista-sub" style="margin-top:10px">Entregados hoy: ' + datosObra.entregadosHoy + '</div>' : '');
-  enlazarTarjetas_(cont);
+  enlazarTarjetas_(cont); enlazarPastillas_(cont, 'gestion');
 }
 function pintarTodos_() {
   const cont = document.getElementById('vista-todos');
-  const vs = datosObra.todos || [];
+  const todos = datosObra.todos || [];
+  const vs = filtrar_('todos', todos);
   const abiertos = vs.filter(v => !CERRADOS.includes(v.estado)), cerr = vs.filter(v => CERRADOS.includes(v.estado));
   cont.innerHTML = cabVista_('Todos los vales', 'Los de la obra que están abiertos y los cerrados de los últimos 30 días (sin borradores).') +
-    seccion_('Abiertos', abiertos, { siempre: true, conSolicitante: true, vacio: 'No hay vales abiertos en la obra.' }) +
-    bloqueCerrados_('todos', cerr, { conSolicitante: true });
-  enlazarTarjetas_(cont);
+    pastillas_('todos', todos) +
+    (vs.length ? seccion_('Abiertos', abiertos, { conSolicitante: true }) + seccion_('Cerrados', cerr, { conSolicitante: true })
+      : '<div class="vacio-txt" style="margin-top:12px">' + (todos.length ? 'No hay vales con este filtro.' : 'No hay vales en la obra.') + '</div>');
+  enlazarTarjetas_(cont); enlazarPastillas_(cont, 'todos');
 }
 
 // ── CONEXIÓN ─────────────────────────────────────────────────
@@ -1267,7 +1332,7 @@ function abrirEditor(v) {
     renglones: v ? v.renglones.map(r => ({ descripcion: r.descripcion, cantidad: cantTxt(r.cantidad) })) : [],
     paraCuando: v ? (v.paraCuando || '') : '', obs: v ? (v.observaciones || '') : ''
   };
-  if (!editor.renglones.length || editor.renglones[editor.renglones.length - 1].descripcion) editor.renglones.push({ descripcion: '', cantidad: '' });
+  while (editor.renglones.length < RENG_FIJOS) editor.renglones.push({ descripcion: '', cantidad: '' });   // v15.1.1: renglones fijos, no crece al escribir
   const est = v ? v.estado : 'NUEVO';
   document.getElementById('editor-tit').textContent = !v ? 'Nuevo vale' : est === 'RECHAZADO' ? 'Corregir vale ' + (v.numeroTxt || '') : 'Editar borrador';
   const rech = document.getElementById('editor-rechazo');
@@ -1279,9 +1344,11 @@ function abrirEditor(v) {
   document.getElementById('btn-editor-guardar').textContent = est === 'RECHAZADO' ? 'Guardar sin enviar' : 'Guardar borrador';
   document.getElementById('btn-editor-enviar').innerHTML = '<i class="ti ti-send"></i> ' + (est === 'RECHAZADO' ? 'Reenviar' : 'Enviar');
   document.getElementById('editor-obs').value = editor.obs;
+  mostrarObs_(!!editor.obs);
   pintarEditor_();
   cerrarModal('modal-detalle');
   abrirModal('modal-editor');
+  document.querySelector('#modal-editor .editor-cuerpo').scrollTop = 0;
   const primero = document.querySelector('#editor-renglones input.desc');
   if (primero && editor.destino) setTimeout(() => primero.focus(), 50);
 }
@@ -1296,50 +1363,59 @@ function pintarRenglones_() {
   const cont = document.getElementById('editor-renglones');
   cont.innerHTML = editor.renglones.map((r, i) =>
     '<div class="reng-fila"><span class="reng-n">' + (i + 1) + '</span>' +
-    '<input class="desc" data-i="' + i + '" maxlength="300" value="' + escaparHtml(r.descripcion) + '" placeholder="' + (i === 0 ? 'Ej.: Amoladora 115 mm' : 'Otra cosa…') + '">' +
-    '<input class="cant" data-i="' + i + '" inputmode="decimal" maxlength="10" value="' + escaparHtml(r.cantidad) + '" placeholder="—">' +
-    '<button type="button" class="reng-quitar" data-quitar="' + i + '" title="Quitar renglón"' + (editor.renglones.length === 1 ? ' style="visibility:hidden"' : '') + '><i class="ti ti-x"></i></button></div>').join('');
+    '<input class="cant" data-i="' + i + '" inputmode="decimal" maxlength="10" value="' + escaparHtml(r.cantidad) + '" placeholder="—" aria-label="Cantidad renglón ' + (i + 1) + '">' +
+    '<input class="desc" data-i="' + i + '" maxlength="300" value="' + escaparHtml(r.descripcion) + '" placeholder="' + (i === 0 ? 'Ej.: Amoladora 115 mm' : '') + '" aria-label="Descripción renglón ' + (i + 1) + '">' +
+    '<button type="button" class="reng-quitar" data-quitar="' + i + '" title="' + (editor.renglones.length > RENG_FIJOS ? 'Quitar renglón' : 'Borrar renglón') + '">✕</button></div>').join('');
   cont.querySelectorAll('input.desc').forEach(inp => {
-    inp.addEventListener('input', () => {
-      const i = +inp.dataset.i; editor.renglones[i].descripcion = inp.value; limpiarErrorEditor_();
-      if (i === editor.renglones.length - 1 && inp.value.trim() && editor.renglones.length < 50) {   // como el papel: siempre hay un renglón libre al final
-        editor.renglones.push({ descripcion: '', cantidad: '' });
-        const pos = inp.selectionStart; pintarRenglones_();
-        const de = cont.querySelector('input.desc[data-i="' + i + '"]'); de.focus(); de.setSelectionRange(pos, pos);
-      }
-    });
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const c = cont.querySelector('input.cant[data-i="' + inp.dataset.i + '"]'); if (c) c.focus(); } });
+    inp.addEventListener('input', () => { editor.renglones[+inp.dataset.i].descripcion = inp.value; limpiarErrorEditor_(); });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const s = cont.querySelector('input.cant[data-i="' + (+inp.dataset.i + 1) + '"]'); if (s) s.focus(); } });
   });
   cont.querySelectorAll('input.cant').forEach(inp => {
     inp.addEventListener('input', () => { editor.renglones[+inp.dataset.i].cantidad = inp.value; limpiarErrorEditor_(); });
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const s = cont.querySelector('input.desc[data-i="' + (+inp.dataset.i + 1) + '"]'); if (s) s.focus(); } });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const d = cont.querySelector('input.desc[data-i="' + inp.dataset.i + '"]'); if (d) d.focus(); } });
   });
   cont.querySelectorAll('[data-quitar]').forEach(b => b.addEventListener('click', () => {
-    editor.renglones.splice(+b.dataset.quitar, 1);
-    if (!editor.renglones.length || editor.renglones[editor.renglones.length - 1].descripcion.trim()) editor.renglones.push({ descripcion: '', cantidad: '' });
+    const i = +b.dataset.quitar;
+    if (editor.renglones.length > RENG_FIJOS) editor.renglones.splice(i, 1);          // renglón agregado: se quita
+    else { editor.renglones.splice(i, 1); editor.renglones.push({ descripcion: '', cantidad: '' }); }   // de los 6: se borra y los de abajo suben
     pintarRenglones_();
   }));
 }
 document.getElementById('btn-agregar-reng').addEventListener('click', () => {
   if (editor.renglones.length >= 50) { mostrarToast('Hasta 50 renglones por vale'); return; }
-  const ult = editor.renglones[editor.renglones.length - 1];
-  if (ult && !ult.descripcion.trim()) { document.querySelector('#editor-renglones input.desc[data-i="' + (editor.renglones.length - 1) + '"]').focus(); return; }
   editor.renglones.push({ descripcion: '', cantidad: '' }); pintarRenglones_();
-  document.querySelector('#editor-renglones input.desc[data-i="' + (editor.renglones.length - 1) + '"]').focus();
+  const n = document.querySelector('#editor-renglones input.cant[data-i="' + (editor.renglones.length - 1) + '"]');
+  n.scrollIntoView({ block: 'nearest' }); n.focus();
 });
 function pintarFecha_() {
-  const hoy = inicio.hoy, man = sumarDias(hoy, 1);
-  document.getElementById('editor-fecha').value = editor.paraCuando || '';
+  const hoy = inicio.hoy, man = sumarDias(hoy, 1), f = editor.paraCuando || '';
+  document.getElementById('editor-fecha').value = f;
   document.querySelectorAll('[data-cuando]').forEach(b => {
     const val = b.dataset.cuando === 'hoy' ? hoy : b.dataset.cuando === 'manana' ? man : '';
-    b.classList.toggle('sel', (editor.paraCuando || '') === val);
+    b.classList.toggle('sel', f === val);
   });
+  const otra = !!f && f !== hoy && f !== man;
+  document.getElementById('btn-otra-fecha').classList.toggle('sel', otra);
+  document.getElementById('txt-otra-fecha').textContent = otra ? ddmm(f) : 'Otra fecha';
 }
 document.querySelectorAll('[data-cuando]').forEach(b => b.addEventListener('click', () => {
   editor.paraCuando = b.dataset.cuando === 'hoy' ? inicio.hoy : b.dataset.cuando === 'manana' ? sumarDias(inicio.hoy, 1) : '';
   pintarFecha_();
 }));
+document.getElementById('btn-otra-fecha').addEventListener('click', () => {
+  const inp = document.getElementById('editor-fecha');
+  inp.min = inicio.hoy;
+  try { inp.showPicker(); } catch (e) { inp.focus(); inp.click(); }
+});
 document.getElementById('editor-fecha').addEventListener('change', e => { editor.paraCuando = e.target.value || ''; pintarFecha_(); });
+function mostrarObs_(abierta) {
+  document.getElementById('editor-obs').classList.toggle('hidden', !abierta);
+  document.getElementById('btn-obs').innerHTML = abierta ? '<i class="ti ti-minus"></i> Ocultar observación' : '<i class="ti ti-plus"></i> ' + (editor && editor.obs ? 'Ver observación' : 'Agregar observación');
+}
+document.getElementById('btn-obs').addEventListener('click', () => {
+  const abrir = document.getElementById('editor-obs').classList.contains('hidden');
+  mostrarObs_(abrir); if (abrir) document.getElementById('editor-obs').focus();
+});
 document.getElementById('editor-obs').addEventListener('input', e => { editor.obs = e.target.value; });
 
 /** Arma el vale para la base. Devuelve {vale} o {error}. */
@@ -1580,7 +1656,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 }
 
 // ============================================================
-// LÁPIZ GLOBAL v2.1 — de PreKOM v9.1.1 (sin cambios de lógica)
+// LÁPIZ GLOBAL v2.2 — de ClimaObra v17.0.4 (v2.1) + v2.2: conserva el dibujo al cambiar el tamaño
 // ============================================================
 let lapizState = { activo:false, color:'#ef4444', grosor:4, modo:'libre', dibujando:false, dragActivo:false, dragOffX:0, dragOffY:0, startX:0, startY:0, capturando:false };
 let _lapizCtx = null;
@@ -1608,7 +1684,22 @@ function lapizSyncCanvasSize(){
   canvas.width = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, window.innerWidth);
   canvas.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight);
 }
-function lapizResize(){ lapizBorrar(); }
+/** v2.2 — antes borraba todo en cada resize (la barra de "compartiendo pestaña" de la captura lo disparaba).
+ *  Ahora: si se está capturando no toca nada; si el tamaño no creció no hace nada; si creció, agranda el lienzo
+ *  y vuelve a pintar lo dibujado. Nunca lo achica mientras el Lápiz está abierto (al cerrarlo se limpia igual). */
+function lapizResize(){
+  if(lapizState.capturando) return;
+  const canvas = document.getElementById('lpz-canvas');
+  if(!canvas || !_lapizCtx) return;
+  if(!lapizState.activo){ lapizBorrar(); return; }
+  const w = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, window.innerWidth, canvas.width);
+  const h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight, canvas.height);
+  if(w === canvas.width && h === canvas.height) return;
+  const copia = document.createElement('canvas'); copia.width = canvas.width; copia.height = canvas.height;
+  if(canvas.width && canvas.height) copia.getContext('2d').drawImage(canvas, 0, 0);
+  canvas.width = w; canvas.height = h;
+  _lapizCtx.drawImage(copia, 0, 0);
+}
 function lapizToggle(){
   lapizState.activo = !lapizState.activo;
   const canvas = document.getElementById('lpz-canvas');
