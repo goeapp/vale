@@ -393,21 +393,55 @@ input, select, textarea { font-family: inherit; }
 .antig.a2 { color: #c2410c; }
 .antig.a4 { color: var(--danger); }
 /* v15.2.0 — entrega por renglón */
-.ent-fila { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px; background: var(--surface); }
-.ent-fila.ENTREGADO { border-left: 4px solid var(--e-ok); }
-.ent-fila.PENDIENTE { border-left: 4px solid var(--e-pend); }
-.ent-fila.SIN_STOCK { border-left: 4px solid var(--e-cerrado); background: #f8fafc; }
-.ent-desc { font-weight: 700; font-size: .88rem; }
-.ent-desc small { font-weight: 500; color: var(--muted); margin-left: 4px; }
-.ent-opc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
-.ent-btn { border: 1.5px solid var(--border); background: var(--surface); border-radius: var(--radius-sm); padding: 9px 4px; font-size: .78rem; font-weight: 700; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 42px; }
-.ent-btn.sel.ENTREGADO { border-color: var(--e-ok); background: #dcfce7; color: #166534; }
-.ent-btn.sel.PENDIENTE { border-color: var(--e-pend); background: #ffedd5; color: #9a3412; }
-.ent-btn.sel.SIN_STOCK { border-color: #64748b; background: #e2e8f0; color: #334155; }
-.ent-cant { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: .78rem; color: var(--muted); }
-.ent-cant input { width: 100px; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .95rem; text-align: center; min-height: 40px; }
+/* v15.2.1 — entrega: una fila por renglón en la compu, ítem destacado, selector compacto */
+.entrega-box { max-width: 980px !important; height: auto !important; max-height: 92vh; }
+.ent-cab, .ent-fila { display: grid; grid-template-columns: 34px minmax(0, 1fr) 64px 252px 112px; gap: 12px; align-items: center; }
+.ent-cab { font-size: .66rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 0 12px 6px; border-bottom: 1px solid var(--border); }
+.ent-fila { padding: 9px 12px; border-bottom: 1px solid var(--border); border-left: 4px solid var(--e-ok); background: var(--surface); }
+.ent-fila.PENDIENTE { border-left-color: var(--e-pend); }
+.ent-fila.SIN_STOCK { border-left-color: var(--e-cerrado); background: #f8fafc; }
+.ent-n { width: 26px; height: 26px; border-radius: 50%; background: var(--bg); color: var(--muted); font-size: .74rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.ent-item { min-width: 0; }
+.ent-desc { font-weight: 700; font-size: .98rem; color: var(--text); overflow-wrap: anywhere; }
+.ent-sub { font-size: .7rem; color: var(--muted); }
+.ent-pidio { font-size: .86rem; color: var(--muted); text-align: right; white-space: nowrap; }
+.ent-pidio .lbl-m { display: none; }
+.ent-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface); }
+.ent-btn { border: none; border-right: 1px solid var(--border); background: transparent; padding: 6px 10px; font-size: .74rem; font-weight: 700; color: var(--muted); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.ent-btn:last-child { border-right: none; }
+.ent-btn:hover { background: var(--bg); }
+.ent-btn .corto { display: none; }
+.ent-btn.sel.ENTREGADO { background: #dcfce7; color: #166534; }
+.ent-btn.sel.PENDIENTE { background: #ffedd5; color: #9a3412; }
+.ent-btn.sel.SIN_STOCK { background: #e2e8f0; color: #334155; }
+.ent-cant input { width: 100%; max-width: 112px; padding: 6px 8px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .9rem; text-align: center; min-height: 34px; }
 .ent-cant input:focus { outline: none; border-color: var(--accent); }
-.ent-resumen { font-size: .78rem; color: var(--muted); margin: 4px 0 10px; }
+.ent-cant .nada { color: var(--muted); font-size: .8rem; display: block; text-align: center; }
+.ent-resumen { font-size: .78rem; color: var(--muted); margin: 0 0 10px; }
+.ent-aviso { font-size: .78rem; border-radius: var(--radius-sm); padding: 7px 10px; margin-bottom: 8px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; }
+.ent-aviso.otro { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+.ent-estado-guardado { font-size: .72rem; color: var(--muted); margin-right: auto; align-self: center; }
+.btn-chico .corto { display: none; }
+@media (max-width: 560px) {
+  .ent-cab { display: none; }
+  .entrega-box { height: 100% !important; max-height: none; }
+  .ent-fila { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "item item" "seg cant"; gap: 8px 10px; padding: 10px 12px; }
+  .ent-n { display: none; }
+  .ent-item { grid-area: item; }
+  .ent-item .ent-desc::before { content: attr(data-orden) ". "; color: var(--muted); font-weight: 600; }
+  .ent-pidio { display: none; }
+  .ent-sub .pidio-m { display: inline; }
+  .ent-seg { grid-area: seg; justify-self: start; }
+  .ent-cant { grid-area: cant; }
+  .ent-cant input { width: 64px; }
+  .ent-btn { padding: 7px 9px; }
+  .ent-btn .largo { display: none; }
+  .ent-btn .corto { display: inline; }
+  .btn-chico .largo { display: none; }
+  .btn-chico .corto { display: inline; }
+  .ent-estado-guardado { display: none; }
+}
+@media (min-width: 561px) { .ent-sub .pidio-m { display: none; } }
 .est-r { font-size: .7rem; font-weight: 700; padding: 1px 7px; border-radius: 99px; background: #f1f5f9; color: #475569; white-space: nowrap; }
 .est-r.ENTREGADO { background: #dcfce7; color: #166534; }
 .est-r.PENDIENTE { background: #ffedd5; color: #9a3412; }
@@ -418,8 +452,47 @@ input, select, textarea { font-family: inherit; }
 /* v15.2.0 — línea de tiempo y comentarios */
 .tl-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 18px 0 8px; }
 .tl-cab .seccion-tit { margin: 0; }
-.tl-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: .74rem; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
-.tl-toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+.tl-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: .74rem; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
+/* v15.2.1 — interruptor deslizable */
+.tl-toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tl-switch { position: relative; width: 36px; height: 20px; border-radius: 99px; background: #cbd5e1; transition: background .15s; flex: none; }
+.tl-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
+.tl-toggle input:checked + .tl-switch { background: var(--accent); }
+.tl-toggle input:checked + .tl-switch::after { transform: translateX(16px); }
+.tl-toggle input:focus-visible + .tl-switch { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* v15.2.1 — línea de tiempo plegable y entregas agrupadas */
+.tl-plegable { margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); }
+.tl-abrir { width: 100%; display: flex; align-items: center; gap: 8px; background: none; border: none; padding: 10px 12px; text-align: left; font-size: .74rem; color: var(--muted); }
+.tl-abrir .tit { font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.tl-abrir .res { margin-left: 4px; }
+.tl-abrir .nuevo { color: var(--accent); font-weight: 700; }
+.tl-abrir:hover { background: var(--bg); }
+.tl-cuerpo { padding: 4px 12px 12px; border-top: 1px solid var(--border); }
+.tl-cuerpo .tl-cab { margin: 8px 0 10px; justify-content: flex-end; }
+.tl-grupo { margin-top: 4px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.tl-grupo-btn { width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; background: none; border: none; padding: 5px 8px; font-size: .74rem; color: var(--text); text-align: left; }
+.tl-grupo-btn:hover { background: var(--bg); }
+.tl-chip { font-size: .66rem; font-weight: 700; border-radius: 99px; padding: 0 7px; }
+.tl-chip.ENTREGADO { background: #dcfce7; color: #166534; }
+.tl-chip.PENDIENTE { background: #ffedd5; color: #9a3412; }
+.tl-chip.SIN_STOCK { background: #e2e8f0; color: #334155; }
+.tl-grupo-det { border-top: 1px solid var(--border); }
+.tl-grupo-fila { display: flex; justify-content: space-between; gap: 10px; padding: 4px 8px; font-size: .76rem; border-bottom: 1px solid var(--border); }
+.tl-grupo-fila:last-child { border-bottom: none; }
+/* v15.2.1 — faltantes, origen de renglones, entrega a medias */
+.falt-lista { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.falt-fila { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--e-cerrado); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; }
+.falt-fila.sel { border-color: var(--accent); background: #fffbeb; }
+.falt-fila.bloq { cursor: default; opacity: .7; }
+.falt-fila input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+.falt-desc { font-weight: 700; font-size: .9rem; }
+.falt-meta { font-size: .7rem; color: var(--muted); }
+.falt-tag { font-size: .66rem; font-weight: 700; background: #ede9fe; color: #5b21b6; border-radius: 99px; padding: 1px 8px; margin-left: 6px; }
+.falt-acc { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; position: sticky; bottom: calc(var(--cinta-h) + 8px); background: var(--bg); padding: 6px 0; }
+.reng-origen { font-size: .68rem; color: #5b21b6; margin: -2px 0 6px 26px; }
+.det-origen { display: block; font-size: .68rem; color: #5b21b6; }
+.det-origen.fin { color: var(--muted); }
+.ent-medias { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 700; color: #5b21b6; margin-top: 4px; }
 .timeline { list-style: none; border-left: 2px solid var(--border); margin-left: 6px; padding-left: 14px; display: flex; flex-direction: column; gap: 10px; }
 .tl-item { position: relative; font-size: .8rem; }
 .tl-item::before { content: ''; position: absolute; left: -20px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--muted); }
@@ -605,10 +678,12 @@ input, select, textarea { font-family: inherit; }
 
 <!-- ═══════════════ MODAL: entregar por renglón (v15.2.0) ═══════════════ -->
 <div class="modal-overlay" id="modal-entrega">
-  <div class="modal-box ancho editor-box">
-    <div class="modal-head"><h3 id="entrega-tit">Entregar</h3><button class="modal-close" onclick="cerrarModal('modal-entrega')">&times;</button></div>
+  <div class="modal-box ancho editor-box entrega-box">
+    <div class="modal-head"><h3 id="entrega-tit">Entregar</h3><button class="modal-close" onclick="cerrarEntrega_()">&times;</button></div>
     <div class="modal-body editor-cuerpo">
+      <div id="entrega-avisos"></div>
       <div class="ent-resumen" id="entrega-resumen"></div>
+      <div class="ent-cab"><span>#</span><span>Ítem</span><span style="text-align:right">Pidió</span><span>Estado</span><span style="text-align:center">Entregó</span></div>
       <div id="entrega-renglones"></div>
       <div class="campo" style="margin-top:10px">
         <span class="campo-lbl">Nota (opcional, la ve quien pidió)</span>
@@ -616,8 +691,10 @@ input, select, textarea { font-family: inherit; }
       </div>
     </div>
     <div class="modal-actions editor-acciones">
-      <button class="btn-chico sec" onclick="cerrarModal('modal-entrega')">Volver</button>
-      <button class="btn-chico" id="btn-entrega-ok"><i class="ti ti-check"></i> Confirmar entrega</button>
+      <span class="ent-estado-guardado" id="entrega-guardado"></span>
+      <button class="btn-chico sec" onclick="cerrarEntrega_()">Volver</button>
+      <button class="btn-chico sec" id="btn-entrega-borrador"><i class="ti ti-device-floppy"></i> <span class="largo">Guardar borrador</span><span class="corto">Guardar</span></button>
+      <button class="btn-chico" id="btn-entrega-ok"><i class="ti ti-check"></i> <span class="largo">Confirmar entrega</span><span class="corto">Confirmar</span></button>
     </div>
   </div>
 </div>
@@ -674,7 +751,19 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_0.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_1.html  (subir como index.html al repo goeapp/vale)
+// v15.2.1 (12-nov-2026) — entrega mejorada, borrador de entrega, línea de tiempo plegada y Faltantes.
+//   Requiere vd_esquema_v15_2_1.sql (vd_entrega_borrador, vd_faltantes, vd_faltantes_quitar).
+//  · Entrega: en la compu una fila por renglón (# · ítem · pidió · estado · entregó), ítem destacado,
+//    selector de estado compacto; en el celular el ítem arriba y selector + cantidad en una línea.
+//  · Borrador de entrega en la base (uno por vale, compartido): "Guardar borrador", autoguardado a los
+//    5 min sin actividad y al cerrar/volver; muestra quién lo guardó y avisa si otro lo está editando.
+//    "📝 Entrega a medias" en la tarjeta.
+//  · Línea de tiempo plegada (encabezado: movimientos · comentarios · el último hace…), cada entrega
+//    agrupada y plegada adentro, "Ver comentarios" como interruptor deslizable.
+//  · Faltantes (Mis vales): renglones sin stock de mis vales → "Pedir de nuevo" (editor precargado; si
+//    son de Almacén y Pañol, un borrador por destino) o "Quitar". Comentario automático en el original;
+//    el renglón nuevo dice "viene de VD…".
 // v15.2.0 (12-nov-2026) — gestión por renglón, línea de tiempo y comentarios (sin SQL nuevo: usa
 //   vd_iniciar, vd_entregar, vd_cancelar, vd_comentar y vd_detalle de vd_esquema_v15_0_0.sql):
 //  · Almacén / Pañol: "Empezar a preparar" (opcional) y "Entregar": los renglones abiertos vienen
@@ -718,7 +807,7 @@ input, select, textarea { font-family: inherit; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.0';
+const APP_VERSION   = 'v15.2.1';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -803,7 +892,7 @@ window.addEventListener('unhandledrejection', e => {
 // ══════════════════════════════════════════════════════════════
 // DATOS — llamarBackend(action, params) → funciones vd_* de Supabase
 // ══════════════════════════════════════════════════════════════
-const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos']);
+const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes']);
 function errRed_() { return new Error('No se pudo conectar con el servidor. Revisá tu conexión y volvé a intentar.'); }
 
 /** (= PreKOM v9) rechazo de la base → {ok:false, error}; falla de red → excepción. */
@@ -857,6 +946,18 @@ async function llamarBackendSb_(action, p) {
     case 'rechazar': {
       const r = await rpc_(action, 'vd_rechazar', { p_vale: p.id, p_motivo: p.motivo });
       registrarActividad_('rechazar', p.id, r && r.ok ? 'OK' : 'ERROR', r && r.ok ? null : { error: r && r.error }, p.obraId);
+      return r;
+    }
+    // v15.2.1 — borrador de entrega y faltantes
+    case 'faltantes': return rpc_(action, 'vd_faltantes', { p_obra: p.obraId });
+    case 'borradorEntrega': {
+      const r = await rpc_(action, 'vd_entrega_borrador', { p_vale: p.id, p_accion: p.accion, p_datos: p.datos || null });
+      if (['guardar', 'cerrar'].includes(p.accion) && p.datos) registrarActividad_('entrega_borrador', p.id, r && r.ok ? 'OK' : 'ERROR', { accion: p.accion, auto: !!p.auto }, p.obraId);
+      return r;
+    }
+    case 'quitarFaltantes': {
+      const r = await rpc_(action, 'vd_faltantes_quitar', { p_renglones: p.ids });
+      registrarActividad_('quitar_faltantes', p.ids.join(','), r && r.ok ? 'OK' : 'ERROR', r && r.ok ? { quitados: r.quitados } : { error: r && r.error });
       return r;
     }
     // v15.2.0 — gestión por renglón y comentarios
@@ -1051,7 +1152,7 @@ function onKeydownGlobal(e) {
   if (e.key === 'Escape' && !lapizState.activo) {
     if (document.getElementById('dialogo-overlay').classList.contains('visible')) return;
     for (const m of ['modal-resumen', 'modal-rechazo', 'modal-entrega']) {
-      if (document.getElementById(m).classList.contains('visible')) { cerrarModal(m); return; }
+      if (document.getElementById(m).classList.contains('visible')) { if (m === 'modal-entrega') cerrarEntrega_(); else cerrarModal(m); return; }
     }
     cerrarModal('modal-detalle');
     if (document.getElementById('modal-editor').classList.contains('visible')) cerrarEditor();
@@ -1094,7 +1195,8 @@ const PERFIL_TXT = { invitado: 'Invitado', capataz: 'Capataz', supervisor: 'Supe
 // v15.1.1 — pastillas de filtro por vista: [clave, texto, filtro]
 const PASTILLAS = {
   mis: [['todos', 'Todos', v => true], ['corregir', 'Para corregir', v => v.estado === 'RECHAZADO' || !!v._error], ['borradores', 'Borradores', v => !v._error && ['BORRADOR', 'LOCAL_BORRADOR'].includes(v.estado)],
-        ['curso', 'En curso', v => !v._error && ['LOCAL_ENVIO', 'ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
+        ['curso', 'En curso', v => !v._error && ['LOCAL_ENVIO', 'ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)],
+        ['faltantes', 'Faltantes', null]],   // v15.2.1: renglones sin stock (no filtra vales: muestra la lista de faltantes)
   todos: [['todos', 'Todos', v => true], ['enviado', 'Esperando aprobación', v => v.estado === 'ENVIADO'], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'],
           ['prep', 'En preparación', v => ['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['rechazado', 'Rechazados', v => v.estado === 'RECHAZADO'], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
   gestion: [['todos', 'Todos', v => true], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'], ['prep', 'En preparación', v => v.estado === 'EN_PREPARACION'], ['pend', 'Con pendientes', v => v.estado === 'CON_PENDIENTES']]
@@ -1199,7 +1301,7 @@ function valeDeOp_(op, base) {
     estado: base && base.estado === 'RECHAZADO' && !op.enviar ? 'RECHAZADO' : (op.enviar ? 'LOCAL_ENVIO' : 'LOCAL_BORRADOR'),
     numeroTxt: base ? base.numeroTxt : null, esMio: true, solicitante: nombreActual,
     creadoEn: base ? base.creadoEn : new Date(op.ts).toISOString(),
-    renglones: v.renglones.map((r, i) => ({ orden: i + 1, descripcion: r.descripcion, cantidad: r.cantidad === '' ? null : r.cantidad, estado: 'SOLICITADO' })),
+    renglones: v.renglones.map((r, i) => ({ orden: i + 1, descripcion: r.descripcion, cantidad: r.cantidad === '' ? null : r.cantidad, estado: 'SOLICITADO', origenId: r.origenId || null, origenTxt: r.origenTxt || null })),
     _local: true, _error: op.error, _op: op
   });
 }
@@ -1260,7 +1362,17 @@ async function cargarInicio(primera) {
 async function cargarObra(primera, forzarCache) {
   let r = null, deCache = false;
   if (!forzarCache) {
-    try { r = await llamarBackend('obra', { obraId: obraSel }); if (r && r.ok) guardarJson(cacheObraKey(obraSel), { ts: Date.now(), data: r }); }
+    try {
+      const obraId = obraSel;
+      const [ro, rf] = await Promise.all([llamarBackend('obra', { obraId: obraId }),
+        llamarBackend('faltantes', { obraId: obraId }).catch(() => null)]);   // v15.2.1
+      r = ro;
+      if (r && r.ok) {
+        const previo = datosObra && datosObra.obraId === obraId ? datosObra.faltantes : null;
+        r.faltantes = rf && rf.ok ? rf.faltantes : (previo || []);
+        guardarJson(cacheObraKey(obraId), { ts: Date.now(), data: r });
+      }
+    }
     catch (err) { r = null; }
   }
   if (!r) {
@@ -1361,6 +1473,7 @@ function tarjeta_(v, opc) {
       '<span class="vale-dest"><i class="ti ' + (DEST_ICO[v.destino] || 'ti-box') + '"></i>' + escaparHtml(nombreDestino(v.destino)) + '</span></div>' +
     '<div class="vale-reng">' + (renglones || '<i>sin renglones</i>') + '</div>' +
     '<div class="vale-meta">' + meta.filter(Boolean).join(' · ') + '</div>' + antigHtml_(v) +
+    (v.entregaBorrador ? '<div class="ent-medias"><i class="ti ti-file-pencil"></i>Entrega a medias · ' + escaparHtml(v.entregaBorrador.por || '') + ' · ' + hhmm(v.entregaBorrador.en) + '</div>' : '') +
     (v.estado === 'RECHAZADO' && v.rechazoMotivo ? '<div class="vale-error">Motivo: ' + escaparHtml(v.rechazoMotivo) + '</div>' : '') +
     (v._error ? '<div class="vale-error"><i class="ti ti-alert-triangle"></i> No se pudo sincronizar: ' + escaparHtml(v._error) + '</div>' : '') +
     acc + '</div>';
@@ -1377,11 +1490,11 @@ function pastillas_(clave, vales) {
   const ps = PASTILLAS[clave];
   if (!ps.some(p => p[0] === filtro[clave])) filtro[clave] = 'todos';
   return '<div class="pastillas" data-pastillas="' + clave + '">' + ps.map(p => {
-    const n = vales.filter(p[2]).length;
+    const n = p[2] ? vales.filter(p[2]).length : faltantes_().length;
     return '<button type="button" class="pastilla' + (filtro[clave] === p[0] ? ' sel' : '') + (n ? '' : ' cero') + '" data-filtro="' + p[0] + '">' + p[1] + '<span class="n">' + n + '</span></button>';
   }).join('') + '</div>';
 }
-function filtrar_(clave, vales) { const p = PASTILLAS[clave].find(x => x[0] === filtro[clave]); return p ? vales.filter(p[2]) : vales; }
+function filtrar_(clave, vales) { const p = PASTILLAS[clave].find(x => x[0] === filtro[clave]); return p ? (p[2] ? vales.filter(p[2]) : []) : vales; }
 function enlazarPastillas_(cont, clave) {
   cont.querySelectorAll('[data-filtro]').forEach(b => b.addEventListener('click', () => { filtro[clave] = b.dataset.filtro; pintarVista(); }));
 }
@@ -1396,6 +1509,11 @@ function pintarMis_() {
   const cerr = vs.filter(v => !v._error && CERRADOS.includes(v.estado));
   const o = obraActual();
   const vacio = filtro.mis === 'todos' ? 'No tenés vales. Tocá <b>Nuevo vale</b> para pedir algo.' : 'No hay vales con este filtro.';
+  if (filtro.mis === 'faltantes') {   // v15.2.1
+    cont.innerHTML = cabVista_('Mis vales', 'Lo que Almacén o Pañol marcó <b>sin stock</b> en tus vales. Tildá lo que quieras volver a pedir.') +
+      pastillas_('mis', todos) + faltantesHtml_();
+    enlazarPastillas_(cont, 'mis'); enlazarFaltantes_(cont); return;
+  }
   cont.innerHTML = cabVista_('Mis vales', o.requiereAprobacion ? 'Tus vales pasan por aprobación antes de ir a Almacén o Pañol.' : 'Tus vales salen aprobados directo a Almacén o Pañol.') +
     pastillas_('mis', todos) +
     (vs.length ? seccion_('<i class="ti ti-alert-triangle"></i> No se pudieron sincronizar', errores) +
@@ -1461,13 +1579,14 @@ function buscarVale_(id) {
   const todos = [].concat(misValesConCola_(), datosObra.porAprobar || [], datosObra.gestion || [], datosObra.todos || []);
   return todos.find(v => v.id === id) || null;
 }
-function abrirEditor(v) {
+function abrirEditor(v, pre) {   // v15.2.1: pre = { destino, renglones } para "Pedir de nuevo" desde Faltantes
   const o = obraActual();
   if (!o || !o.puedePedir) return;
   editor = {
     id: v ? v.id : nuevoId(), vale: v,
-    destino: v ? v.destino : (inicio.destinos.length === 1 ? inicio.destinos[0].destino : ''),
-    renglones: v ? v.renglones.map(r => ({ descripcion: r.descripcion, cantidad: cantTxt(r.cantidad) })) : [],
+    destino: v ? v.destino : pre ? pre.destino : (inicio.destinos.length === 1 ? inicio.destinos[0].destino : ''),
+    renglones: v ? v.renglones.map(r => ({ descripcion: r.descripcion, cantidad: cantTxt(r.cantidad), origenId: r.origenId || null, origenTxt: r.origenTxt || null }))
+      : pre ? pre.renglones.map(r => Object.assign({}, r)) : [],
     paraCuando: v ? (v.paraCuando || '') : '', obs: v ? (v.observaciones || '') : ''
   };
   while (editor.renglones.length < RENG_FIJOS) editor.renglones.push({ descripcion: '', cantidad: '' });   // v15.1.1: renglones fijos, no crece al escribir
@@ -1503,7 +1622,8 @@ function pintarRenglones_() {
     '<div class="reng-fila"><span class="reng-n">' + (i + 1) + '</span>' +
     '<input class="cant" data-i="' + i + '" inputmode="decimal" maxlength="10" value="' + escaparHtml(r.cantidad) + '" placeholder="—" aria-label="Cantidad renglón ' + (i + 1) + '">' +
     '<input class="desc" data-i="' + i + '" maxlength="300" value="' + escaparHtml(r.descripcion) + '" placeholder="' + (i === 0 ? 'Ej.: Amoladora 115 mm' : '') + '" aria-label="Descripción renglón ' + (i + 1) + '">' +
-    '<button type="button" class="reng-quitar" data-quitar="' + i + '" title="' + (editor.renglones.length > RENG_FIJOS ? 'Quitar renglón' : 'Borrar renglón') + '">✕</button></div>').join('');
+    '<button type="button" class="reng-quitar" data-quitar="' + i + '" title="' + (editor.renglones.length > RENG_FIJOS ? 'Quitar renglón' : 'Borrar renglón') + '">✕</button></div>' +
+    (r.origenId ? '<div class="reng-origen" data-origen="' + i + '"><i class="ti ti-repeat"></i> viene de ' + escaparHtml(r.origenTxt || 'un faltante') + '</div>' : '')).join('');
   cont.querySelectorAll('input.desc').forEach(inp => {
     inp.addEventListener('input', () => { editor.renglones[+inp.dataset.i].descripcion = inp.value; limpiarErrorEditor_(); });
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const s = cont.querySelector('input.cant[data-i="' + (+inp.dataset.i + 1) + '"]'); if (s) s.focus(); } });
@@ -1566,7 +1686,9 @@ function armarVale_() {
     const d = reng[i].descripcion.trim(), cs = String(reng[i].cantidad || '').trim().replace(',', '.');
     if (!d) return { error: 'El renglón ' + (i + 1) + ' tiene cantidad pero no dice qué es.' };
     if (cs && (!/^\d+(\.\d+)?$/.test(cs) || Number(cs) <= 0)) return { error: 'Renglón ' + (i + 1) + ': la cantidad tiene que ser un número mayor que 0 (o dejala vacía).' };
-    out.push({ descripcion: d, cantidad: cs ? Number(cs) : '' });
+    const x = { descripcion: d, cantidad: cs ? Number(cs) : '' };
+    if (reng[i].origenId) { x.origenId = reng[i].origenId; x.origenTxt = reng[i].origenTxt || null; }   // v15.2.1
+    out.push(x);
   }
   return { vale: { id: editor.id, obraId: editor.vale ? editor.vale.obraId : obraSel, destino: editor.destino, paraCuando: editor.paraCuando || '', observaciones: (editor.obs || '').trim(), origen: 'pwa', renglones: out } };
 }
@@ -1643,6 +1765,89 @@ async function operarPropio_(tipo, id, obraId, okTxt) {
   cerrarEditor(); mostrarToast(okTxt + ' (se sincroniza al volver la señal)'); pintarVista();
 }
 
+// ── FALTANTES (v15.2.1) ──────────────────────────────────────
+const faltSel = new Set();
+/** Mis faltantes de la obra + lo que la cola local ya tiene en un borrador o por enviar. */
+function faltantes_() {
+  const base = (datosObra && datosObra.faltantes) || [];
+  const locales = leerCola().filter(x => x.tipo === 'guardar' && x.obraId === obraSel);
+  return base.map(f => {
+    if (f.enBorradorId) return f;
+    const op = locales.find(x => (x.vale.renglones || []).some(r => r.origenId === f.id));
+    return op ? Object.assign({}, f, { enBorradorId: op.valeId, enBorradorTxt: op.enviar ? 'se envía al volver la señal' : 'borrador sin sincronizar' }) : f;
+  });
+}
+function faltantesHtml_() {
+  const fs = faltantes_();
+  [...faltSel].forEach(id => { const f = fs.find(x => x.id === id); if (!f || f.enBorradorId) faltSel.delete(id); });
+  if (!fs.length) return '<div class="vacio-txt" style="margin-top:12px">No tenés faltantes: todo lo que pediste se entregó o ya lo volviste a pedir.</div>';
+  const n = faltSel.size, on = navigator.onLine;
+  return '<div class="falt-lista">' + fs.map(f => {
+    const bloq = !!f.enBorradorId;
+    const dias = f.desde ? Math.max(0, difDias(inicio ? inicio.hoy : hoyAR(), fechaAR(f.desde))) : null;
+    return '<label class="falt-fila' + (faltSel.has(f.id) ? ' sel' : '') + (bloq ? ' bloq' : '') + '" data-falt-fila="' + f.id + '">' +
+      '<input type="checkbox" data-falt="' + f.id + '"' + (faltSel.has(f.id) ? ' checked' : '') + (bloq ? ' disabled' : '') + ' aria-label="Elegir ' + escaparHtml(f.descripcion) + '">' +
+      '<span style="min-width:0;flex:1"><span class="falt-desc">' + escaparHtml(f.descripcion) + (cantTxt(f.cantidad) ? ' ×' + cantTxt(f.cantidad) : '') + '</span>' +
+        (bloq ? '<span class="falt-tag" data-falt-borr="' + f.enBorradorId + '">en ' + escaparHtml(f.enBorradorTxt || 'borrador') + '</span>' : '') +
+        '<span class="falt-meta" style="display:block">de ' + escaparHtml(f.valeTxt || '') + ' · ' + escaparHtml(nombreDestino(f.destino)) +
+        (dias == null ? '' : ' · sin stock ' + (dias === 0 ? 'desde hoy' : 'hace ' + dias + (dias === 1 ? ' día' : ' días'))) + '</span></span>' +
+      '<span class="vale-dest"><i class="ti ' + (DEST_ICO[f.destino] || 'ti-box') + '"></i></span></label>';
+  }).join('') + '</div>' +
+  '<div class="falt-acc"><button class="btn-chico" id="btn-falt-pedir"' + (n ? '' : ' disabled') + '><i class="ti ti-repeat"></i> Pedir de nuevo' + (n ? ' (' + n + ')' : '') + '</button>' +
+  '<button class="btn-chico peligro" id="btn-falt-quitar"' + (n && on ? '' : ' disabled') + (on ? '' : ' title="Necesitás conexión"') + '><i class="ti ti-trash"></i> Quitar' + (n ? ' (' + n + ')' : '') + '</button></div>';
+}
+function enlazarFaltantes_(cont) {
+  cont.querySelectorAll('[data-falt]').forEach(c => c.addEventListener('change', () => {
+    if (c.checked) faltSel.add(c.dataset.falt); else faltSel.delete(c.dataset.falt);
+    pintarVista();
+  }));
+  cont.querySelectorAll('[data-falt-borr]').forEach(t => t.addEventListener('click', e => { e.preventDefault(); abrirVale(t.dataset.faltBorr); }));
+  const bp = document.getElementById('btn-falt-pedir'); if (bp) bp.addEventListener('click', pedirDeNuevo_);
+  const bq = document.getElementById('btn-falt-quitar'); if (bq) bq.addEventListener('click', quitarFaltantes_);
+}
+/** "Pedir de nuevo": un destino → editor precargado; varios → un borrador por destino. */
+async function pedirDeNuevo_() {
+  const fs = faltantes_().filter(f => faltSel.has(f.id) && !f.enBorradorId);
+  if (!fs.length) return;
+  const grupos = {};
+  fs.forEach(f => { (grupos[f.destino] = grupos[f.destino] || []).push(f); });
+  const renglonesDe = lista => lista.map(f => ({ descripcion: f.descripcion, cantidad: cantTxt(f.cantidad), origenId: f.id, origenTxt: f.valeTxt }));
+  const orden = (inicio.destinos || []).map(d => d.destino);
+  const destinos = Object.keys(grupos).sort((a, b) => orden.indexOf(a) - orden.indexOf(b));
+  if (destinos.length === 1) {
+    faltSel.clear();
+    abrirEditor(null, { destino: destinos[0], renglones: renglonesDe(grupos[destinos[0]]) });
+    return;
+  }
+  if (!(await mostrarConfirm('Pedir de nuevo', 'Elegiste faltantes de ' + destinos.map(nombreDestino).join(' y ') + ': se arma un borrador para cada destino. Después los revisás y los enviás.', { textoAceptar: 'Armar borradores' }))) return;
+  let ok = 0;
+  for (const d of destinos) {
+    const vale = { id: nuevoId(), obraId: obraSel, destino: d, paraCuando: '', observaciones: '', origen: 'pwa',
+      renglones: grupos[d].map(f => ({ descripcion: f.descripcion, cantidad: f.cantidad == null ? '' : Number(f.cantidad), origenId: f.id, origenTxt: f.valeTxt })) };
+    let r = null;
+    if (navigator.onLine) { try { r = await llamarBackend('guardar', { vale: vale, enviar: false }); } catch (err) { r = null; } }
+    if (r && !r.ok) { mostrarAviso(r.error || 'No se pudo armar el borrador.'); continue; }
+    if (!r) encolar({ tipo: 'guardar', valeId: vale.id, obraId: obraSel, vale: vale, enviar: false });
+    ok++;
+  }
+  faltSel.clear();
+  if (ok) { mostrarToast('Se armaron ' + ok + ' borradores: revisalos y envialos'); filtro.mis = 'borradores'; }
+  await refrescarTodo_('guardar');
+}
+async function quitarFaltantes_() {
+  const ids = [...faltSel];
+  if (!ids.length) return;
+  if (!navigator.onLine) { mostrarAviso('Para quitar faltantes necesitás conexión.'); return; }
+  if (!(await mostrarConfirm('Quitar de faltantes', '¿Quitar ' + (ids.length === 1 ? 'este faltante' : 'estos ' + ids.length + ' faltantes') + '? Queda anotado en el vale original y ya no se puede volver a pedir desde acá.', { textoAceptar: 'Quitar', danger: true }))) return;
+  try {
+    const r = await llamarBackend('quitarFaltantes', { ids: ids });
+    if (!r || !r.ok) { mostrarAviso((r && r.error) || 'No se pudo quitar.'); return; }
+    faltSel.clear();
+    mostrarToast(r.quitados === 1 ? 'Faltante quitado' : r.quitados + ' faltantes quitados');
+    await refrescarTodo_('guardar');
+  } catch (err) { mostrarAviso(err.message); }
+}
+
 // ── DETALLE (v15.2.0: línea de tiempo, comentarios y acciones de gestión) ──
 const detalleCache = {};        // id → vale con historial y comentarios (vd_detalle)
 let comEstado = null;           // { valeId, renglonId, interno, texto } — caja de comentario del detalle abierto
@@ -1704,16 +1909,16 @@ function pintarDetalle_(v0) {
       '<div><span class="lbl">Creado</span>' + (v.creadoEn ? hhmm(v.creadoEn) : '—') + (v.origen === 'telegram' ? ' · por Telegram' : '') + '</div>' +
       (v.gestionadoPor ? '<div><span class="lbl">Lo atiende</span>' + escaparHtml(v.gestionadoPor) + '</div>' : '') + '</div>' +
     '<table class="tabla-reng"><thead><tr><th>#</th><th>Qué</th><th style="text-align:right">Cant.</th>' + (conEntrega ? '<th>Estado</th>' : '') + (comenta ? '<th></th>' : '') + '</tr></thead><tbody>' +
-    v.renglones.map((r, i) => '<tr><td>' + (r.orden || i + 1) + '</td><td>' + escaparHtml(r.descripcion) + '</td><td class="num">' + (cantTxt(r.cantidad) || '—') +
+    v.renglones.map((r, i) => '<tr><td>' + (r.orden || i + 1) + '</td><td>' + escaparHtml(r.descripcion) +
+      (r.origenTxt ? '<span class="det-origen"><i class="ti ti-repeat"></i> viene de ' + escaparHtml(r.origenTxt) + '</span>' : '') +
+      (r.faltanteFin === 'REPEDIDO' ? '<span class="det-origen fin">🔁 pedido de nuevo en ' + escaparHtml(r.repedidoTxt || 'otro vale') + '</span>' : r.faltanteFin === 'QUITADO' ? '<span class="det-origen fin">🗑️ quitado de faltantes</span>' : '') +
+      '</td><td class="num">' + (cantTxt(r.cantidad) || '—') +
       (r.cantidadEntregada != null && r.estado === 'ENTREGADO' && String(r.cantidadEntregada) !== String(r.cantidad) ? '<br><small>entregó ' + cantTxt(r.cantidadEntregada) + '</small>' : '') + '</td>' +
       (conEntrega ? '<td><span class="est-r ' + r.estado + '">' + (EST_R[r.estado] || r.estado) + '</span></td>' : '') +
       (comenta && r.id ? '<td style="width:44px;text-align:right"><button type="button" class="btn-com-r' + (nCom(r.id) ? ' tiene' : '') + '" data-com-r="' + r.id + '" title="Comentar este renglón">💬' + (nCom(r.id) ? ' ' + nCom(r.id) : '') + '</button></td>' : (comenta ? '<td></td>' : '')) +
       '</tr>').join('') + '</tbody></table>' +
     (v.observaciones ? '<div class="det-evento"><b>Observaciones:</b> ' + escaparHtml(v.observaciones) + '</div>' : '') + ev +
-    (v._local ? '' :
-      '<div class="tl-cab"><div class="seccion-tit"><i class="ti ti-timeline"></i> Línea de tiempo</div>' +
-      '<label class="tl-toggle"><input type="checkbox" id="tl-ver-com"' + (verComentarios_() ? ' checked' : '') + '> Ver comentarios' + (coms.length ? ' (' + coms.length + ')' : '') + '</label></div>' +
-      '<div id="tl-lista"></div>') +
+    (v._local ? '' : '<div class="tl-plegable" id="tl-plegable"></div>') +   // v15.2.1: plegada
     (comenta ? cajaComentario_(v) : '');
   pintarTimeline_(v);
   enlazarDetalle_(v);
@@ -1742,38 +1947,100 @@ const TL_VALE = {
   ENTREGADO: 'Entrega completa', CERRADO_PARCIAL: 'Cerró el vale (parte sin stock)', CANCELADO: 'Canceló el vale', ELIMINADO: 'Eliminó el borrador'
 };
 function claseTl_(est) { return ['APROBADO', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(est) ? ' ok' : ['RECHAZADO', 'CANCELADO', 'SIN_STOCK', 'DESCARTADO'].includes(est) ? ' malo' : ['PENDIENTE', 'CON_PENDIENTES'].includes(est) ? ' pend' : ''; }
-function itemsTimeline_(v) {
-  const items = [];
-  (v.historial || []).forEach(h => items.push({ tipo: 'estado', t: Date.parse(h.fecha), h: h }));
-  if (verComentarios_()) (v.comentarios || []).forEach(c => items.push({ tipo: 'com', t: Date.parse(c.fecha), c: c }));
-  return items.sort((a, b) => a.t - b.t);   // estable: los cambios del mismo instante quedan en su orden
+const tlAbierto = {};                   // valeId → la línea de tiempo está desplegada (v15.2.1: viene plegada)
+const tlGruposAbiertos = new Set();     // entregas desplegadas dentro de la línea de tiempo
+function haceTxt_(ts) {
+  const m = Math.max(0, Math.round((Date.now() - Date.parse(ts)) / 60000));
+  if (m < 1) return 'recién';
+  if (m < 60) return 'hace ' + m + ' min';
+  const h = Math.round(m / 60); if (h < 24) return 'hace ' + h + ' h';
+  const d = Math.round(h / 24); return 'hace ' + d + (d === 1 ? ' día' : ' días');
+}
+/** v15.2.1 — agrupa los renglones de cada entrega (misma transacción) con su cambio de estado del vale. */
+function gruposHistorial_(hist) {
+  const out = []; let buf = [];
+  const CIERRA = ['CON_PENDIENTES', 'ENTREGADO', 'CERRADO_PARCIAL'];
+  for (const h of hist || []) {
+    if (h.renglonId) { buf.push(h); continue; }
+    if (buf.length && CIERRA.includes(h.nuevo) && Date.parse(h.fecha) === Date.parse(buf[0].fecha)) { out.push({ h: h, grupo: buf }); buf = []; continue; }
+    if (buf.length) { out.push({ h: null, grupo: buf }); buf = []; }
+    out.push({ h: h, grupo: null });
+  }
+  if (buf.length) out.push({ h: null, grupo: buf });
+  return out;
 }
 function pintarTimeline_(v) {
+  const cont = document.getElementById('tl-plegable');
+  if (!cont) return;
+  const abierto = !!tlAbierto[v.id];
+  const coms = v.comentarios || [];
+  let res;
+  if (!v.historial) res = navigator.onLine ? '· cargando…' : '· se ve con conexión';
+  else {
+    const n = gruposHistorial_(v.historial).length;
+    res = '· ' + n + (n === 1 ? ' movimiento' : ' movimientos');
+    if (coms.length) {
+      const ult = coms.reduce((m, c) => Date.parse(c.fecha) > Date.parse(m) ? c.fecha : m, coms[0].fecha);
+      res += ' · <span class="nuevo">' + coms.length + (coms.length === 1 ? ' comentario' : ' comentarios') + ' · el último ' + haceTxt_(ult) + '</span>';
+    }
+  }
+  cont.innerHTML = '<button type="button" class="tl-abrir" id="tl-abrir" aria-expanded="' + abierto + '"><i class="ti ti-chevron-' + (abierto ? 'down' : 'right') + '"></i>' +
+      '<span class="tit">Línea de tiempo</span><span class="res">' + res + '</span></button>' +
+    (abierto ? '<div class="tl-cuerpo"><div class="tl-cab"><label class="tl-toggle">Ver comentarios' + (coms.length ? ' (' + coms.length + ')' : '') +
+      '<input type="checkbox" id="tl-ver-com" role="switch"' + (verComentarios_() ? ' checked' : '') + '><span class="tl-switch"></span></label></div><div id="tl-lista"></div></div>' : '');
+  const actual = () => valeParaDetalle_(buscarVale_(v.id) || detalleCache[v.id] || v);
+  document.getElementById('tl-abrir').addEventListener('click', () => { tlAbierto[v.id] = !abierto; pintarTimeline_(actual()); });
+  if (!abierto) return;
+  const tg = document.getElementById('tl-ver-com');
+  tg.addEventListener('change', () => { guardarPref(VER_COM_KEY, tg.checked ? '1' : '0'); pintarListaTimeline_(actual()); });
+  pintarListaTimeline_(v);
+}
+function pintarListaTimeline_(v) {
   const cont = document.getElementById('tl-lista');
   if (!cont) return;
   if (!v.historial) { cont.innerHTML = '<div class="tl-vacio">' + (navigator.onLine ? 'Cargando…' : 'La línea de tiempo se ve con conexión.') + '</div>'; return; }
   const reng = {}; v.renglones.forEach(r => { if (r.id) reng[r.id] = r; });
   const rTxt = id => { const r = reng[id]; return r ? 'renglón ' + r.orden + ' (' + escaparHtml(r.descripcion.length > 40 ? r.descripcion.slice(0, 40) + '…' : r.descripcion) + ')' : 'un renglón'; };
-  const items = itemsTimeline_(v);
+  const items = gruposHistorial_(v.historial).map(g => ({ tipo: 'estado', t: Date.parse((g.h || g.grupo[0]).fecha), g: g }));
+  if (verComentarios_()) (v.comentarios || []).forEach(c => items.push({ tipo: 'com', t: Date.parse(c.fecha), c: c }));
+  items.sort((a, b) => a.t - b.t);   // estable: lo del mismo instante queda en su orden
+  const grupoHtml = (grupo, key) => {
+    const cnt = {}; grupo.forEach(h => { cnt[h.nuevo] = (cnt[h.nuevo] || 0) + 1; });
+    const ab = tlGruposAbiertos.has(key);
+    const plural = { ENTREGADO: ['entregado', 'entregados'], PENDIENTE: ['pendiente', 'pendientes'], SIN_STOCK: ['sin stock', 'sin stock'] };
+    return '<div class="tl-grupo"><button type="button" class="tl-grupo-btn" data-grupo="' + escaparHtml(key) + '" aria-expanded="' + ab + '"><i class="ti ti-chevron-' + (ab ? 'down' : 'right') + '"></i>' +
+      'Detalle de ' + grupo.length + (grupo.length === 1 ? ' renglón' : ' renglones') +
+      ['ENTREGADO', 'PENDIENTE', 'SIN_STOCK'].filter(e => cnt[e]).map(e => '<span class="tl-chip ' + e + '">' + cnt[e] + ' ' + plural[e][cnt[e] === 1 ? 0 : 1] + '</span>').join('') + '</button>' +
+      (ab ? '<div class="tl-grupo-det">' + grupo.map(h => {
+        const m = /^Entregado: (.+)$/.exec(h.nota || '');
+        const r = reng[h.renglonId];
+        return '<div class="tl-grupo-fila"><span>' + (r ? r.orden + ' · ' + escaparHtml(r.descripcion) : 'renglón') + '</span><span class="est-r ' + h.nuevo + '">' + (EST_R[h.nuevo] || h.nuevo) + (m ? ' (' + cantTxt(m[1]) + ')' : '') + '</span></div>';
+      }).join('') + '</div>' : '') + '</div>';
+  };
   cont.innerHTML = '<ul class="timeline">' + items.map(it => {
     if (it.tipo === 'estado') {
-      const h = it.h;
-      let txt, nota = h.nota || '';
-      if (h.renglonId) {
-        txt = rTxt(h.renglonId).replace(/^r/, 'R') + ': <b>' + (EST_R[h.nuevo] || h.nuevo).toLowerCase() + '</b>';
-        const m = /^Entregado: (.+)$/.exec(nota);
-        if (m) { txt += ' (' + cantTxt(m[1]) + ')'; nota = ''; }
+      const g = it.g, h = g.h || g.grupo[0];
+      let txt, nota = g.h ? (g.h.nota || '') : '', cls = claseTl_(h.nuevo);
+      if (!g.h) { txt = '<b>Registró una entrega</b>'; cls = ' pend'; }
+      else if (h.renglonId) {   // un cambio suelto de renglón (no debería pasar, queda por si acaso)
+        txt = rTxt(h.renglonId).replace(/^r/, 'R') + ': <b>' + (EST_R[h.nuevo] || h.nuevo).toLowerCase() + '</b>'; nota = '';
       } else if (h.nuevo === 'ENVIADO' && h.anterior === 'RECHAZADO') { txt = '<b>Corrigió y reenvió el vale</b>'; nota = ''; }
       else if (h.nuevo === 'APROBADO' && nota === 'Sin aprobación requerida') { txt = '<b>Salió aprobado</b> (no requiere aprobación)'; nota = ''; }
       else txt = '<b>' + (TL_VALE[h.nuevo] || h.nuevo) + '</b>';
-      return '<li class="tl-item estado' + claseTl_(h.nuevo) + '"><div class="tl-meta">' + hhmm(h.fecha) + ' · ' + escaparHtml(h.persona || '—') + '</div>' +
-        '<div class="tl-txt">' + txt + (nota ? ' <span class="tl-nota">«' + escaparHtml(nota) + '»</span>' : '') + '</div></li>';
+      return '<li class="tl-item estado' + cls + '"><div class="tl-meta">' + hhmm(h.fecha) + ' · ' + escaparHtml(h.persona || '—') + '</div>' +
+        '<div class="tl-txt">' + txt + (nota ? ' <span class="tl-nota">«' + escaparHtml(nota) + '»</span>' : '') + '</div>' +
+        (g.grupo ? grupoHtml(g.grupo, v.id + '|' + h.fecha) : '') + '</li>';
     }
     const c = it.c;
     return '<li class="tl-item com" data-com="' + c.id + '"><div class="tl-meta">' + hhmm(c.fecha) + ' · ' + escaparHtml(c.persona || '—') +
       (c.interno ? '<span class="tl-tag">🔒 interno</span>' : '<span class="tl-tag pub">público</span>') + (c.renglonId ? ' · ' + rTxt(c.renglonId) : '') + '</div>' +
       '<div class="tl-burbuja' + (c.interno ? '' : ' publico') + (c.esMio ? ' mio' : '') + '">' + escaparHtml(c.texto) + '</div></li>';
   }).join('') + '</ul>' + (items.length ? '' : '<div class="tl-vacio">Sin movimientos.</div>');
+  cont.querySelectorAll('[data-grupo]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.grupo;
+    if (tlGruposAbiertos.has(k)) tlGruposAbiertos.delete(k); else tlGruposAbiertos.add(k);
+    pintarListaTimeline_(valeParaDetalle_(buscarVale_(v.id) || detalleCache[v.id] || v));
+  }));
 }
 
 // ── COMENTARIOS ──────────────────────────────────────────────
@@ -1793,8 +2060,6 @@ function cajaComentario_(v) {
 }
 function enlazarDetalle_(v) {
   const body = document.getElementById('detalle-body');
-  const tg = document.getElementById('tl-ver-com');
-  if (tg) tg.addEventListener('change', () => { guardarPref(VER_COM_KEY, tg.checked ? '1' : '0'); pintarTimeline_(valeParaDetalle_(buscarVale_(v.id) || v)); });
   body.querySelectorAll('[data-com-r]').forEach(b => b.addEventListener('click', () => {
     comEstado.renglonId = b.dataset.comR;
     const sel = document.getElementById('com-sobre'); if (sel) sel.value = comEstado.renglonId;
@@ -1824,6 +2089,7 @@ async function comentar_(v) {
     if (!r || !r.ok) { mostrarAviso((r && r.error) || 'No se pudo comentar.'); return; }
     comEstado.texto = '';
     if (!verComentarios_()) guardarPref(VER_COM_KEY, '1');   // para que vea lo que acaba de escribir
+    tlAbierto[v.id] = true;
     mostrarToast(r.interno ? 'Comentario interno agregado' : 'Comentario agregado');
     await recargarDetalle_(v.id);
   } catch (err) { mostrarAviso(err.message); }
@@ -1841,37 +2107,132 @@ async function iniciarVale(id) {
     await refrescarTodo_('iniciar');
   } catch (err) { mostrarAviso(err.message); }
 }
-let entrega = null;   // { id, obraId, numeroTxt, renglones: [{ id, orden, descripcion, cantidad, antes, pendienteDesde, estado, cant }] }
-function abrirEntrega(id) {
+// ── ENTREGA (v15.2.1: filas, borrador compartido en la base y autoguardado) ──
+const AUTOGUARDADO_MS = 5 * 60 * 1000;   // 5 min sin actividad del usuario en este vale → se guarda solo
+const LATIDO_MS = 60 * 1000;             // "lo estoy editando" (lo ven los otros gestores)
+let entrega = null;   // { id, obraId, numeroTxt, renglones: [{ id, orden, descripcion, cantidad, antes, pendienteDesde, estado, cant }], dirty, soltado }
+let entregaTimerInact = null, entregaTimerLatido = null;
+function datosEntrega_() {
+  return { renglones: entrega.renglones.map(r => ({ id: r.id, estado: r.estado, cant: r.cant })), nota: document.getElementById('entrega-nota').value };
+}
+function estadoGuardado_(txt) { const e = document.getElementById('entrega-guardado'); if (e) e.textContent = txt || ''; }
+async function abrirEntrega(id) {
   const v = buscarVale_(id); if (!v || !gestionoVale_(v)) return;
   if (!navigator.onLine) { mostrarAviso('Para entregar necesitás conexión.'); return; }
   const abiertos = v.renglones.filter(r => ['SOLICITADO', 'PENDIENTE'].includes(r.estado));
   if (!abiertos.length) { mostrarAviso('Este vale no tiene renglones abiertos.'); return; }
-  entrega = { id: id, obraId: v.obraId, numeroTxt: v.numeroTxt, renglones: abiertos.map(r => ({
+  entrega = { id: id, obraId: v.obraId, numeroTxt: v.numeroTxt, dirty: false, soltado: false, renglones: abiertos.map(r => ({
     id: r.id, orden: r.orden, descripcion: r.descripcion, cantidad: r.cantidad, antes: r.estado, pendienteDesde: r.pendienteDesde,
     estado: 'ENTREGADO', cant: cantTxt(r.cantidad) })) };   // v15.2.0: todos vienen como Entregado (opción A)
+  let nota = '', avisos = '';
+  // v15.2.1 — borrador compartido: lo traigo y me marco como editor
+  try {
+    const b = await llamarBackend('borradorEntrega', { id: id, obraId: v.obraId, accion: 'abrir' });
+    if (b && b.ok) {
+      if (b.borrador && Array.isArray(b.borrador.renglones)) {
+        b.borrador.renglones.forEach(x => {
+          const r = entrega.renglones.find(z => z.id === x.id);
+          if (r && ['ENTREGADO', 'PENDIENTE', 'SIN_STOCK'].includes(x.estado)) { r.estado = x.estado; r.cant = x.cant == null ? '' : String(x.cant); }
+        });
+        nota = b.borrador.nota || '';
+        avisos += '<div class="ent-aviso" id="ent-aviso-borrador"><i class="ti ti-file-pencil"></i> ' + (b.esMio ? 'Tu borrador' : 'Borrador de <b>' + escaparHtml(b.guardadoPor || '') + '</b>') +
+          ' · guardado ' + hhmm(b.guardadoEn) + '. Seguís desde donde quedó.</div>';
+        estadoGuardado_('Borrador guardado · ' + hhmm(b.guardadoEn));
+      } else estadoGuardado_('');
+      if (b.otroEditando) avisos += '<div class="ent-aviso otro" id="ent-aviso-otro"><i class="ti ti-alert-triangle"></i> <b>' + escaparHtml(b.otroEditando) + '</b> lo está editando ahora (desde las ' +
+        hhmm(b.otroDesde).slice(-5) + '). Si siguen los dos, el último que guarda pisa al otro.</div>';
+    } else if (b && !b.ok) { mostrarAviso(b.error || 'No se pudo abrir la entrega.'); entrega = null; return; }
+  } catch (err) { mostrarAviso(err.message); entrega = null; return; }
   const cerrados = v.renglones.length - abiertos.length;
   document.getElementById('entrega-tit').textContent = 'Entregar vale ' + (v.numeroTxt || '');
-  document.getElementById('entrega-resumen').innerHTML = escaparHtml(v.solicitante || '') + ' · ' + escaparHtml(nombreDestino(v.destino)) + '<br>' +
-    'Vienen todos como <b>Entregado</b>: tocá solo los que cambian.' + (cerrados ? ' Ya cerrados antes: ' + cerrados + '.' : '');
-  document.getElementById('entrega-nota').value = '';
+  document.getElementById('entrega-avisos').innerHTML = avisos;
+  document.getElementById('entrega-resumen').innerHTML = escaparHtml(v.solicitante || '') + ' · ' + escaparHtml(nombreDestino(v.destino)) + ' · ' +
+    'vienen como <b>Entregado</b>: tocá solo los que cambian.' + (cerrados ? ' Ya cerrados antes: ' + cerrados + '.' : '');
+  document.getElementById('entrega-nota').value = nota;
   pintarEntrega_();
   abrirModal('modal-entrega');
   document.querySelector('#modal-entrega .editor-cuerpo').scrollTop = 0;
+  actividadEntrega_();
+  clearInterval(entregaTimerLatido);
+  entregaTimerLatido = setInterval(() => {
+    // solo si hubo actividad reciente: si está quieto, el autoguardado lo suelta y no hay que volver a marcarlo
+    if (entrega && !entrega.soltado && navigator.onLine && Date.now() - (entrega.ultimaActividad || 0) < AUTOGUARDADO_MS - LATIDO_MS) llamarBackend('borradorEntrega', { id: entrega.id, obraId: entrega.obraId, accion: 'latido' }).catch(() => { });
+  }, LATIDO_MS);
 }
 function pintarEntrega_() {
   const cont = document.getElementById('entrega-renglones');
   cont.innerHTML = entrega.renglones.map((r, i) =>
     '<div class="ent-fila ' + r.estado + '" data-ent="' + i + '">' +
-      '<div class="ent-desc">' + r.orden + '. ' + escaparHtml(r.descripcion) + '<small>' + (cantTxt(r.cantidad) ? 'pidió ' + cantTxt(r.cantidad) : 'sin cantidad') +
-        (r.antes === 'PENDIENTE' && r.pendienteDesde ? ' · pendiente desde el ' + ddmm(fechaAR(r.pendienteDesde)) : '') + '</small></div>' +
-      '<div class="ent-opc">' + ['ENTREGADO', 'PENDIENTE', 'SIN_STOCK'].map(e =>
-        '<button type="button" class="ent-btn ' + e + (r.estado === e ? ' sel' : '') + '" data-i="' + i + '" data-est="' + e + '"><i class="ti ' + EST_R_ICO[e] + '"></i>' + EST_R[e] + '</button>').join('') + '</div>' +
-      (r.estado === 'ENTREGADO' ? '<div class="ent-cant">Cantidad entregada <input inputmode="decimal" maxlength="10" data-cant="' + i + '" value="' + escaparHtml(r.cant) + '" placeholder="—" aria-label="Cantidad entregada renglón ' + r.orden + '"></div>' : '') +
+      '<span class="ent-n">' + r.orden + '</span>' +
+      '<div class="ent-item"><div class="ent-desc" data-orden="' + r.orden + '">' + escaparHtml(r.descripcion) + '</div>' +
+        '<div class="ent-sub"><span class="pidio-m">' + (cantTxt(r.cantidad) ? 'pidió ' + cantTxt(r.cantidad) : 'sin cantidad') + '</span>' +
+        (r.antes === 'PENDIENTE' && r.pendienteDesde ? '<span> · pendiente desde el ' + ddmm(fechaAR(r.pendienteDesde)) + '</span>' : '') + '</div></div>' +
+      '<span class="ent-pidio">' + (cantTxt(r.cantidad) || '—') + '</span>' +
+      '<span class="ent-seg" role="group" aria-label="Estado renglón ' + r.orden + '">' + ['ENTREGADO', 'PENDIENTE', 'SIN_STOCK'].map(e =>
+        '<button type="button" class="ent-btn ' + e + (r.estado === e ? ' sel' : '') + '" data-i="' + i + '" data-est="' + e + '" aria-pressed="' + (r.estado === e) + '"><i class="ti ' + EST_R_ICO[e] + '"></i>' +
+        '<span class="largo">' + EST_R[e] + '</span><span class="corto">' + { ENTREGADO: 'Entr.', PENDIENTE: 'Pend.', SIN_STOCK: 'Sin stock' }[e] + '</span></button>').join('') + '</span>' +
+      '<span class="ent-cant">' + (r.estado === 'ENTREGADO' ? '<input inputmode="decimal" maxlength="10" data-cant="' + i + '" value="' + escaparHtml(r.cant) + '" placeholder="—" aria-label="Cantidad entregada renglón ' + r.orden + '">' : '<span class="nada">—</span>') + '</span>' +
     '</div>').join('');
-  cont.querySelectorAll('[data-est]').forEach(b => b.addEventListener('click', () => { entrega.renglones[+b.dataset.i].estado = b.dataset.est; pintarEntrega_(); }));
-  cont.querySelectorAll('[data-cant]').forEach(inp => inp.addEventListener('input', () => { entrega.renglones[+inp.dataset.cant].cant = inp.value; }));
+  cont.querySelectorAll('[data-est]').forEach(b => b.addEventListener('click', () => {
+    const r = entrega.renglones[+b.dataset.i];
+    if (r.estado !== b.dataset.est) { r.estado = b.dataset.est; marcarCambioEntrega_(); }
+    pintarEntrega_();
+  }));
+  cont.querySelectorAll('[data-cant]').forEach(inp => inp.addEventListener('input', () => { entrega.renglones[+inp.dataset.cant].cant = inp.value; marcarCambioEntrega_(); }));
 }
+function marcarCambioEntrega_() { if (!entrega) return; entrega.dirty = true; estadoGuardado_('Cambios sin guardar'); }
+document.getElementById('entrega-nota').addEventListener('input', () => marcarCambioEntrega_());
+/** Cualquier toque o tecla en la entrega reinicia el reloj de 5 minutos (por usuario y por vale). */
+function actividadEntrega_() {
+  if (!entrega) return;
+  entrega.ultimaActividad = Date.now();
+  if (entrega.soltado && navigator.onLine) {   // volvió después de un autoguardado: me vuelvo a marcar como editor
+    entrega.soltado = false;
+    llamarBackend('borradorEntrega', { id: entrega.id, obraId: entrega.obraId, accion: 'latido' }).catch(() => { });
+  }
+  clearTimeout(entregaTimerInact);
+  entregaTimerInact = setTimeout(autoguardarEntrega_, AUTOGUARDADO_MS);
+}
+['pointerdown', 'keydown', 'input'].forEach(ev => document.getElementById('modal-entrega').addEventListener(ev, e => {
+  if (e.target.closest && e.target.closest('.modal-actions, .modal-close')) return;   // Volver / Guardar / Confirmar no cuentan como "seguir editando"
+  actividadEntrega_();
+}, true));
+async function autoguardarEntrega_() {
+  if (!entrega || !document.getElementById('modal-entrega').classList.contains('visible')) return;
+  const e = entrega;
+  e.soltado = true;   // antes de llamar: así ningún "latido" lo vuelve a marcar mientras se guarda
+  try {
+    const r = await llamarBackend('borradorEntrega', { id: e.id, obraId: e.obraId, accion: 'cerrar', datos: e.dirty ? datosEntrega_() : null, auto: true });
+    if (r && r.ok && entrega === e) {
+      if (e.dirty) { e.dirty = false; estadoGuardado_('Guardado automático · ' + hhmm(r.guardadoEn)); mostrarToast('Entrega guardada como borrador'); }
+    }
+  } catch (err) { /* sin red: queda en pantalla y se reintenta con la próxima actividad */ }
+}
+/** Volver / cerrar: si hay cambios, se guardan como borrador; siempre libera "lo estoy editando". */
+async function cerrarEntrega_(opc) {
+  opc = opc || {};
+  if (!entrega) { cerrarModal('modal-entrega'); return; }
+  const e = entrega, guardar = e.dirty || opc.forzar;
+  clearTimeout(entregaTimerInact); clearInterval(entregaTimerLatido);
+  const datos = guardar ? datosEntrega_() : null;
+  cerrarModal('modal-entrega'); entrega = null;
+  if (!navigator.onLine) { if (guardar) mostrarAviso('Sin conexión: el borrador de la entrega no se pudo guardar.'); return; }
+  try {
+    const r = await llamarBackend('borradorEntrega', { id: e.id, obraId: e.obraId, accion: 'cerrar', datos: datos });
+    if (r && !r.ok) { mostrarAviso(r.error || 'No se pudo guardar el borrador de la entrega.'); return; }
+    if (guardar) { mostrarToast('Borrador de entrega guardado'); await refrescarTodo_('entrega_borrador'); }
+  } catch (err) { if (guardar) mostrarAviso(err.message); }
+}
+document.getElementById('btn-entrega-borrador').addEventListener('click', () => cerrarEntrega_({ forzar: true }));
+// si cierran la pestaña o pasan a otra app con cambios, se intenta guardar
+window.addEventListener('pagehide', () => { if (entrega && entrega.dirty) llamarBackend('borradorEntrega', { id: entrega.id, obraId: entrega.obraId, accion: 'cerrar', datos: datosEntrega_(), auto: true }).catch(() => { }); });
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && entrega && entrega.dirty && navigator.onLine) {
+    const e = entrega;
+    llamarBackend('borradorEntrega', { id: e.id, obraId: e.obraId, accion: 'guardar', datos: datosEntrega_(), auto: true })
+      .then(r => { if (r && r.ok && entrega === e) { e.dirty = false; estadoGuardado_('Guardado automático · ' + hhmm(r.guardadoEn)); } }).catch(() => { });
+  }
+});
 document.getElementById('btn-entrega-ok').addEventListener('click', async () => {
   if (!entrega) return;
   const lista = [];
@@ -1896,6 +2257,7 @@ document.getElementById('btn-entrega-ok').addEventListener('click', async () => 
     const r = await llamarBackend('entregar', { id: entrega.id, obraId: entrega.obraId, renglones: lista, nota: nota });
     if (!r || !r.ok) { await mostrarAviso((r && r.error) || 'No se pudo registrar la entrega.'); await refrescarTodo_('entregar'); return; }
     const num = entrega.numeroTxt || '';
+    clearTimeout(entregaTimerInact); clearInterval(entregaTimerLatido);   // la base ya borró el borrador
     cerrarModal('modal-entrega'); entrega = null;
     mostrarToast(r.estado === 'ENTREGADO' ? 'Vale ' + num + ' entregado completo' : r.estado === 'CERRADO_PARCIAL' ? 'Vale ' + num + ' cerrado (parte sin stock)' : r.cambios ? 'Entrega parcial: quedan pendientes' : 'Sin cambios: siguen pendientes');
     await refrescarTodo_('entregar');
