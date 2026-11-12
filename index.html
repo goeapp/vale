@@ -367,6 +367,21 @@ input, select, textarea { font-family: inherit; }
 .pastilla.sel .n { background: rgba(255,255,255,.18); color: #fff; }
 .pastilla.cero { opacity: .45; }
 /* perfil en el header */
+/* v15.2.2 — franja de versión nueva y panel de notificaciones */
+.franja-version { position: fixed; top: 0; left: 0; right: 0; z-index: 1250; background: #ecfdf5; color: #065f46; border-bottom: 1px solid #a7f3d0; padding: 7px 18px; font-size: .8rem; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+/* con la franja visible, todo baja su alto: el encabezado, las ventanas y el panel (así se puede tocar "Actualizar" con un vale abierto) */
+#app { padding-top: var(--franja-v-h, 0px); }
+#app-header { top: var(--franja-v-h, 0px); }
+.modal-overlay, #panel-notif, .cortina { top: var(--franja-v-h, 0px); }
+.franja-version .btn-chico { padding: 4px 12px; }
+.panel-pie { border-top: 1px solid var(--border); padding: 10px 14px; background: #f8fafc; display: flex; justify-content: flex-end; }
+.notif { cursor: pointer; display: flex; gap: 10px; align-items: flex-start; background: var(--surface); }
+.notif:hover { background: #fffbeb; }
+.notif-ico { font-size: 1.1rem; line-height: 1.3; }
+.notif.leido { opacity: .65; }
+.notif-nuevo { font-size: .6rem; font-weight: 700; color: #fff; background: #2563eb; border-radius: 99px; padding: 0 6px; margin-left: 6px; vertical-align: 1px; }
+.notif-vacio { font-size: .82rem; color: var(--muted); text-align: center; padding: 30px 10px; }
+#btn-campana { font-size: .9rem; padding: 3px 9px; }
 .hdr-perfil { font-size: .66rem; font-weight: 700; color: #fde68a; background: rgba(217,119,6,.22); border: 1px solid rgba(217,119,6,.5); border-radius: 99px; padding: 2px 10px; white-space: nowrap; cursor: pointer; }
 @media (max-width: 560px) {
   .hdr-email, .hdr-version { display: none; }
@@ -395,7 +410,7 @@ input, select, textarea { font-family: inherit; }
 /* v15.2.0 — entrega por renglón */
 /* v15.2.1 — entrega: una fila por renglón en la compu, ítem destacado, selector compacto */
 .entrega-box { max-width: 980px !important; height: auto !important; max-height: 92vh; }
-.ent-cab, .ent-fila { display: grid; grid-template-columns: 34px minmax(0, 1fr) 64px 252px 112px; gap: 12px; align-items: center; }
+.ent-cab, .ent-fila { display: grid; grid-template-columns: 34px minmax(0, 1fr) 64px 300px 112px; gap: 12px; align-items: center; }   /* v15.2.2: 300px (con DM Sans real no entraba en 252) */
 .ent-cab { font-size: .66rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 0 12px 6px; border-bottom: 1px solid var(--border); }
 .ent-fila { padding: 9px 12px; border-bottom: 1px solid var(--border); border-left: 4px solid var(--e-ok); background: var(--surface); }
 .ent-fila.PENDIENTE { border-left-color: var(--e-pend); }
@@ -407,7 +422,8 @@ input, select, textarea { font-family: inherit; }
 .ent-pidio { font-size: .86rem; color: var(--muted); text-align: right; white-space: nowrap; }
 .ent-pidio .lbl-m { display: none; }
 .ent-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface); }
-.ent-btn { border: none; border-right: 1px solid var(--border); background: transparent; padding: 6px 10px; font-size: .74rem; font-weight: 700; color: var(--muted); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+@media (min-width: 561px) { .ent-seg { width: 100%; } }
+.ent-btn { flex: 1 1 auto; justify-content: center; border: none; border-right: 1px solid var(--border); background: transparent; padding: 6px 10px; font-size: .74rem; font-weight: 700; color: var(--muted); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .ent-btn:last-child { border-right: none; }
 .ent-btn:hover { background: var(--bg); }
 .ent-btn .corto { display: none; }
@@ -509,6 +525,9 @@ input, select, textarea { font-family: inherit; }
 .tl-burbuja.mio { border-style: dashed; }
 .tl-tag { font-size: .64rem; font-weight: 700; border-radius: 99px; padding: 0 6px; margin-left: 4px; background: #fef3c7; color: #92400e; }
 .tl-tag.pub { background: #dbeafe; color: #1e40af; }
+.tl-tag.auto { background: #f1f5f9; color: #475569; }
+.tl-item.auto::before { border-color: #94a3b8; background: #e2e8f0; }
+.tl-auto-txt { color: var(--muted); font-size: .78rem; }
 .tl-vacio { font-size: .78rem; color: var(--muted); }
 .com-caja { margin-top: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; background: #f8fafc; }
 .com-fila { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: .76rem; }
@@ -583,10 +602,12 @@ input, select, textarea { font-family: inherit; }
     <button class="hdr-btn hidden" id="btn-instalar" title="Instalar Vale Digital en este dispositivo"><i class="ti ti-download"></i> Instalar</button>
     <button class="hdr-btn hdr-btn-lapiz" id="btn-lapiz-toggle" onclick="lapizToggle()" title="Lápiz — anotar sobre la pantalla (Esc para salir)"><i class="ti ti-pencil"></i> Lápiz</button>
     <div class="hdr-sep"></div>
+    <button class="hdr-btn" id="btn-campana" title="Notificaciones" aria-label="Notificaciones"><i class="ti ti-bell"></i><span class="badge-campana hidden" id="badge-campana"></span></button>
     <span class="hdr-perfil hidden" id="hdr-perfil" title="Tu perfil en esta obra (Ctrl+Alt+U: sesión)"></span>
     <div class="hdr-email" id="hdr-email" title="Sesión (Ctrl+Alt+U)"></div>
   </header>
 
+  <div id="franja-version" class="franja-version hidden" role="status"><i class="ti ti-sparkles"></i><span id="franja-version-txt"></span><button type="button" class="btn-chico" id="btn-actualizar"><i class="ti ti-refresh"></i> Actualizar</button></div>
   <div id="franja-offline" class="franja-offline hidden" role="status"><i class="ti ti-wifi-off"></i><span id="franja-offline-txt"></span></div>
 
   <main id="vista-mis" class="view hidden"></main>
@@ -602,6 +623,14 @@ input, select, textarea { font-family: inherit; }
   <div class="cinta-rot">Novedades</div>
   <div class="cinta-vent"><div class="cinta-pista" id="cinta-pista"></div></div>
 </div>
+
+<!-- ═══════════════ PANEL 🔔 NOTIFICACIONES (v15.2.2) ═══════════════ -->
+<div class="cortina" id="cortina-notif"></div>
+<aside id="panel-notif" aria-label="Notificaciones">
+  <div class="panel-head"><h3><i class="ti ti-bell"></i> Notificaciones</h3><button class="panel-cerrar" id="btn-cerrar-notif" aria-label="Cerrar">&times;</button></div>
+  <div class="panel-body" id="panel-notif-body"></div>
+  <div class="panel-pie"><button class="btn-chico sec" id="btn-leer-todo"><i class="ti ti-checks"></i> Marcar todo como leído</button></div>
+</aside>
 
 <!-- ═══════════════ MODAL: editor de vale (v15.1.1: 6 renglones fijos, pie fijo) ═══════════════ -->
 <div class="modal-overlay" id="modal-editor">
@@ -751,7 +780,17 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_1.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_2.html  (subir como index.html al repo goeapp/vale)
+// v15.2.2 (12-nov-2026) — requiere vd_esquema_v15_2_2.sql y sw_vd_v15_2_2.js:
+//  · Entrega: columna Estado más ancha (con la tipografía real "Sin stock" ya no se corta).
+//  · Para gestionar: pastilla "Cerrados" (entregados, cerrados parciales y cancelados de los
+//    últimos 30 días, con su detalle completo); "Entregados hoy" es un atajo a esa pastilla.
+//  · Comentarios automáticos (🔁 🗑️ ↩️) marcados como "automático": se ven como mensajes del
+//    sistema y no cuentan como comentarios de personas.
+//  · Aviso de versión nueva: al volver a la app (y cada 10 min) se fija si hay otra versión
+//    publicada; franja "Hay una versión nueva · Actualizar" (guarda antes lo que esté a medias).
+//  · Campanita 🔔 con contador y panel de notificaciones: tocar una abre el vale y la marca leída;
+//    "Marcar todo como leído".
 // v15.2.1 (12-nov-2026) — entrega mejorada, borrador de entrega, línea de tiempo plegada y Faltantes.
 //   Requiere vd_esquema_v15_2_1.sql (vd_entrega_borrador, vd_faltantes, vd_faltantes_quitar).
 //  · Entrega: en la compu una fila por renglón (# · ítem · pidió · estado · entregó), ítem destacado,
@@ -807,7 +846,7 @@ input, select, textarea { font-family: inherit; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.1';
+const APP_VERSION   = 'v15.2.2';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -950,6 +989,7 @@ async function llamarBackendSb_(action, p) {
     }
     // v15.2.1 — borrador de entrega y faltantes
     case 'faltantes': return rpc_(action, 'vd_faltantes', { p_obra: p.obraId });
+    case 'leerAvisos': return rpc_(action, 'vd_avisos_leidos', { p_ids: p.ids || null });   // v15.2.2
     case 'borradorEntrega': {
       const r = await rpc_(action, 'vd_entrega_borrador', { p_vale: p.id, p_accion: p.accion, p_datos: p.datos || null });
       if (['guardar', 'cerrar'].includes(p.accion) && p.datos) registrarActividad_('entrega_borrador', p.id, r && r.ok ? 'OK' : 'ERROR', { accion: p.accion, auto: !!p.auto }, p.obraId);
@@ -1150,6 +1190,7 @@ document.getElementById('btn-cambiar-email').addEventListener('click', () => { d
 function onKeydownGlobal(e) {
   if (e.ctrlKey && e.altKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); abrirSessionDialog(); }
   if (e.key === 'Escape' && !lapizState.activo) {
+    if (document.getElementById('panel-notif').classList.contains('visible')) { cerrarPanelNotif_(); return; }
     if (document.getElementById('dialogo-overlay').classList.contains('visible')) return;
     for (const m of ['modal-resumen', 'modal-rechazo', 'modal-entrega']) {
       if (document.getElementById(m).classList.contains('visible')) { if (m === 'modal-entrega') cerrarEntrega_(); else cerrarModal(m); return; }
@@ -1199,7 +1240,8 @@ const PASTILLAS = {
         ['faltantes', 'Faltantes', null]],   // v15.2.1: renglones sin stock (no filtra vales: muestra la lista de faltantes)
   todos: [['todos', 'Todos', v => true], ['enviado', 'Esperando aprobación', v => v.estado === 'ENVIADO'], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'],
           ['prep', 'En preparación', v => ['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['rechazado', 'Rechazados', v => v.estado === 'RECHAZADO'], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
-  gestion: [['todos', 'Todos', v => true], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'], ['prep', 'En preparación', v => v.estado === 'EN_PREPARACION'], ['pend', 'Con pendientes', v => v.estado === 'CON_PENDIENTES']]
+  gestion: [['todos', 'Abiertos', v => !CERRADOS.includes(v.estado)], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'], ['prep', 'En preparación', v => v.estado === 'EN_PREPARACION'],
+            ['pend', 'Con pendientes', v => v.estado === 'CON_PENDIENTES'], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]]   // v15.2.2: Cerrados (30 días)
 };
 let filtro = { mis: 'todos', todos: 'todos', gestion: 'todos' };
 
@@ -1256,7 +1298,7 @@ function encolar(op) {
 }
 function valeEnServidor_(id) {
   if (!datosObra) return false;
-  return ['misVales', 'porAprobar', 'gestion', 'todos'].some(k => (datosObra[k] || []).some(v => v.id === id));
+  return ['misVales', 'porAprobar', 'gestion', 'gestionCerrados', 'todos'].some(k => (datosObra[k] || []).some(v => v.id === id));
 }
 /** Envía la cola en orden. Red caída → para y reintenta después. Rechazo de la base → queda marcado con el motivo. */
 async function sincronizar(motivo) {
@@ -1328,6 +1370,8 @@ async function onLoginOk(email, nombre, origen) {
   iniciarMedicionHeader_();
   pintarConexion_();
   await cargarInicio(true);
+  pintarCampana_();                          // v15.2.2: contador inicial (vd_cargar_inicio.avisosNoLeidos)
+  setTimeout(() => chequearVersion_(true), 20000);   // v15.2.2: primer chequeo de versión a los 20 s
   suscribirRealtime_();
   sincronizar('apertura');
   document.addEventListener('visibilitychange', () => {
@@ -1532,15 +1576,18 @@ function pintarAprobar_() {
 function pintarGestion_() {
   const cont = document.getElementById('vista-gestion');
   const o = obraActual();
-  const todos = datosObra.gestion || [];
+  const todos = (datosObra.gestion || []).concat(datosObra.gestionCerrados || []);   // v15.2.2: + cerrados de 30 días
   let vs = filtrar_('gestion', todos);
   if (filtro.gestion === 'pend') vs = vs.slice().sort((a, b) => String(a.pendienteDesde || '').localeCompare(String(b.pendienteDesde || '')));   // v15.2.0: más viejo primero
   const nombres = (o.gestiona || []).map(nombreDestino).join(' y ');
   cont.innerHTML = cabVista_('Para gestionar', 'Vales aprobados para ' + escaparHtml(nombres) + ', del más viejo al más nuevo. Tocá un vale para prepararlo o entregarlo.') +
     pastillas_('gestion', todos) +
-    seccion_('En cola', vs, { siempre: true, conSolicitante: true, vacio: todos.length ? 'No hay vales con este filtro.' : 'No hay vales para gestionar.' }) +
-    (datosObra.entregadosHoy ? '<div class="vista-sub" style="margin-top:10px">Entregados hoy: ' + datosObra.entregadosHoy + '</div>' : '');
+    (filtro.gestion === 'cerrados'
+      ? seccion_('Cerrados · últimos 30 días', vs, { siempre: true, conSolicitante: true, vacio: 'No hay vales cerrados en los últimos 30 días.' })
+      : seccion_('En cola', vs, { siempre: true, conSolicitante: true, vacio: todos.some(v => !CERRADOS.includes(v.estado)) ? 'No hay vales con este filtro.' : 'No hay vales para gestionar.' })) +
+    (datosObra.entregadosHoy && filtro.gestion !== 'cerrados' ? '<button type="button" class="mas-cerrados" id="btn-ver-cerrados" style="margin-top:10px"><i class="ti ti-history"></i> Entregados hoy: ' + datosObra.entregadosHoy + ' · ver cerrados</button>' : '');
   enlazarTarjetas_(cont); enlazarPastillas_(cont, 'gestion');
+  const bc = document.getElementById('btn-ver-cerrados'); if (bc) bc.addEventListener('click', () => { filtro.gestion = 'cerrados'; pintarVista(); });
 }
 function pintarTodos_() {
   const cont = document.getElementById('vista-todos');
@@ -1576,7 +1623,7 @@ window.addEventListener('offline', () => { pintarConexion_(); if (datosObra) pin
 // ── EDITOR ───────────────────────────────────────────────────
 document.getElementById('btn-nuevo').addEventListener('click', () => abrirEditor(null));
 function buscarVale_(id) {
-  const todos = [].concat(misValesConCola_(), datosObra.porAprobar || [], datosObra.gestion || [], datosObra.todos || []);
+  const todos = [].concat(misValesConCola_(), datosObra.porAprobar || [], datosObra.gestion || [], datosObra.gestionCerrados || [], datosObra.todos || []);
   return todos.find(v => v.id === id) || null;
 }
 function abrirEditor(v, pre) {   // v15.2.1: pre = { destino, renglones } para "Pedir de nuevo" desde Faltantes
@@ -1856,8 +1903,11 @@ function verComentarios_() { return leerPref(VER_COM_KEY) !== '0'; }
 function detalleAbierto_() { const b = document.getElementById('detalle-body'); return document.getElementById('modal-detalle').classList.contains('visible') ? b.dataset.id : null; }
 
 async function abrirVale(id) {
-  const v = buscarVale_(id) || detalleCache[id];
-  if (!v) return;
+  let v = buscarVale_(id) || detalleCache[id];
+  if (!v && navigator.onLine) {   // v15.2.2: p. ej. desde una notificación de un vale que no está en mis listas
+    try { const r = await llamarBackend('detalle', { id: id }); if (r && r.ok) { detalleCache[id] = r.vale; v = r.vale; } else if (r) { mostrarAviso(r.error || 'No se pudo abrir el vale.'); return; } } catch (err) { /* sin red */ }
+  }
+  if (!v) { mostrarAviso('Ese vale no está disponible sin conexión.'); return; }
   if (v._local && v._error) { abrirEditor(v); return; }   // con error: directo a corregir
   comEstado = { valeId: id, renglonId: '', interno: true, texto: '' };
   pintarDetalle_(v);
@@ -1891,7 +1941,7 @@ function pintarDetalle_(v0) {
   body.dataset.id = v.id;
   const conEntrega = v.renglones.some(r => r.estado && r.estado !== 'SOLICITADO');
   const comenta = puedeComentar_(v);
-  const coms = v.comentarios || [];
+  const coms = (v.comentarios || []).filter(c => !c.automatico);   // v15.2.2: solo los de personas
   const nCom = id => coms.filter(c => c.renglonId === id).length;
   let ev = '';
   if (v.estado === 'RECHAZADO') ev = '<div class="det-evento rechazo"><b>Rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : '') + (v.rechazadoEn ? ' · ' + hhmm(v.rechazadoEn) : '') + '</b><br>' + escaparHtml(v.rechazoMotivo || '') + '</div>';
@@ -1973,7 +2023,7 @@ function pintarTimeline_(v) {
   const cont = document.getElementById('tl-plegable');
   if (!cont) return;
   const abierto = !!tlAbierto[v.id];
-  const coms = v.comentarios || [];
+  const coms = (v.comentarios || []).filter(c => !c.automatico);   // v15.2.2: los automáticos no cuentan
   let res;
   if (!v.historial) res = navigator.onLine ? '· cargando…' : '· se ve con conexión';
   else {
@@ -2002,7 +2052,8 @@ function pintarListaTimeline_(v) {
   const reng = {}; v.renglones.forEach(r => { if (r.id) reng[r.id] = r; });
   const rTxt = id => { const r = reng[id]; return r ? 'renglón ' + r.orden + ' (' + escaparHtml(r.descripcion.length > 40 ? r.descripcion.slice(0, 40) + '…' : r.descripcion) + ')' : 'un renglón'; };
   const items = gruposHistorial_(v.historial).map(g => ({ tipo: 'estado', t: Date.parse((g.h || g.grupo[0]).fecha), g: g }));
-  if (verComentarios_()) (v.comentarios || []).forEach(c => items.push({ tipo: 'com', t: Date.parse(c.fecha), c: c }));
+  // v15.2.2: los comentarios automáticos (🔁 🗑️ ↩️) son movimientos del sistema: se ven siempre
+  (v.comentarios || []).forEach(c => { if (c.automatico || verComentarios_()) items.push({ tipo: c.automatico ? 'auto' : 'com', t: Date.parse(c.fecha), c: c }); });
   items.sort((a, b) => a.t - b.t);   // estable: lo del mismo instante queda en su orden
   const grupoHtml = (grupo, key) => {
     const cnt = {}; grupo.forEach(h => { cnt[h.nuevo] = (cnt[h.nuevo] || 0) + 1; });
@@ -2032,6 +2083,8 @@ function pintarListaTimeline_(v) {
         (g.grupo ? grupoHtml(g.grupo, v.id + '|' + h.fecha) : '') + '</li>';
     }
     const c = it.c;
+    if (it.tipo === 'auto') return '<li class="tl-item auto" data-com="' + c.id + '"><div class="tl-meta">' + hhmm(c.fecha) + ' · ' + escaparHtml(c.persona || '—') +
+      '<span class="tl-tag auto">automático</span>' + (c.renglonId ? ' · ' + rTxt(c.renglonId) : '') + '</div><div class="tl-txt tl-auto-txt">' + escaparHtml(c.texto) + '</div></li>';
     return '<li class="tl-item com" data-com="' + c.id + '"><div class="tl-meta">' + hhmm(c.fecha) + ' · ' + escaparHtml(c.persona || '—') +
       (c.interno ? '<span class="tl-tag">🔒 interno</span>' : '<span class="tl-tag pub">público</span>') + (c.renglonId ? ' · ' + rTxt(c.renglonId) : '') + '</div>' +
       '<div class="tl-burbuja' + (c.interno ? '' : ' publico') + (c.esMio ? ' mio' : '') + '">' + escaparHtml(c.texto) + '</div></li>';
@@ -2321,6 +2374,7 @@ async function cargarNovedades() {
   let r = null;
   try { if (navigator.onLine) r = await llamarBackend('avisos'); } catch (err) { r = null; }
   if (r && r.ok) {
+    avisosCache = r.avisos || []; pintarCampana_();   // v15.2.2: campanita
     (r.avisos || []).slice(0, 20).forEach(a => {
       const ob = obraPorId(a.obraId);
       const ico = { rechazado: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' }[a.evento] || '🔔';
@@ -2331,6 +2385,118 @@ async function cargarNovedades() {
   pista.innerHTML = items.join('');
   pista.style.animationDuration = Math.max(25, pista.textContent.length * 0.22) + 's';
 }
+
+// ── CAMPANITA 🔔 (v15.2.2): avisos de la base con contador y panel ──
+let avisosCache = null;   // último vd_avisos_listar (no leídos + leídos de los últimos 7 días)
+const AVISO_ICO = { rechazado: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' };
+function pintarCampana_() {
+  const n = avisosCache ? avisosCache.filter(a => !a.leido).length : ((inicio && inicio.avisosNoLeidos) || 0);
+  const b = document.getElementById('badge-campana');
+  b.textContent = n > 99 ? '99+' : String(n);
+  b.classList.toggle('hidden', !n);
+  document.getElementById('btn-campana').title = n ? 'Notificaciones: ' + n + ' sin leer' : 'Notificaciones';
+  if (document.getElementById('panel-notif').classList.contains('visible')) pintarPanelNotif_();
+}
+function pintarPanelNotif_() {
+  const body = document.getElementById('panel-notif-body');
+  const lista = avisosCache || [];
+  document.getElementById('btn-leer-todo').disabled = !lista.some(a => !a.leido) || !navigator.onLine;
+  if (!avisosCache) { body.innerHTML = '<div class="notif-vacio">' + (navigator.onLine ? 'Cargando…' : 'Las notificaciones se ven con conexión.') + '</div>'; return; }
+  if (!lista.length) { body.innerHTML = '<div class="notif-vacio">No tenés notificaciones de los últimos 7 días.</div>'; return; }
+  const variasObras = inicio && inicio.obras.length > 1;
+  body.innerHTML = lista.map(a => {
+    const ob = obraPorId(a.obraId);
+    return '<div class="notif' + (a.leido ? ' leido' : ' pendiente') + '" role="button" tabindex="0" data-aviso="' + a.id + '">' +
+      '<span class="notif-ico">' + (AVISO_ICO[a.evento] || '🔔') + '</span><span style="min-width:0">' +
+      '<div class="notif-tit">' + escaparHtml(a.titulo) + (a.leido ? '' : '<span class="notif-nuevo">nuevo</span>') + '</div>' +
+      '<div class="notif-meta">' + (variasObras && ob ? escaparHtml(ob.codigo) + ' · ' : '') + hhmm(a.fecha) + ' · ' + haceTxt_(a.fecha) + '</div></span></div>';
+  }).join('');
+  body.querySelectorAll('[data-aviso]').forEach(el => {
+    const abrir = () => abrirAviso_(+el.dataset.aviso);
+    el.addEventListener('click', abrir);
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') abrir(); });
+  });
+}
+function abrirPanelNotif_() {
+  pintarPanelNotif_();
+  document.getElementById('cortina-notif').classList.add('visible');
+  document.getElementById('panel-notif').classList.add('visible');
+  cargarNovedades();
+}
+function cerrarPanelNotif_() {
+  document.getElementById('cortina-notif').classList.remove('visible');
+  document.getElementById('panel-notif').classList.remove('visible');
+}
+document.getElementById('btn-campana').addEventListener('click', abrirPanelNotif_);
+document.getElementById('btn-cerrar-notif').addEventListener('click', cerrarPanelNotif_);
+document.getElementById('cortina-notif').addEventListener('click', cerrarPanelNotif_);
+async function marcarLeidos_(ids) {
+  if (!navigator.onLine) return;
+  try {
+    const r = await llamarBackend('leerAvisos', { ids: ids });
+    if (r && r.ok && avisosCache) { avisosCache.forEach(a => { if (!ids || ids.includes(a.id)) a.leido = true; }); pintarCampana_(); }
+  } catch (err) { /* queda sin marcar; se reintenta la próxima vez */ }
+}
+document.getElementById('btn-leer-todo').addEventListener('click', async () => { await marcarLeidos_(null); mostrarToast('Notificaciones marcadas como leídas'); });
+/** Tocar una notificación: la marca leída y abre su vale (cambia de obra si hace falta). */
+async function abrirAviso_(id) {
+  const a = (avisosCache || []).find(x => x.id === id); if (!a) return;
+  cerrarPanelNotif_();
+  if (!a.leido) marcarLeidos_([id]);
+  if (!a.valeId) return;
+  if (a.obraId && a.obraId !== obraSel && obraPorId(a.obraId)) {
+    obraSel = a.obraId; guardarPref(OBRA_KEY, obraSel);
+    document.getElementById('sel-obra').value = obraSel;
+    await cargarObra(true, !navigator.onLine);
+  }
+  await abrirVale(a.valeId);
+}
+
+// ── AVISO DE VERSIÓN NUEVA (v15.2.2) ──────────────────────────
+const CHEQUEO_VERSION_MS = 3 * 60 * 1000;   // como mucho cada 3 min (al volver a la app, al tomar foco y cada 10 min)
+let ultimoChequeoVersion = 0, versionNueva = null;
+async function chequearVersion_(forzar) {
+  if (!navigator.onLine || location.protocol === 'file:' || versionNueva) return;
+  if (!forzar && Date.now() - ultimoChequeoVersion < CHEQUEO_VERSION_MS) return;
+  ultimoChequeoVersion = Date.now();
+  try {
+    // "chequeo" hace que el sw.js (v15.2.2) vaya directo a la red y no lo guarde
+    const r = await fetch('./index.html?chequeo=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) return;
+    const m = /const APP_VERSION\s*=\s*'([^']+)'/.exec(await r.text());
+    if (m && m[1] !== APP_VERSION) {
+      versionNueva = m[1];
+      document.getElementById('franja-version-txt').textContent = 'Hay una versión nueva de Vale Digital (' + versionNueva + '). Estás usando la ' + APP_VERSION + '.';
+      const fr = document.getElementById('franja-version');
+      fr.classList.remove('hidden');
+      const medir = () => document.documentElement.style.setProperty('--franja-v-h', fr.getBoundingClientRect().height + 'px');
+      medir(); if (window.ResizeObserver) new ResizeObserver(medir).observe(fr);
+      registrarActividad_('version_nueva', versionNueva, 'AVISO', { actual: APP_VERSION });
+    }
+  } catch (err) { /* sin red: se prueba la próxima vez */ }
+}
+/** Actualizar: guarda lo que esté a medias (entrega → borrador; vale en edición → borrador) y recarga. */
+async function actualizarAhora_() {
+  const btn = document.getElementById('btn-actualizar'); btn.disabled = true;
+  try {
+    if (entrega) await cerrarEntrega_();
+    if (editor && document.getElementById('modal-editor').classList.contains('visible')) {
+      const hay = editor.renglones.some(r => r.descripcion.trim() || String(r.cantidad).trim()) || (editor.obs || '').trim();
+      if (hay) {
+        const a = armarVale_();
+        if (a.error) {
+          if (!(await mostrarConfirm('Actualizar', 'El vale que estás cargando no se puede guardar todavía (' + a.error + ') Si actualizás ahora, se pierde. ¿Actualizar igual?', { textoAceptar: 'Actualizar igual', danger: true }))) return;
+        } else await guardarVale(false);
+      }
+    }
+    registrarActividad_('actualizar', versionNueva || '', 'OK', { desde: APP_VERSION });
+    location.reload();
+  } finally { btn.disabled = false; }
+}
+document.getElementById('btn-actualizar').addEventListener('click', actualizarAhora_);
+window.addEventListener('focus', () => chequearVersion_(false));
+document.addEventListener('visibilitychange', () => { if (!document.hidden) chequearVersion_(false); });
+setInterval(() => chequearVersion_(false), 10 * 60 * 1000);
 
 // ── ACTUALIZACIÓN: Realtime + foco + al volver la señal ──────
 let refrescoPend = null;
