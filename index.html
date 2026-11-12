@@ -367,6 +367,91 @@ input, select, textarea { font-family: inherit; }
 .pastilla.sel .n { background: rgba(255,255,255,.18); color: #fff; }
 .pastilla.cero { opacity: .45; }
 /* perfil en el header */
+/* v15.2.3 — subencabezado fijo (título + pastillas no se pierden al bajar) */
+.vista-fija { position: sticky; top: calc(var(--header-h) + var(--franja-v-h, 0px)); z-index: 40; background: var(--bg); margin: -16px -18px 8px; padding: 12px 18px 6px; border-bottom: 1px solid transparent; }
+.vista-fija.con-sombra { border-bottom-color: var(--border); box-shadow: 0 4px 8px -6px rgba(0,0,0,.18); }
+.vista-fija .vista-cab { margin-bottom: 6px; }
+@media (max-width: 560px) {
+  .vista-fija { margin: -16px -14px 8px; padding: 8px 14px 4px; }
+  .vista-fija .vista-cab { flex-wrap: nowrap; overflow: hidden; }
+  .vista-fija .vista-sub { display: none; }
+  .vista-fija .vista-tit { font-size: 1.5rem; white-space: nowrap; }
+  .vista-fija .pastillas { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .vista-fija .pastilla { flex: none; }
+}
+/* v15.2.3 — prioritario y disciplina */
+.prio { display: inline-flex; align-items: center; gap: 3px; font-size: .66rem; font-weight: 800; padding: 2px 8px; border-radius: 99px; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; white-space: nowrap; }
+.vale-card.es-prio { box-shadow: 0 0 0 2px #fca5a5, var(--shadow); }
+.disc { display: inline-flex; align-items: center; gap: 5px; font-size: .66rem; font-weight: 700; padding: 2px 8px 2px 6px; border-radius: 99px; background: #f8fafc; border: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+.disc i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.disc-opc { display: flex; gap: 6px; flex-wrap: wrap; }
+.disc-btn { border: 1.5px solid var(--border); background: var(--surface); border-radius: 99px; padding: 5px 11px 5px 8px; font-size: .76rem; font-weight: 600; color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
+.disc-btn i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.disc-btn.sel { border-color: var(--accent2); background: var(--accent2); color: #fff; }
+@media (max-width: 560px) { .disc-opc { gap: 5px; } .disc-btn { padding: 4px 9px 4px 7px; font-size: .72rem; } }
+.det-prio { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; border-radius: var(--radius-sm); padding: 8px 12px; font-size: .8rem; margin-bottom: 12px; }
+/* v15.2.3 — PIZARRÓN */
+#vista-pizarron.view { max-width: 1900px; }
+.pz-cab { display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; }
+.pz-cab .vista-cab { margin: 0; }
+.pz-cab .pastillas { margin: 0; }
+.pz-info { margin-left: auto; display: flex; align-items: center; gap: 14px; font-size: .82rem; color: var(--muted); }
+.pz-reloj { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: var(--accent2); letter-spacing: .5px; }
+.pz-solo { font-size: .7rem; font-weight: 700; background: #e0f2fe; color: #075985; border-radius: 99px; padding: 3px 10px; }
+.pz-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 14px; align-items: start; }
+.pz-cola { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; display: flex; flex-direction: column; gap: 7px; max-height: calc(100vh - var(--header-h) - var(--cinta-h) - 120px); overflow-y: auto; }
+.pz-cola-tit { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-top: 4px; display: flex; justify-content: space-between; }
+.pz-cc { border: 1px solid var(--border); border-left: 4px solid var(--e-aprobado); border-radius: var(--radius-sm); padding: 7px 9px; background: #fff; cursor: pointer; font-size: .76rem; }
+.pz-cc[draggable="true"] { cursor: grab; }
+.pz-cc.arrastrando { opacity: .45; }
+.pz-cc.e-EN_PREPARACION { border-left-color: var(--e-prep); }
+.pz-cc.e-CON_PENDIENTES { border-left-color: var(--e-pend); }
+.pz-cc.es-prio { border-color: #fca5a5; border-left-color: #dc2626; background: #fff5f5; }
+.pz-cc-num { font-weight: 800; font-size: .86rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.pz-cc-meta { color: var(--muted); font-size: .7rem; margin-top: 2px; }
+.pz-cc-reng { margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pz-cola-vacia { font-size: .74rem; color: var(--muted); padding: 6px 2px; }
+.pz-lugares { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(260px, auto); gap: 14px; }
+.pz-lugar { border-radius: 14px; border: 2px dashed #cbd5e1; background: rgba(255,255,255,.5); display: flex; flex-direction: column; padding: 14px 16px; min-height: 260px; position: relative; transition: background .12s, border-color .12s; }
+.pz-lugar.vacio { align-items: center; justify-content: center; color: var(--muted); font-size: .95rem; font-weight: 600; }
+.pz-lugar.vacio .pz-n-vacio { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #cbd5e1; line-height: 1; }
+.pz-lugar.drop-ok { border-color: var(--accent); background: #fffbeb; }
+.pz-lugar.ocupado { border-style: solid; }
+.pz-lugar.c-amarillo { background: #fef9c3; border-color: #eab308; }
+.pz-lugar.c-celeste  { background: #e0f2fe; border-color: #38bdf8; }
+.pz-lugar.c-verde    { background: #dcfce7; border-color: #4ade80; }
+.pz-lugar.c-rosa     { background: #fce7f3; border-color: #f472b6; }
+.pz-lugar.c-naranja  { background: #ffedd5; border-color: #fb923c; }
+.pz-lugar.c-lila     { background: #f3e8ff; border-color: #c084fc; }
+.pz-lugar.es-prio { border-color: #dc2626 !important; border-width: 4px; padding: 12px 14px; }
+.pz-l-cab { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; cursor: pointer; }
+.pz-l-num { font-size: 1.35rem; font-weight: 800; color: #1e293b; }
+.pz-l-meta { font-size: .82rem; color: #475569; margin: 2px 0 8px; }
+.pz-l-reng { flex: 1; display: flex; flex-direction: column; }
+.pz-r { display: flex; justify-content: space-between; gap: 12px; font-size: 1.08rem; padding: 5px 0; border-bottom: 1px solid rgba(15,23,42,.1); color: #0f172a; }
+.pz-r:last-child { border-bottom: none; }
+.pz-r .q { font-weight: 800; white-space: nowrap; }
+.pz-r.ENTREGADO { color: #64748b; text-decoration: line-through; }
+.pz-r.SIN_STOCK { color: #64748b; }
+.pz-r .est-r { margin-left: 6px; text-decoration: none; }
+.pz-l-obs { font-size: .8rem; color: #475569; font-style: italic; margin-top: 6px; }
+.pz-l-pie { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.pz-col-dots { display: flex; gap: 5px; margin-right: auto; }
+.pz-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(0,0,0,.15); cursor: pointer; padding: 0; }
+.pz-dot.sel { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; }
+.pz-l-pie .btn-chico { padding: 9px 16px; font-size: .86rem; }
+.pz-atiende { font-size: .76rem; color: #475569; margin-right: auto; }
+@media (max-width: 900px) { .pz-grid { grid-template-columns: 1fr; } .pz-cola { max-height: none; } }
+@media (max-width: 640px) { .pz-lugares { grid-template-columns: 1fr; } }
+/* pantalla completa (la pantalla de 43") */
+body.pz-completa #app-header, body.pz-completa #cinta, body.pz-completa .fab, body.pz-completa #franja-offline { display: none !important; }
+body.pz-completa #app { padding-bottom: 0; }
+body.pz-completa #vista-pizarron.view { max-width: none; padding: 10px 16px; }
+body.pz-completa .vista-fija { top: var(--franja-v-h, 0px); }
+body.pz-completa .pz-cola { max-height: calc(100vh - 110px); }
+body.pz-completa .pz-lugares { grid-auto-rows: calc((100vh - 130px) / 2); }
+body.pz-completa .pz-r { font-size: 1.3rem; }
+body.pz-completa .pz-l-num { font-size: 1.7rem; }
 /* v15.2.2 — franja de versión nueva y panel de notificaciones */
 .franja-version { position: fixed; top: 0; left: 0; right: 0; z-index: 1250; background: #ecfdf5; color: #065f46; border-bottom: 1px solid #a7f3d0; padding: 7px 18px; font-size: .8rem; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 /* con la franja visible, todo baja su alto: el encabezado, las ventanas y el panel (así se puede tocar "Actualizar" con un vale abierto) */
@@ -596,6 +681,7 @@ input, select, textarea { font-family: inherit; }
       <button class="hdr-nav-btn hidden" data-vista="aprobar"><i class="ti ti-checks"></i> Por aprobar<span class="nav-cnt hidden" id="cnt-aprobar"></span></button>
       <button class="hdr-nav-btn hidden" data-vista="gestion"><i class="ti ti-building-warehouse"></i> Para gestionar<span class="nav-cnt hidden" id="cnt-gestion"></span></button>
       <button class="hdr-nav-btn hidden" data-vista="todos"><i class="ti ti-list-details"></i> Todos</button>
+      <button class="hdr-nav-btn hidden" data-vista="pizarron"><i class="ti ti-layout-board"></i> Pizarrón</button>
     </nav>
     <select class="hdr-select" id="sel-obra" aria-label="Obra"></select>
     <span class="badge-conexion online" id="badge-conexion" title="Conexión"><span class="punto-c"></span><span class="txt-c" id="txt-conexion">En línea</span></span>
@@ -614,6 +700,7 @@ input, select, textarea { font-family: inherit; }
   <main id="vista-aprobar" class="view hidden"></main>
   <main id="vista-gestion" class="view hidden"></main>
   <main id="vista-todos" class="view hidden"></main>
+  <main id="vista-pizarron" class="view hidden"></main>
   <div id="vista-cargando" class="cargando"><div class="spinner"></div>Cargando tus vales…</div>
   <button class="fab hidden" id="btn-nuevo" title="Nuevo vale"><i class="ti ti-plus"></i><span>Nuevo vale</span></button>
 </div>
@@ -641,6 +728,8 @@ input, select, textarea { font-family: inherit; }
       <div id="editor-error" class="err-editor hidden"></div>
       <span class="campo-lbl">¿A dónde va?</span>
       <div class="destinos-opc" id="editor-destinos"></div>
+      <span class="campo-lbl" style="margin-top:12px">Disciplina <small style="font-weight:500">(opcional)</small></span>
+      <div class="disc-opc" id="editor-disciplinas"></div>
       <div class="reng-cab"><span></span><span>Cant.</span><span>Descripción</span><span></span></div>
       <div id="editor-renglones"></div>
       <button type="button" class="btn-agregar-reng" id="btn-agregar-reng"><i class="ti ti-plus"></i> Agregar renglón</button>
@@ -780,7 +869,17 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_2.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_3.html  (subir como index.html al repo goeapp/vale)
+// v15.2.3 (12-nov-2026) — requiere vd_esquema_v15_2_3.sql:
+//  · Pizarrón (vista nueva, para la pantalla del almacén con mouse): cola a la izquierda (para preparar ·
+//    con pendientes) y 4 lugares en 2×2 con los renglones en letra grande. Arrastrar un vale a un lugar
+//    (o "Poner en el pizarrón") = empezar a preparar; Entregar abre la entrega; Quitar lo devuelve a la
+//    cola; 6 colores libres. Se guarda en la base: todos los de la obra lo miran en tiempo real (solo
+//    mirar). Pantalla completa, reloj, "Entregados hoy · En cola" y la pantalla no se apaga.
+//  · Prioritario ⚡: jefe de obra / administrar ponen y sacan; Almacén y Pañol ponen y sacan solo la suya.
+//    Va primero en las listas y con borde rojo en el pizarrón; queda en la línea de tiempo.
+//  · Disciplina (opcional al crear el vale; por defecto Genérico): 11 con color fijo, etiqueta en tarjetas.
+//  · Título y pastillas de cada vista quedan fijos al bajar (antes se perdían con el scroll).
 // v15.2.2 (12-nov-2026) — requiere vd_esquema_v15_2_2.sql y sw_vd_v15_2_2.js:
 //  · Entrega: columna Estado más ancha (con la tipografía real "Sin stock" ya no se corta).
 //  · Para gestionar: pastilla "Cerrados" (entregados, cerrados parciales y cancelados de los
@@ -846,7 +945,7 @@ input, select, textarea { font-family: inherit; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.2';
+const APP_VERSION   = 'v15.2.3';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -931,7 +1030,7 @@ window.addEventListener('unhandledrejection', e => {
 // ══════════════════════════════════════════════════════════════
 // DATOS — llamarBackend(action, params) → funciones vd_* de Supabase
 // ══════════════════════════════════════════════════════════════
-const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes']);
+const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes', 'pizarron']);
 function errRed_() { return new Error('No se pudo conectar con el servidor. Revisá tu conexión y volvé a intentar.'); }
 
 /** (= PreKOM v9) rechazo de la base → {ok:false, error}; falla de red → excepción. */
@@ -990,6 +1089,18 @@ async function llamarBackendSb_(action, p) {
     // v15.2.1 — borrador de entrega y faltantes
     case 'faltantes': return rpc_(action, 'vd_faltantes', { p_obra: p.obraId });
     case 'leerAvisos': return rpc_(action, 'vd_avisos_leidos', { p_ids: p.ids || null });   // v15.2.2
+    // v15.2.3 — pizarrón y prioridad
+    case 'pizarron': return rpc_(action, 'vd_pizarron', { p_obra: p.obraId, p_destino: p.destino });
+    case 'pizarronPoner': case 'pizarronQuitar': case 'pizarronColor': case 'prioridad': {
+      const fn = { pizarronPoner: 'vd_pizarron_poner', pizarronQuitar: 'vd_pizarron_quitar', pizarronColor: 'vd_pizarron_color', prioridad: 'vd_prioridad' }[action];
+      const args = action === 'pizarronPoner' ? { p_vale: p.id, p_lugar: p.lugar == null ? null : p.lugar, p_color: p.color || null }
+        : action === 'pizarronQuitar' ? { p_vale: p.id }
+        : action === 'pizarronColor' ? { p_vale: p.id, p_color: p.color }
+        : { p_vale: p.id, p_marcar: !!p.marcar, p_nota: p.nota || '' };
+      const r = await rpc_(action, fn, args);
+      registrarActividad_(action, p.id, r && r.ok ? 'OK' : 'ERROR', r && r.ok ? (action === 'prioridad' ? { marcar: !!p.marcar } : action === 'pizarronPoner' ? { lugar: r.lugar } : null) : { error: r && r.error }, p.obraId);
+      return r;
+    }
     case 'borradorEntrega': {
       const r = await rpc_(action, 'vd_entrega_borrador', { p_vale: p.id, p_accion: p.accion, p_datos: p.datos || null });
       if (['guardar', 'cerrar'].includes(p.accion) && p.datos) registrarActividad_('entrega_borrador', p.id, r && r.ok ? 'OK' : 'ERROR', { accion: p.accion, auto: !!p.auto }, p.obraId);
@@ -1230,7 +1341,7 @@ const EST_ICO = { BORRADOR: 'ti-pencil', ENVIADO: 'ti-hourglass', APROBADO: 'ti-
   LOCAL_BORRADOR: 'ti-cloud-off', LOCAL_ENVIO: 'ti-cloud-upload' };
 const CERRADOS = ['ENTREGADO', 'CERRADO_PARCIAL', 'CANCELADO', 'DESCARTADO'];
 const DEST_ICO = { ALMACEN: 'ti-building-warehouse', PANOL: 'ti-tool' };
-const VISTAS = ['mis', 'aprobar', 'gestion', 'todos'];
+const VISTAS = ['mis', 'aprobar', 'gestion', 'todos', 'pizarron'];
 const RENG_FIJOS = 6;                             // v15.1.1: el vale abre con 6 renglones, como el papel
 const PERFIL_TXT = { invitado: 'Invitado', capataz: 'Capataz', supervisor: 'Supervisor', jefe_obra: 'Jefe de obra', almacenero: 'Almacenero', panolero: 'Pañolero', administrar: 'Administrar' };
 // v15.1.1 — pastillas de filtro por vista: [clave, texto, filtro]
@@ -1339,7 +1450,7 @@ setInterval(() => { if (leerCola().some(x => !x.error)) sincronizar('reintento')
 function valeDeOp_(op, base) {
   const v = op.vale;
   return Object.assign({}, base || {}, {
-    id: v.id, obraId: v.obraId, destino: v.destino, paraCuando: v.paraCuando || null, observaciones: v.observaciones || '',
+    id: v.id, obraId: v.obraId, destino: v.destino, disciplina: v.disciplina || 'GENERICO', paraCuando: v.paraCuando || null, observaciones: v.observaciones || '',
     estado: base && base.estado === 'RECHAZADO' && !op.enviar ? 'RECHAZADO' : (op.enviar ? 'LOCAL_ENVIO' : 'LOCAL_BORRADOR'),
     numeroTxt: base ? base.numeroTxt : null, esMio: true, solicitante: nombreActual,
     creadoEn: base ? base.creadoEn : new Date(op.ts).toISOString(),
@@ -1442,6 +1553,7 @@ function vistasDisponibles_() {
   if (o.aprueba) v.push('aprobar');
   if ((o.gestiona || []).length) v.push('gestion');
   if (['jefe_obra', 'administrar', 'invitado'].includes(o.perfil)) v.push('todos');
+  v.push('pizarron');   // v15.2.3: todos los de la obra lo miran
   return v;
 }
 function pintarPerfil_() {
@@ -1484,7 +1596,40 @@ function pintarVista() {
   if (vista === 'aprobar') pintarAprobar_();
   if (vista === 'gestion') pintarGestion_();
   if (vista === 'todos') pintarTodos_();
+  if (vista === 'pizarron') pintarPizarronVista_();
+  pizarronActivo_(vista === 'pizarron');
 }
+/** v15.2.3 — título + pastillas fijos arriba al bajar. */
+function fija_(html) { return '<div class="vista-fija">' + html + '</div>'; }
+window.addEventListener('scroll', () => {
+  const y = window.scrollY > 4;
+  document.querySelectorAll('.view:not(.hidden) .vista-fija').forEach(el => el.classList.toggle('con-sombra', y));
+}, { passive: true });
+
+// ── v15.2.3: DISCIPLINAS Y PRIORITARIO ───────────────────────
+const DISCIPLINAS_DEF = [['GENERICO', 'Genérico', '#64748B'], ['MECANICA', 'Mecánica', '#2563EB'], ['PIPING', 'Piping', '#7C3AED'], ['ELECTRICA', 'Eléctrica', '#CA8A04'],
+  ['INSTRUMENTOS', 'Instrumentos', '#0D9488'], ['CIVIL', 'Civil', '#92400E'], ['ESTRUCTURAS', 'Estructuras', '#EA580C'], ['PRECOM', 'Precom', '#65A30D'],
+  ['COM', 'COM', '#15803D'], ['PRESERVACION', 'Preservación', '#DB2777'], ['ANDAMIOS', 'Andamios', '#1E3A8A']].map(d => ({ disciplina: d[0], nombre: d[1], color: d[2] }));
+function disciplinas_() { return (inicio && inicio.disciplinas && inicio.disciplinas.length) ? inicio.disciplinas : DISCIPLINAS_DEF; }
+function discDe_(c) { return disciplinas_().find(d => d.disciplina === (c || 'GENERICO')) || disciplinas_()[0]; }
+/** Etiqueta de disciplina (no se muestra la de Genérico, salvo que se pida). */
+function discTag_(c, siempre) {
+  if (!c || (c === 'GENERICO' && !siempre)) return '';
+  const d = discDe_(c);
+  return '<span class="disc"><i style="background:' + d.color + '"></i>' + escaparHtml(d.nombre) + '</span>';
+}
+function prioTag_(v) { return v && v.prioritario ? '<span class="prio" title="Prioritario">⚡ Prioritario</span>' : ''; }
+/** Orden estable: prioritarios primero. */
+function prioPrimero_(lista) { return lista.map((v, i) => [v, i]).sort((a, b) => (b[0].prioritario ? 1 : 0) - (a[0].prioritario ? 1 : 0) || a[1] - b[1]).map(x => x[0]); }
+/** ¿Puedo marcar / sacar la prioridad de este vale? */
+function permisoPrio_(v) {
+  const o = obraActual();
+  if (!o || !v || v._local || !['ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)) return null;
+  const jefe = ['jefe_obra', 'administrar'].includes(o.perfil), gestor = (o.gestiona || []).includes(v.destino);
+  if (!jefe && !gestor) return null;
+  return { marcar: !v.prioritario, quitar: !!v.prioritario && (jefe || !!v.prioritarioMio) };
+}
+
 function cabVista_(tit, sub) {
   const o = obraActual();
   return '<div class="vista-cab"><div class="vista-tit">' + tit + '<small>' + escaparHtml(o.codigo + ' ' + o.nombreCorto) + '</small></div>' +
@@ -1511,9 +1656,10 @@ function tarjeta_(v, opc) {
   const acc = opc.aprobar && v.estado === 'ENVIADO'
     ? '<div class="vale-acc"><button class="btn-chico" data-aprobar="' + v.id + '"' + (navigator.onLine ? '' : ' disabled title="Necesitás conexión"') + '><i class="ti ti-check"></i> Aprobar</button>' +
       '<button class="btn-chico sec" data-rechazar="' + v.id + '"' + (navigator.onLine ? '' : ' disabled title="Necesitás conexión"') + '><i class="ti ti-x"></i> Rechazar</button></div>' : '';
-  return '<div class="vale-card e-' + v.estado + (v._error ? ' con-error' : '') + '" role="button" tabindex="0" data-vale="' + v.id + '">' +
+  return '<div class="vale-card e-' + v.estado + (v._error ? ' con-error' : '') + (v.prioritario ? ' es-prio' : '') + '" role="button" tabindex="0" data-vale="' + v.id + '">' +
     '<div class="vale-cab">' + (v.numeroTxt ? '<span class="vale-num">' + escaparHtml(v.numeroTxt) + '</span>' : '<span class="vale-num sin">sin número</span>') +
       '<span class="est ' + v.estado + '"><i class="ti ' + (EST_ICO[v.estado] || 'ti-point') + '"></i>' + (ESTADOS[v.estado] || v.estado) + '</span>' +
+      prioTag_(v) + discTag_(v.disciplina) + (v.pizarron ? '<span class="disc" title="Está en el pizarrón"><i class="ti ti-layout-board" style="width:auto;height:auto;background:none"></i>Pizarrón ' + (v.pizarron.lugar + 1) + '</span>' : '') +
       '<span class="vale-dest"><i class="ti ' + (DEST_ICO[v.destino] || 'ti-box') + '"></i>' + escaparHtml(nombreDestino(v.destino)) + '</span></div>' +
     '<div class="vale-reng">' + (renglones || '<i>sin renglones</i>') + '</div>' +
     '<div class="vale-meta">' + meta.filter(Boolean).join(' · ') + '</div>' + antigHtml_(v) +
@@ -1554,12 +1700,12 @@ function pintarMis_() {
   const o = obraActual();
   const vacio = filtro.mis === 'todos' ? 'No tenés vales. Tocá <b>Nuevo vale</b> para pedir algo.' : 'No hay vales con este filtro.';
   if (filtro.mis === 'faltantes') {   // v15.2.1
-    cont.innerHTML = cabVista_('Mis vales', 'Lo que Almacén o Pañol marcó <b>sin stock</b> en tus vales. Tildá lo que quieras volver a pedir.') +
-      pastillas_('mis', todos) + faltantesHtml_();
+    cont.innerHTML = fija_(cabVista_('Mis vales', 'Lo que Almacén o Pañol marcó <b>sin stock</b> en tus vales. Tildá lo que quieras volver a pedir.') +
+      pastillas_('mis', todos)) + faltantesHtml_();
     enlazarPastillas_(cont, 'mis'); enlazarFaltantes_(cont); return;
   }
-  cont.innerHTML = cabVista_('Mis vales', o.requiereAprobacion ? 'Tus vales pasan por aprobación antes de ir a Almacén o Pañol.' : 'Tus vales salen aprobados directo a Almacén o Pañol.') +
-    pastillas_('mis', todos) +
+  cont.innerHTML = fija_(cabVista_('Mis vales', o.requiereAprobacion ? 'Tus vales pasan por aprobación antes de ir a Almacén o Pañol.' : 'Tus vales salen aprobados directo a Almacén o Pañol.') +
+    pastillas_('mis', todos)) +
     (vs.length ? seccion_('<i class="ti ti-alert-triangle"></i> No se pudieron sincronizar', errores) +
       seccion_('<i class="ti ti-arrow-back-up"></i> Para corregir', corregir) +
       seccion_('Borradores', borr) + seccion_('En curso', curso) + seccion_('Cerrados', cerr)
@@ -1569,7 +1715,7 @@ function pintarMis_() {
 function pintarAprobar_() {
   const cont = document.getElementById('vista-aprobar');
   const vs = datosObra.porAprobar || [];
-  cont.innerHTML = cabVista_('Por aprobar', 'Les llega a todos los aprobadores: el primero que resuelve, resuelve.') +
+  cont.innerHTML = fija_(cabVista_('Por aprobar', 'Les llega a todos los aprobadores: el primero que resuelve, resuelve.')) +
     seccion_('Esperando tu aprobación', vs, { siempre: true, aprobar: true, conSolicitante: true, vacio: 'No hay vales esperando aprobación.' });
   enlazarTarjetas_(cont);
 }
@@ -1579,9 +1725,10 @@ function pintarGestion_() {
   const todos = (datosObra.gestion || []).concat(datosObra.gestionCerrados || []);   // v15.2.2: + cerrados de 30 días
   let vs = filtrar_('gestion', todos);
   if (filtro.gestion === 'pend') vs = vs.slice().sort((a, b) => String(a.pendienteDesde || '').localeCompare(String(b.pendienteDesde || '')));   // v15.2.0: más viejo primero
+  if (filtro.gestion !== 'cerrados') vs = prioPrimero_(vs);   // v15.2.3
   const nombres = (o.gestiona || []).map(nombreDestino).join(' y ');
-  cont.innerHTML = cabVista_('Para gestionar', 'Vales aprobados para ' + escaparHtml(nombres) + ', del más viejo al más nuevo. Tocá un vale para prepararlo o entregarlo.') +
-    pastillas_('gestion', todos) +
+  cont.innerHTML = fija_(cabVista_('Para gestionar', 'Vales aprobados para ' + escaparHtml(nombres) + ', prioritarios primero y del más viejo al más nuevo. Tocá un vale para prepararlo o entregarlo.') +
+    pastillas_('gestion', todos)) +
     (filtro.gestion === 'cerrados'
       ? seccion_('Cerrados · últimos 30 días', vs, { siempre: true, conSolicitante: true, vacio: 'No hay vales cerrados en los últimos 30 días.' })
       : seccion_('En cola', vs, { siempre: true, conSolicitante: true, vacio: todos.some(v => !CERRADOS.includes(v.estado)) ? 'No hay vales con este filtro.' : 'No hay vales para gestionar.' })) +
@@ -1593,9 +1740,9 @@ function pintarTodos_() {
   const cont = document.getElementById('vista-todos');
   const todos = datosObra.todos || [];
   const vs = filtrar_('todos', todos);
-  const abiertos = vs.filter(v => !CERRADOS.includes(v.estado)), cerr = vs.filter(v => CERRADOS.includes(v.estado));
-  cont.innerHTML = cabVista_('Todos los vales', 'Los de la obra que están abiertos y los cerrados de los últimos 30 días (sin borradores).') +
-    pastillas_('todos', todos) +
+  const abiertos = prioPrimero_(vs.filter(v => !CERRADOS.includes(v.estado))), cerr = vs.filter(v => CERRADOS.includes(v.estado));
+  cont.innerHTML = fija_(cabVista_('Todos los vales', 'Los de la obra que están abiertos y los cerrados de los últimos 30 días (sin borradores).') +
+    pastillas_('todos', todos)) +
     (vs.length ? seccion_('Abiertos', abiertos, { conSolicitante: true }) + seccion_('Cerrados', cerr, { conSolicitante: true })
       : '<div class="vacio-txt" style="margin-top:12px">' + (todos.length ? 'No hay vales con este filtro.' : 'No hay vales en la obra.') + '</div>');
   enlazarTarjetas_(cont); enlazarPastillas_(cont, 'todos');
@@ -1634,7 +1781,8 @@ function abrirEditor(v, pre) {   // v15.2.1: pre = { destino, renglones } para "
     destino: v ? v.destino : pre ? pre.destino : (inicio.destinos.length === 1 ? inicio.destinos[0].destino : ''),
     renglones: v ? v.renglones.map(r => ({ descripcion: r.descripcion, cantidad: cantTxt(r.cantidad), origenId: r.origenId || null, origenTxt: r.origenTxt || null }))
       : pre ? pre.renglones.map(r => Object.assign({}, r)) : [],
-    paraCuando: v ? (v.paraCuando || '') : '', obs: v ? (v.observaciones || '') : ''
+    paraCuando: v ? (v.paraCuando || '') : '', obs: v ? (v.observaciones || '') : '',
+    disciplina: v ? (v.disciplina || 'GENERICO') : 'GENERICO'   // v15.2.3
   };
   while (editor.renglones.length < RENG_FIJOS) editor.renglones.push({ descripcion: '', cantidad: '' });   // v15.1.1: renglones fijos, no crece al escribir
   const est = v ? v.estado : 'NUEVO';
@@ -1660,6 +1808,13 @@ function pintarEditor_() {
   document.getElementById('editor-destinos').innerHTML = inicio.destinos.map(d =>
     '<button type="button" class="destino-btn' + (editor.destino === d.destino ? ' sel' : '') + '" data-destino="' + d.destino + '"><i class="ti ' + (DEST_ICO[d.destino] || 'ti-box') + '"></i>' + escaparHtml(d.nombre) + '</button>').join('');
   document.querySelectorAll('#editor-destinos [data-destino]').forEach(b => b.addEventListener('click', () => { editor.destino = b.dataset.destino; limpiarErrorEditor_(); pintarEditor_(); }));
+  // v15.2.3: disciplina (opcional)
+  document.getElementById('editor-disciplinas').innerHTML = disciplinas_().map(d =>
+    '<button type="button" class="disc-btn' + (editor.disciplina === d.disciplina ? ' sel' : '') + '" data-disc="' + d.disciplina + '"><i style="background:' + d.color + '"></i>' + escaparHtml(d.nombre) + '</button>').join('');
+  document.querySelectorAll('#editor-disciplinas [data-disc]').forEach(b => b.addEventListener('click', () => {
+    editor.disciplina = b.dataset.disc;
+    document.querySelectorAll('#editor-disciplinas [data-disc]').forEach(x => x.classList.toggle('sel', x === b));
+  }));
   pintarRenglones_();
   pintarFecha_();
 }
@@ -1737,7 +1892,7 @@ function armarVale_() {
     if (reng[i].origenId) { x.origenId = reng[i].origenId; x.origenTxt = reng[i].origenTxt || null; }   // v15.2.1
     out.push(x);
   }
-  return { vale: { id: editor.id, obraId: editor.vale ? editor.vale.obraId : obraSel, destino: editor.destino, paraCuando: editor.paraCuando || '', observaciones: (editor.obs || '').trim(), origen: 'pwa', renglones: out } };
+  return { vale: { id: editor.id, obraId: editor.vale ? editor.vale.obraId : obraSel, destino: editor.destino, disciplina: editor.disciplina || 'GENERICO', paraCuando: editor.paraCuando || '', observaciones: (editor.obs || '').trim(), origen: 'pwa', renglones: out } };
 }
 function limpiarErrorEditor_() { document.getElementById('editor-error').classList.add('hidden'); }
 function errorEditor_(m) { const e = document.getElementById('editor-error'); e.textContent = m; e.classList.remove('hidden'); e.scrollIntoView({ block: 'nearest' }); }
@@ -1748,7 +1903,8 @@ document.getElementById('btn-editor-enviar').addEventListener('click', () => {
   const o = obraActual(), v = a.vale;
   document.getElementById('resumen-body').innerHTML =
     '<div class="det-datos"><div><span class="lbl">Va a</span><b>' + escaparHtml(nombreDestino(v.destino)) + '</b></div>' +
-    '<div><span class="lbl">Para cuándo</span>' + (v.paraCuando ? escaparHtml(cuandoTxt(v.paraCuando)) : 'sin fecha') + '</div></div>' +
+    '<div><span class="lbl">Para cuándo</span>' + (v.paraCuando ? escaparHtml(cuandoTxt(v.paraCuando)) : 'sin fecha') + '</div>' +
+    '<div><span class="lbl">Disciplina</span>' + discTag_(v.disciplina, true) + '</div></div>' +
     '<table class="tabla-reng"><thead><tr><th>#</th><th>Qué</th><th style="text-align:right">Cantidad</th></tr></thead><tbody>' +
     v.renglones.map((r, i) => '<tr><td>' + (i + 1) + '</td><td>' + escaparHtml(r.descripcion) + '</td><td class="num">' + (cantTxt(r.cantidad) || '—') + '</td></tr>').join('') + '</tbody></table>' +
     (v.observaciones ? '<div class="det-evento">' + escaparHtml(v.observaciones) + '</div>' : '') +
@@ -1957,7 +2113,11 @@ function pintarDetalle_(v0) {
       '<div><span class="lbl">Va a</span><b>' + escaparHtml(nombreDestino(v.destino)) + '</b></div>' +
       '<div><span class="lbl">Para cuándo</span>' + (v.paraCuando ? escaparHtml(cuandoTxt(v.paraCuando)) : 'sin fecha') + '</div>' +
       '<div><span class="lbl">Creado</span>' + (v.creadoEn ? hhmm(v.creadoEn) : '—') + (v.origen === 'telegram' ? ' · por Telegram' : '') + '</div>' +
-      (v.gestionadoPor ? '<div><span class="lbl">Lo atiende</span>' + escaparHtml(v.gestionadoPor) + '</div>' : '') + '</div>' +
+      '<div><span class="lbl">Disciplina</span>' + discTag_(v.disciplina, true) + '</div>' +
+      (v.gestionadoPor ? '<div><span class="lbl">Lo atiende</span>' + escaparHtml(v.gestionadoPor) + '</div>' : '') +
+      (v.pizarron ? '<div><span class="lbl">Pizarrón</span>Lugar ' + (v.pizarron.lugar + 1) + '</div>' : '') + '</div>' +
+    (v.prioritario ? '<div class="det-prio" id="det-prio"><b>⚡ Prioritario</b>' + (v.prioritarioPor ? ' · lo marcó ' + escaparHtml(v.prioritarioPor) : '') + (v.prioritarioEn ? ' · ' + hhmm(v.prioritarioEn) : '') +
+      (v.prioritarioNota ? '<br>«' + escaparHtml(v.prioritarioNota) + '»' : '') + '</div>' : '') +
     '<table class="tabla-reng"><thead><tr><th>#</th><th>Qué</th><th style="text-align:right">Cant.</th>' + (conEntrega ? '<th>Estado</th>' : '') + (comenta ? '<th></th>' : '') + '</tr></thead><tbody>' +
     v.renglones.map((r, i) => '<tr><td>' + (r.orden || i + 1) + '</td><td>' + escaparHtml(r.descripcion) +
       (r.origenTxt ? '<span class="det-origen"><i class="ti ti-repeat"></i> viene de ' + escaparHtml(r.origenTxt) + '</span>' : '') +
@@ -1981,6 +2141,12 @@ function pintarDetalle_(v0) {
     acc.push('<button class="btn-chico sec" onclick="abrirRechazo(\'' + v.id + '\')"' + dis + '><i class="ti ti-x"></i> Rechazar</button>');
     acc.push('<button class="btn-chico" onclick="aprobar(\'' + v.id + '\')"' + dis + '><i class="ti ti-check"></i> Aprobar</button>');
   }
+  // v15.2.3: prioridad
+  const pp = permisoPrio_(v);
+  if (pp && pp.marcar) acc.push('<button class="btn-chico sec" id="btn-det-prio" onclick="abrirPrioridad(\'' + v.id + '\')"' + dis + '>⚡ Marcar prioritario</button>');
+  else if (pp && pp.quitar) acc.push('<button class="btn-chico sec" id="btn-det-prio" onclick="quitarPrioridad(\'' + v.id + '\')"' + dis + '>⚡ Quitar prioridad</button>');
+  else if (pp && v.prioritario) acc.push('<button class="btn-chico sec" id="btn-det-prio" disabled title="Solo la puede sacar quien la marcó o el jefe de obra">⚡ Prioritario (lo marcó ' + escaparHtml(v.prioritarioPor || '—') + ')</button>');
+  if (gestionoVale_(v) && !v.pizarron) acc.push('<button class="btn-chico sec" id="btn-det-pizarron" onclick="pzPoner_(\'' + v.id + '\', null)"' + dis + '><i class="ti ti-layout-board"></i> Poner en el pizarrón</button>');
   if (gestionoVale_(v)) {
     acc.push('<button class="btn-chico peligro" id="btn-det-cancelar" onclick="abrirCancelar(\'' + v.id + '\')"' + dis + '><i class="ti ti-ban"></i> Cancelar vale</button>');
     if (v.estado === 'APROBADO') acc.push('<button class="btn-chico sec" id="btn-det-iniciar" onclick="iniciarVale(\'' + v.id + '\')"' + dis + '><i class="ti ti-package"></i> Empezar a preparar</button>');
@@ -1994,9 +2160,10 @@ function pintarDetalle_(v0) {
 const TL_VALE = {
   BORRADOR: 'Creó el borrador', ENVIADO: 'Envió el vale', APROBADO: 'Aprobó el vale', RECHAZADO: 'Rechazó el vale',
   DESCARTADO: 'Descartó el vale', EN_PREPARACION: 'Empezó a preparar', CON_PENDIENTES: 'Entrega parcial: quedan pendientes',
-  ENTREGADO: 'Entrega completa', CERRADO_PARCIAL: 'Cerró el vale (parte sin stock)', CANCELADO: 'Canceló el vale', ELIMINADO: 'Eliminó el borrador'
+  ENTREGADO: 'Entrega completa', CERRADO_PARCIAL: 'Cerró el vale (parte sin stock)', CANCELADO: 'Canceló el vale', ELIMINADO: 'Eliminó el borrador',
+  PRIORITARIO: '⚡ Marcó el vale como prioritario', NO_PRIORITARIO: 'Le sacó la prioridad'   // v15.2.3
 };
-function claseTl_(est) { return ['APROBADO', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(est) ? ' ok' : ['RECHAZADO', 'CANCELADO', 'SIN_STOCK', 'DESCARTADO'].includes(est) ? ' malo' : ['PENDIENTE', 'CON_PENDIENTES'].includes(est) ? ' pend' : ''; }
+function claseTl_(est) { return ['APROBADO', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(est) ? ' ok' : ['RECHAZADO', 'CANCELADO', 'SIN_STOCK', 'DESCARTADO', 'PRIORITARIO'].includes(est) ? ' malo' : ['PENDIENTE', 'CON_PENDIENTES'].includes(est) ? ' pend' : ''; }
 const tlAbierto = {};                   // valeId → la línea de tiempo está desplegada (v15.2.1: viene plegada)
 const tlGruposAbiertos = new Set();     // entregas desplegadas dentro de la línea de tiempo
 function haceTxt_(ts) {
@@ -2334,9 +2501,20 @@ async function aprobar(id) {
 }
 function abrirMotivo_(id, modo) {
   const v = buscarVale_(id); if (!v) return;
-  if (!navigator.onLine) { mostrarAviso('Para ' + (modo === 'cancelar' ? 'cancelar' : 'rechazar') + ' necesitás conexión.'); return; }
+  if (!navigator.onLine) { mostrarAviso('Para ' + (modo === 'cancelar' ? 'cancelar' : modo === 'prioridad' ? 'marcar la prioridad' : 'rechazar') + ' necesitás conexión.'); return; }
   rechazoId = id; motivoModo = modo;
   const c = modo === 'cancelar';
+  if (modo === 'prioridad') {   // v15.2.3: motivo opcional
+    document.getElementById('rechazo-tit').textContent = '⚡ Prioritario: vale ' + v.numeroTxt;
+    document.querySelector('#modal-rechazo .campo-lbl').textContent = 'Motivo (opcional, queda en la línea de tiempo)';
+    document.getElementById('txt-motivo').placeholder = 'Ej.: lo necesita el frente de izaje hoy';
+    document.getElementById('motivo-nota').textContent = 'Va primero en las listas y con borde rojo en el pizarrón.';
+    document.getElementById('btn-rechazo-ok').textContent = '⚡ Marcar prioritario';
+    document.getElementById('txt-motivo').value = '';
+    abrirModal('modal-rechazo');
+    setTimeout(() => document.getElementById('txt-motivo').focus(), 50);
+    return;
+  }
   document.getElementById('rechazo-tit').textContent = (c ? 'Cancelar vale ' : 'Rechazar vale ') + v.numeroTxt;
   document.querySelector('#modal-rechazo .campo-lbl').textContent = c ? 'Motivo de la cancelación (lo ve quien pidió el vale)' : 'Motivo (lo ve quien pidió el vale)';
   document.getElementById('txt-motivo').placeholder = c ? 'Por qué se cancela…' : 'Qué hay que corregir…';
@@ -2348,8 +2526,25 @@ function abrirMotivo_(id, modo) {
 }
 function abrirRechazo(id) { abrirMotivo_(id, 'rechazar'); }
 function abrirCancelar(id) { abrirMotivo_(id, 'cancelar'); }
+function abrirPrioridad(id) { abrirMotivo_(id, 'prioridad'); }
+async function cambiarPrioridad_(id, marcar, nota) {
+  const v = buscarVale_(id) || detalleCache[id]; if (!v) return;
+  if (!navigator.onLine) { mostrarAviso('Para cambiar la prioridad necesitás conexión.'); return; }
+  try {
+    const r = await llamarBackend('prioridad', { id: id, obraId: v.obraId, marcar: marcar, nota: nota || '' });
+    if (!r || !r.ok) { await mostrarAviso((r && r.error) || 'No se pudo cambiar la prioridad.'); return; }
+    mostrarToast(marcar ? '⚡ Vale ' + v.numeroTxt + ' prioritario' : 'Vale ' + v.numeroTxt + ' sin prioridad');
+    await refrescarTodo_('prioridad');
+  } catch (err) { mostrarAviso(err.message); }
+}
+async function quitarPrioridad(id) {
+  const v = buscarVale_(id) || detalleCache[id]; if (!v) return;
+  if (!(await mostrarConfirm('Quitar prioridad', '¿Sacarle la prioridad al vale ' + v.numeroTxt + '?', { textoAceptar: 'Quitar prioridad' }))) return;
+  await cambiarPrioridad_(id, false, '');
+}
 document.getElementById('btn-rechazo-ok').addEventListener('click', async () => {
   const m = document.getElementById('txt-motivo').value.trim();
+  if (motivoModo === 'prioridad') { cerrarModal('modal-rechazo'); await cambiarPrioridad_(rechazoId, true, m); return; }
   if (m.length < 5) { mostrarToast('Escribí el motivo (mínimo 5 caracteres)'); return; }
   const v = buscarVale_(rechazoId); if (!v) return;
   const c = motivoModo === 'cancelar';
@@ -2385,6 +2580,193 @@ async function cargarNovedades() {
   pista.innerHTML = items.join('');
   pista.style.animationDuration = Math.max(25, pista.textContent.length * 0.22) + 's';
 }
+
+// ── PIZARRÓN (v15.2.3): cola + 4 lugares, guardado en la base, todos lo miran ──
+const PZ_COLORES = [['amarillo', '#facc15'], ['celeste', '#38bdf8'], ['verde', '#4ade80'], ['rosa', '#f472b6'], ['naranja', '#fb923c'], ['lila', '#c084fc']];
+const pz = { obra: null, destino: null, datos: null, ts: 0, cargando: false, wake: null };
+function pzDestinoInicial_() {
+  const o = obraActual(), g = (o && o.gestiona) || [];
+  const guardado = leerPref('vd_pz_destino_' + obraSel);
+  if (guardado && inicio.destinos.some(d => d.destino === guardado)) return guardado;
+  return g[0] || (inicio.destinos[0] && inicio.destinos[0].destino);
+}
+async function cargarPizarron_() {
+  if (pz.obra !== obraSel) { pz.obra = obraSel; pz.destino = null; pz.datos = null; }
+  if (!pz.destino) pz.destino = pzDestinoInicial_();
+  if (pz.cargando) { pz.otraVez = true; return; }   // llegó un cambio mientras cargaba: se recarga al terminar
+  if (!navigator.onLine) { if (vista === 'pizarron') pintarPizarron_(); return; }
+  pz.cargando = true; pz.otraVez = false;
+  try {
+    const r = await llamarBackend('pizarron', { obraId: obraSel, destino: pz.destino });
+    if (r && r.ok && r.obraId === obraSel && r.destino === pz.destino) { pz.datos = r; pz.ts = Date.now(); pz.error = null; }
+    else if (r && !r.ok) pz.error = r.error;
+  } catch (err) { pz.error = err.message; }
+  finally { pz.cargando = false; }
+  if (vista === 'pizarron') { if (pz.arrastrando) pz.pintarAlSoltar = true; else pintarPizarron_(); }   // no se repinta en medio de un arrastre
+  if (pz.otraVez) { pz.otraVez = false; return cargarPizarron_(); }
+}
+function pintarPizarronVista_() {
+  if (pz.obra !== obraSel || !pz.datos) { pintarPizarron_(); cargarPizarron_(); return; }
+  pintarPizarron_();
+  if (Date.now() - pz.ts > 15000) cargarPizarron_();
+}
+function pzHace_(v) {
+  if (v.estado === 'CON_PENDIENTES') return antigHtml_(v).replace('class="antig', 'style="margin-top:2px" class="antig');
+  const t = v.aprobadoEn || v.creadoEn;
+  return '<div class="pz-cc-meta">' + escaparHtml(v.solicitante || '') + (t ? ' · ' + haceTxt_(t) : '') + (v.estado === 'EN_PREPARACION' ? ' · <b>en preparación</b>' : '') + '</div>';
+}
+function pzRenglonesCortos_(v) {
+  const r = v.renglones || [];
+  return r.slice(0, 2).map(x => escaparHtml(x.descripcion) + (cantTxt(x.cantidad) ? ' ×' + cantTxt(x.cantidad) : '')).join(' · ') + (r.length > 2 ? ' (+' + (r.length - 2) + ')' : '');
+}
+function pzColaCard_(v, op) {
+  return '<div class="pz-cc e-' + v.estado + (v.prioritario ? ' es-prio' : '') + '" data-pz-vale="' + v.id + '"' + (op ? ' draggable="true" title="Arrastralo a un lugar libre"' : '') + '>' +
+    '<div class="pz-cc-num">' + escaparHtml(v.numeroTxt || '') + prioTag_(v) + discTag_(v.disciplina) + '</div>' +
+    (v.estado === 'CON_PENDIENTES' ? '<div class="pz-cc-meta">' + escaparHtml(v.solicitante || '') + '</div>' : '') + pzHace_(v) +
+    '<div class="pz-cc-reng">' + pzRenglonesCortos_(v) + '</div></div>';
+}
+function pzLugar_(i, l, op) {
+  if (!l) return '<div class="pz-lugar vacio" data-lugar="' + i + '"><div style="text-align:center"><div class="pz-n-vacio">' + (i + 1) + '</div>' +
+    (op ? 'Arrastrá un vale acá' : 'Libre') + '</div></div>';
+  const v = l.vale;
+  const reng = (v.renglones || []).map(r => '<div class="pz-r ' + r.estado + '"><span>' + escaparHtml(r.descripcion) +
+      (r.estado !== 'SOLICITADO' ? '<span class="est-r ' + r.estado + '">' + EST_R[r.estado] + '</span>' : '') + '</span>' +
+      '<span class="q">' + (cantTxt(r.cantidad) || '—') + '</span></div>').join('');
+  const pie = op
+    ? '<div class="pz-col-dots" role="group" aria-label="Color">' + PZ_COLORES.map(c => '<button type="button" class="pz-dot' + (l.color === c[0] ? ' sel' : '') + '" data-pz-color="' + c[0] + '" data-pz-id="' + v.id + '" title="' + c[0] + '" style="background:' + c[1] + '"></button>').join('') + '</div>' +
+      '<button type="button" class="btn-chico sec" data-pz-quitar="' + v.id + '"><i class="ti ti-arrow-back-up"></i> Quitar</button>' +
+      '<button type="button" class="btn-chico" data-pz-entregar="' + v.id + '"><i class="ti ti-truck-delivery"></i> Entregar</button>'
+    : '<span class="pz-atiende">' + (v.gestionadoPor ? 'Lo atiende ' + escaparHtml(v.gestionadoPor) : 'En preparación') + '</span>';
+  return '<div class="pz-lugar ocupado c-' + l.color + (v.prioritario ? ' es-prio' : '') + '" data-lugar="' + i + '" data-pz-ocupado="' + v.id + '">' +
+    '<div class="pz-l-cab" data-pz-abrir="' + v.id + '"><span class="pz-l-num">' + (i + 1) + ' · ' + escaparHtml(v.numeroTxt || '') + '</span>' + prioTag_(v) + discTag_(v.disciplina) +
+      (v.estado === 'CON_PENDIENTES' ? '<span class="est CON_PENDIENTES">Con pendientes</span>' : '') + '</div>' +
+    '<div class="pz-l-meta">' + escaparHtml(v.solicitante || '') + (v.aprobadoEn ? ' · ' + hhmm(v.aprobadoEn) : '') + (v.paraCuando ? ' · ' + escaparHtml(cuandoTxt(v.paraCuando)) : '') + '</div>' +
+    '<div class="pz-l-reng">' + reng + '</div>' +
+    (v.observaciones ? '<div class="pz-l-obs">' + escaparHtml(v.observaciones) + '</div>' : '') +
+    '<div class="pz-l-pie">' + pie + '</div></div>';
+}
+function pintarPizarron_() {
+  const cont = document.getElementById('vista-pizarron');
+  const o = obraActual(); if (!o) return;
+  const d = pz.datos && pz.datos.obraId === obraSel && pz.datos.destino === pz.destino ? pz.datos : null;
+  const op = !!(d && d.puedeOperar) && navigator.onLine;
+  const destinos = inicio.destinos || [];
+  const cab = '<div class="pz-cab">' +
+    '<div class="vista-cab"><div class="vista-tit">Pizarrón<small>' + escaparHtml(o.codigo + ' ' + o.nombreCorto) + '</small></div></div>' +
+    (destinos.length > 1 ? '<div class="pastillas" data-pastillas="pz">' + destinos.map(x => '<button type="button" class="pastilla' + (x.destino === pz.destino ? ' sel' : '') + '" data-pz-destino="' + x.destino + '"><i class="ti ' + (DEST_ICO[x.destino] || 'ti-box') + '"></i>' + escaparHtml(x.nombre) + '</button>').join('') + '</div>' : '') +
+    '<div class="pz-info">' + (d && !d.puedeOperar ? '<span class="pz-solo"><i class="ti ti-eye"></i> Solo mirar</span>' : '') +
+      (d ? '<span id="pz-contador">Entregados hoy: <b>' + d.entregadosHoy + '</b> · En cola: <b>' + (d.paraPreparar.length + d.conPendientes.length) + '</b></span>' : '') +
+      '<span class="pz-reloj" id="pz-reloj">' + horaAR_() + '</span>' +
+      '<button type="button" class="btn-chico sec" id="btn-pz-completa"><i class="ti ti-' + (document.body.classList.contains('pz-completa') ? 'minimize' : 'maximize') + '"></i> ' + (document.body.classList.contains('pz-completa') ? 'Salir' : 'Pantalla completa') + '</button></div></div>';
+  if (!d) {
+    cont.innerHTML = fija_(cab) + '<div class="cargando">' + (pz.error ? escaparHtml(pz.error) : navigator.onLine ? '<div class="spinner"></div>Cargando el pizarrón…' : 'El pizarrón se ve con conexión.') + '</div>';
+    enlazarPizarronCab_(); return;
+  }
+  const lugares = [0, 1, 2, 3].map(i => d.lugares.find(l => l.lugar === i) || null);
+  cont.innerHTML = fija_(cab) +
+    '<div class="pz-grid"><aside class="pz-cola" id="pz-cola">' +
+      '<div class="pz-cola-tit"><span>Para preparar</span><span>' + d.paraPreparar.length + '</span></div>' +
+      (d.paraPreparar.length ? d.paraPreparar.map(v => pzColaCard_(v, op)).join('') : '<div class="pz-cola-vacia">Nada en cola.</div>') +
+      '<div class="pz-cola-tit"><span>Con pendientes</span><span>' + d.conPendientes.length + '</span></div>' +
+      (d.conPendientes.length ? d.conPendientes.map(v => pzColaCard_(v, op)).join('') : '<div class="pz-cola-vacia">Sin pendientes.</div>') +
+    '</aside><div class="pz-lugares" id="pz-lugares">' + lugares.map((l, i) => pzLugar_(i, l, op)).join('') + '</div></div>';
+  enlazarPizarronCab_();
+  enlazarPizarron_(cont, op);
+}
+function horaAR_() { return new Intl.DateTimeFormat('es-AR', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date()); }
+setInterval(() => { const r = document.getElementById('pz-reloj'); if (r) r.textContent = horaAR_(); }, 20000);
+function enlazarPizarronCab_() {
+  document.querySelectorAll('[data-pz-destino]').forEach(b => b.addEventListener('click', () => {
+    pz.destino = b.dataset.pzDestino; guardarPref('vd_pz_destino_' + obraSel, pz.destino); pz.datos = null; pintarPizarron_(); cargarPizarron_();
+  }));
+  const bc = document.getElementById('btn-pz-completa');
+  if (bc) bc.addEventListener('click', pzPantallaCompleta_);
+}
+function enlazarPizarron_(cont, op) {
+  cont.querySelectorAll('[data-pz-vale]').forEach(el => {
+    el.addEventListener('click', () => pzAbrir_(el.dataset.pzVale));
+    if (op) {
+      el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', el.dataset.pzVale); e.dataTransfer.effectAllowed = 'move'; el.classList.add('arrastrando'); pz.arrastrando = true; });
+      el.addEventListener('dragend', () => { el.classList.remove('arrastrando'); pz.arrastrando = false; if (pz.pintarAlSoltar) { pz.pintarAlSoltar = false; setTimeout(() => { if (vista === 'pizarron' && !pz.arrastrando) pintarPizarron_(); }, 0); } });
+    }
+  });
+  cont.querySelectorAll('[data-pz-abrir]').forEach(el => el.addEventListener('click', () => pzAbrir_(el.dataset.pzAbrir)));
+  if (op) {
+    cont.querySelectorAll('.pz-lugar.vacio').forEach(el => {
+      el.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; el.classList.add('drop-ok'); });
+      el.addEventListener('dragleave', () => el.classList.remove('drop-ok'));
+      el.addEventListener('drop', e => { e.preventDefault(); el.classList.remove('drop-ok'); const id = e.dataTransfer.getData('text/plain'); if (id) pzPoner_(id, +el.dataset.lugar); });
+    });
+    cont.querySelectorAll('[data-pz-color]').forEach(b => b.addEventListener('click', () => pzColor_(b.dataset.pzId, b.dataset.pzColor)));
+    cont.querySelectorAll('[data-pz-quitar]').forEach(b => b.addEventListener('click', () => pzQuitar_(b.dataset.pzQuitar)));
+    cont.querySelectorAll('[data-pz-entregar]').forEach(b => b.addEventListener('click', () => pzEntregar_(b.dataset.pzEntregar)));
+  }
+}
+function pzValeDatos_(id) {
+  const d = pz.datos; if (!d) return null;
+  const l = d.lugares.find(x => x.vale.id === id);
+  return l ? l.vale : d.paraPreparar.concat(d.conPendientes).find(v => v.id === id) || null;
+}
+/** Abrir el detalle: si lo puedo ver (mío, gestiono el destino, jefe / administrar / invitado). */
+function pzAbrir_(id) {
+  const o = obraActual(), v = pzValeDatos_(id);
+  const puede = (v && v.esMio) || (o && (['administrar', 'jefe_obra', 'invitado'].includes(o.perfil) || (o.gestiona || []).includes(pz.destino)));
+  if (!puede) { mostrarAviso('El vale ' + (v ? v.numeroTxt + ' es de ' + v.solicitante : 'es de otra persona') + '. En el pizarrón ves sus renglones; el detalle completo lo ven quien lo pidió, el jefe de obra y ' + nombreDestino(pz.destino) + '.', 'Pizarrón'); return; }
+  abrirVale(id);
+}
+async function pzPoner_(id, lugar) {
+  if (!navigator.onLine) { mostrarAviso('Para usar el pizarrón necesitás conexión.'); return; }
+  const v = buscarVale_(id) || pzValeDatos_(id);
+  try {
+    const r = await llamarBackend('pizarronPoner', { id: id, lugar: lugar, obraId: obraSel });
+    if (!r || !r.ok) { await mostrarAviso((r && r.error) || 'No se pudo poner en el pizarrón.'); await cargarPizarron_(); return; }
+    mostrarToast('Vale ' + (v ? v.numeroTxt : '') + ' en el lugar ' + (r.lugar + 1) + (r.estado === 'EN_PREPARACION' ? ' · en preparación' : ''));
+    await refrescarTodo_('pizarron');
+  } catch (err) { mostrarAviso(err.message); }
+}
+async function pzQuitar_(id) {
+  if (!navigator.onLine) { mostrarAviso('Para usar el pizarrón necesitás conexión.'); return; }
+  try {
+    const r = await llamarBackend('pizarronQuitar', { id: id, obraId: obraSel });
+    if (!r || !r.ok) { await mostrarAviso((r && r.error) || 'No se pudo quitar.'); return; }
+    mostrarToast('Volvió a la cola');
+    await refrescarTodo_('pizarron');
+  } catch (err) { mostrarAviso(err.message); }
+}
+async function pzColor_(id, color) {
+  const l = pz.datos && pz.datos.lugares.find(x => x.vale.id === id);
+  if (l) { l.color = color; pintarPizarron_(); }   // se ve al instante; la base confirma
+  try { const r = await llamarBackend('pizarronColor', { id: id, color: color, obraId: obraSel }); if (!r || !r.ok) { mostrarAviso((r && r.error) || 'No se pudo cambiar el color.'); cargarPizarron_(); } }
+  catch (err) { mostrarAviso(err.message); cargarPizarron_(); }
+}
+async function pzEntregar_(id) {
+  if (!buscarVale_(id)) await cargarObra(false, false);   // por si la lista local no lo tenía todavía
+  abrirEntrega(id);
+}
+async function pzPantallaCompleta_() {
+  const on = !document.body.classList.contains('pz-completa');
+  document.body.classList.toggle('pz-completa', on);
+  try {
+    if (on && document.documentElement.requestFullscreen && !document.fullscreenElement) await document.documentElement.requestFullscreen();
+    if (!on && document.fullscreenElement) await document.exitFullscreen();
+  } catch (err) { /* el navegador puede no dejar: igual queda el modo grande */ }
+  registrarActividad_('pizarron_completa', pz.destino || '', on ? 'ON' : 'OFF');
+  pintarPizarron_();
+}
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement && document.body.classList.contains('pz-completa')) { document.body.classList.remove('pz-completa'); if (vista === 'pizarron') pintarPizarron_(); }
+});
+/** Mientras se mira el pizarrón, la pantalla no se apaga (Wake Lock, donde el navegador lo permite). */
+async function pizarronActivo_(activo) {
+  if (!activo && document.body.classList.contains('pz-completa')) document.body.classList.remove('pz-completa');
+  try {
+    if (activo && !pz.wake && navigator.wakeLock && document.visibilityState === 'visible') {
+      pz.wake = await navigator.wakeLock.request('screen');
+      pz.wake.addEventListener('release', () => { pz.wake = null; });
+    } else if (!activo && pz.wake) { await pz.wake.release(); pz.wake = null; }
+  } catch (err) { pz.wake = null; }
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden && vista === 'pizarron') { pizarronActivo_(true); cargarPizarron_(); } });
 
 // ── CAMPANITA 🔔 (v15.2.2): avisos de la base con contador y panel ──
 let avisosCache = null;   // último vd_avisos_listar (no leídos + leídos de los últimos 7 días)
@@ -2507,13 +2889,14 @@ function refrescarTodo_(motivo) {
       if (!inicio) { resolve(); return; }
       if (motivo === 'online' || motivo === 'foco') await cargarInicio(false);
       else await cargarObra(false, false);
+      if (vista === 'pizarron') await cargarPizarron_();   // v15.2.3
       if (motivo !== 'online' && motivo !== 'foco') cargarNovedades();
       const abierto = detalleAbierto_();
       if (abierto) {
         const v = buscarVale_(abierto) || detalleCache[abierto]; if (v) pintarDetalle_(v);
         recargarDetalle_(abierto);   // v15.2.0: historial y comentarios al día
       }
-      if (motivo === 'realtime') mostrarToast('Actualizado');
+      if (motivo === 'realtime' && vista !== 'pizarron') mostrarToast('Actualizado');   // en el pizarrón (pantalla grande) no molesta
       resolve();
     }, motivo === 'realtime' ? 600 : 0);
   });
@@ -2525,6 +2908,7 @@ function suscribirRealtime_() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_vales' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_renglones' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_comentarios' }, () => { const a = detalleAbierto_(); if (a) recargarDetalle_(a); })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_pizarron' }, () => { if (vista === 'pizarron') cargarPizarron_(); })   // v15.2.3
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_avisos' }, () => cargarNovedades())
       .subscribe(estado => { if (estado === 'CHANNEL_ERROR' || estado === 'TIMED_OUT') console.warn('[realtime]', estado); });
   } catch (err) { console.warn('[realtime] no disponible:', err.message); }
