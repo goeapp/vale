@@ -377,6 +377,77 @@ input, select, textarea { font-family: inherit; }
   .editor-acciones .btn-chico.izq { flex: 0 0 auto; }
 }
 
+/* v15.2.0 — tacho en el celular: Eliminar borrador / Descartar vale quedan como ícono */
+.editor-acciones .btn-chico.izq i { margin-right: 4px; }
+@media (max-width: 560px) {
+  .editor-acciones { gap: 8px; }
+  .editor-acciones .btn-chico { min-width: 0; }
+  .editor-acciones .btn-chico.izq { padding: 13px 14px; font-size: 1.1rem; }
+  .editor-acciones .btn-chico.izq i { margin-right: 0; }
+  .editor-acciones .btn-chico.izq .txt-btn { display: none; }
+}
+#detalle-acciones { flex-wrap: wrap; }
+@media (max-width: 560px) { #detalle-acciones .btn-chico:not(.izq) { flex: 1; padding: 11px 10px; } }
+/* v15.2.0 — antigüedad de pendientes */
+.antig { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 700; margin-top: 4px; color: var(--muted); }
+.antig.a2 { color: #c2410c; }
+.antig.a4 { color: var(--danger); }
+/* v15.2.0 — entrega por renglón */
+.ent-fila { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px; background: var(--surface); }
+.ent-fila.ENTREGADO { border-left: 4px solid var(--e-ok); }
+.ent-fila.PENDIENTE { border-left: 4px solid var(--e-pend); }
+.ent-fila.SIN_STOCK { border-left: 4px solid var(--e-cerrado); background: #f8fafc; }
+.ent-desc { font-weight: 700; font-size: .88rem; }
+.ent-desc small { font-weight: 500; color: var(--muted); margin-left: 4px; }
+.ent-opc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.ent-btn { border: 1.5px solid var(--border); background: var(--surface); border-radius: var(--radius-sm); padding: 9px 4px; font-size: .78rem; font-weight: 700; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 42px; }
+.ent-btn.sel.ENTREGADO { border-color: var(--e-ok); background: #dcfce7; color: #166534; }
+.ent-btn.sel.PENDIENTE { border-color: var(--e-pend); background: #ffedd5; color: #9a3412; }
+.ent-btn.sel.SIN_STOCK { border-color: #64748b; background: #e2e8f0; color: #334155; }
+.ent-cant { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: .78rem; color: var(--muted); }
+.ent-cant input { width: 100px; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .95rem; text-align: center; min-height: 40px; }
+.ent-cant input:focus { outline: none; border-color: var(--accent); }
+.ent-resumen { font-size: .78rem; color: var(--muted); margin: 4px 0 10px; }
+.est-r { font-size: .7rem; font-weight: 700; padding: 1px 7px; border-radius: 99px; background: #f1f5f9; color: #475569; white-space: nowrap; }
+.est-r.ENTREGADO { background: #dcfce7; color: #166534; }
+.est-r.PENDIENTE { background: #ffedd5; color: #9a3412; }
+.est-r.SIN_STOCK { background: #e2e8f0; color: #334155; }
+.btn-com-r { border: none; background: none; color: var(--muted); font-size: .78rem; padding: 2px 4px; white-space: nowrap; }
+.btn-com-r:hover { color: var(--accent); }
+.btn-com-r.tiene { color: var(--accent); font-weight: 700; }
+/* v15.2.0 — línea de tiempo y comentarios */
+.tl-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 18px 0 8px; }
+.tl-cab .seccion-tit { margin: 0; }
+.tl-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: .74rem; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
+.tl-toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+.timeline { list-style: none; border-left: 2px solid var(--border); margin-left: 6px; padding-left: 14px; display: flex; flex-direction: column; gap: 10px; }
+.tl-item { position: relative; font-size: .8rem; }
+.tl-item::before { content: ''; position: absolute; left: -20px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--muted); }
+.tl-item.estado::before { border-color: var(--e-enviado); }
+.tl-item.estado.ok::before { border-color: var(--e-ok); background: var(--e-ok); }
+.tl-item.estado.malo::before { border-color: var(--e-rechazado); background: var(--e-rechazado); }
+.tl-item.estado.pend::before { border-color: var(--e-pend); }
+.tl-item.com::before { border-color: var(--accent); background: #fef3c7; }
+.tl-meta { font-size: .68rem; color: var(--muted); }
+.tl-txt b { font-weight: 700; }
+.tl-nota { color: var(--muted); font-style: italic; }
+.tl-burbuja { background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-sm); padding: 6px 10px; margin-top: 3px; white-space: pre-wrap; word-break: break-word; }
+.tl-burbuja.publico { background: #eff6ff; border-color: #bfdbfe; }
+.tl-burbuja.mio { border-style: dashed; }
+.tl-tag { font-size: .64rem; font-weight: 700; border-radius: 99px; padding: 0 6px; margin-left: 4px; background: #fef3c7; color: #92400e; }
+.tl-tag.pub { background: #dbeafe; color: #1e40af; }
+.tl-vacio { font-size: .78rem; color: var(--muted); }
+.com-caja { margin-top: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; background: #f8fafc; }
+.com-fila { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: .76rem; }
+.com-fila select { padding: 6px 8px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .8rem; max-width: 100%; flex: 1; min-width: 0; }
+.com-caja textarea { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: .86rem; resize: vertical; min-height: 56px; }
+.com-caja textarea:focus, .com-fila select:focus { outline: none; border-color: var(--accent); }
+.com-pie { display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 8px; flex-wrap: wrap; }
+.com-vis { display: inline-flex; border: 1.5px solid var(--border); border-radius: 99px; overflow: hidden; }
+.com-vis button { border: none; background: var(--surface); padding: 5px 12px; font-size: .74rem; font-weight: 700; color: var(--muted); }
+.com-vis button.sel { background: var(--accent2); color: #fff; }
+.com-nota { font-size: .7rem; color: var(--muted); }
+
 </style>
 </head>
 <body>
@@ -485,8 +556,8 @@ input, select, textarea { font-family: inherit; }
       <textarea id="editor-obs" class="hidden" maxlength="2000" rows="2" placeholder="Para qué frente, quién lo retira…"></textarea>
     </div>
     <div class="modal-actions editor-acciones">
-      <button class="btn-chico peligro izq hidden" id="btn-editor-eliminar">Eliminar borrador</button>
-      <button class="btn-chico peligro izq hidden" id="btn-editor-descartar">Descartar vale</button>
+      <button class="btn-chico peligro izq hidden" id="btn-editor-eliminar" title="Eliminar borrador" aria-label="Eliminar borrador"><i class="ti ti-trash"></i><span class="txt-btn">Eliminar borrador</span></button>
+      <button class="btn-chico peligro izq hidden" id="btn-editor-descartar" title="Descartar vale" aria-label="Descartar vale"><i class="ti ti-trash"></i><span class="txt-btn">Descartar vale</span></button>
       <button class="btn-chico sec" id="btn-editor-guardar">Guardar borrador</button>
       <button class="btn-chico" id="btn-editor-enviar"><i class="ti ti-send"></i> Enviar</button>
     </div>
@@ -514,7 +585,7 @@ input, select, textarea { font-family: inherit; }
   </div>
 </div>
 
-<!-- ═══════════════ MODAL: rechazar ═══════════════ -->
+<!-- ═══════════════ MODAL: motivo (rechazar o cancelar) ═══════════════ -->
 <div class="modal-overlay" id="modal-rechazo">
   <div class="modal-box">
     <div class="modal-head"><h3 id="rechazo-tit">Rechazar vale</h3><button class="modal-close" onclick="cerrarModal('modal-rechazo')">&times;</button></div>
@@ -522,12 +593,31 @@ input, select, textarea { font-family: inherit; }
       <div class="campo">
         <span class="campo-lbl">Motivo (lo ve quien pidió el vale)</span>
         <textarea id="txt-motivo" maxlength="1000" placeholder="Qué hay que corregir…"></textarea>
-        <div class="nota-editor">Mínimo 5 caracteres. Quien lo pidió puede corregirlo y volver a enviarlo con el mismo número.</div>
+        <div class="nota-editor" id="motivo-nota">Mínimo 5 caracteres. Quien lo pidió puede corregirlo y volver a enviarlo con el mismo número.</div>
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-chico sec" onclick="cerrarModal('modal-rechazo')">Cancelar</button>
+      <button class="btn-chico sec" onclick="cerrarModal('modal-rechazo')">Volver</button>
       <button class="btn-chico" style="background:var(--danger);border-color:var(--danger)" id="btn-rechazo-ok">Rechazar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MODAL: entregar por renglón (v15.2.0) ═══════════════ -->
+<div class="modal-overlay" id="modal-entrega">
+  <div class="modal-box ancho editor-box">
+    <div class="modal-head"><h3 id="entrega-tit">Entregar</h3><button class="modal-close" onclick="cerrarModal('modal-entrega')">&times;</button></div>
+    <div class="modal-body editor-cuerpo">
+      <div class="ent-resumen" id="entrega-resumen"></div>
+      <div id="entrega-renglones"></div>
+      <div class="campo" style="margin-top:10px">
+        <span class="campo-lbl">Nota (opcional, la ve quien pidió)</span>
+        <textarea id="entrega-nota" maxlength="2000" rows="2" placeholder="Ej.: lo retiró Gómez · el resto llega el lunes"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions editor-acciones">
+      <button class="btn-chico sec" onclick="cerrarModal('modal-entrega')">Volver</button>
+      <button class="btn-chico" id="btn-entrega-ok"><i class="ti ti-check"></i> Confirmar entrega</button>
     </div>
   </div>
 </div>
@@ -584,7 +674,19 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_1_1.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_0.html  (subir como index.html al repo goeapp/vale)
+// v15.2.0 (12-nov-2026) — gestión por renglón, línea de tiempo y comentarios (sin SQL nuevo: usa
+//   vd_iniciar, vd_entregar, vd_cancelar, vd_comentar y vd_detalle de vd_esquema_v15_0_0.sql):
+//  · Almacén / Pañol: "Empezar a preparar" (opcional) y "Entregar": los renglones abiertos vienen
+//    como Entregado con la cantidad pedida; se cambian a Pendiente o Sin stock. Nota opcional.
+//    Al volver a entregar solo aparecen los abiertos. "Cancelar vale" con motivo.
+//  · Detalle: línea de tiempo con estados y comentarios mezclados + interruptor "Ver comentarios"
+//    (se recuerda en el dispositivo). Comentar el vale o un renglón (💬): interno 🔒 por defecto;
+//    quien pidió el vale comenta siempre público y no ve los internos. Comenta todo el que ve el vale.
+//  · Antigüedad de pendientes en las tarjetas: gris 0–1 día, naranja 2–3, rojo 4 o más.
+//    La pastilla "Con pendientes" ordena del más viejo al más nuevo.
+//  · Celular: Eliminar borrador / Descartar vale pasan a ser un ícono de tacho (antes se cortaban).
+//  · Realtime también en vd_comentarios: el detalle abierto se actualiza solo.
 // v15.1.1 (11-nov-2026) — prueba real de Ale:
 //  · Nuevo vale como el papel: 6 renglones fijos (no aparecen renglones al escribir y la
 //    pantalla no se mueve), CANT. a la izquierda, renglones más altos para el dedo.
@@ -616,7 +718,7 @@ input, select, textarea { font-family: inherit; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.1.1';
+const APP_VERSION   = 'v15.2.0';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -755,6 +857,18 @@ async function llamarBackendSb_(action, p) {
     case 'rechazar': {
       const r = await rpc_(action, 'vd_rechazar', { p_vale: p.id, p_motivo: p.motivo });
       registrarActividad_('rechazar', p.id, r && r.ok ? 'OK' : 'ERROR', r && r.ok ? null : { error: r && r.error }, p.obraId);
+      return r;
+    }
+    // v15.2.0 — gestión por renglón y comentarios
+    case 'iniciar': case 'entregar': case 'cancelar': case 'comentar': {
+      const fn = { iniciar: 'vd_iniciar', entregar: 'vd_entregar', cancelar: 'vd_cancelar', comentar: 'vd_comentar' }[action];
+      const args = action === 'iniciar' ? { p_vale: p.id }
+        : action === 'entregar' ? { p_vale: p.id, p_renglones: p.renglones, p_nota: p.nota || '' }
+        : action === 'cancelar' ? { p_vale: p.id, p_motivo: p.motivo }
+        : { p_vale: p.id, p_renglon: p.renglonId || null, p_texto: p.texto, p_interno: !!p.interno };
+      const r = await rpc_(action, fn, args);
+      registrarActividad_(action, p.id, r && r.ok ? 'OK' : 'ERROR',
+        r && r.ok ? (action === 'entregar' ? { estado: r.estado, cambios: r.cambios } : action === 'comentar' ? { interno: r.interno } : null) : { error: r && r.error }, p.obraId);
       return r;
     }
   }
@@ -935,8 +1049,11 @@ document.getElementById('btn-cambiar-email').addEventListener('click', () => { d
 function onKeydownGlobal(e) {
   if (e.ctrlKey && e.altKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); abrirSessionDialog(); }
   if (e.key === 'Escape' && !lapizState.activo) {
-    if (document.getElementById('modal-resumen').classList.contains('visible')) { cerrarModal('modal-resumen'); return; }
-    ['modal-rechazo', 'modal-detalle'].forEach(cerrarModal);
+    if (document.getElementById('dialogo-overlay').classList.contains('visible')) return;
+    for (const m of ['modal-resumen', 'modal-rechazo', 'modal-entrega']) {
+      if (document.getElementById(m).classList.contains('visible')) { cerrarModal(m); return; }
+    }
+    cerrarModal('modal-detalle');
     if (document.getElementById('modal-editor').classList.contains('visible')) cerrarEditor();
   }
 }
@@ -1005,6 +1122,25 @@ function cuandoTxt(f) {
 }
 function cantTxt(c) { return c == null || c === '' ? '' : String(c).replace('.', ','); }
 function nombreDestino(d) { const x = inicio && inicio.destinos.find(z => z.destino === d); return x ? x.nombre : d; }
+
+// ── v15.2.0: antigüedad de pendientes, permisos de gestión ───
+const ANTIG_NARANJA = 2, ANTIG_ROJO = 4;           // días (fijos por ahora; a futuro, por obra desde GOE Admin)
+function fechaAR(isoTs) { return new Intl.DateTimeFormat('en-CA', { timeZone: TZ }).format(new Date(isoTs)); }
+function diasPendiente(v) { return v && v.pendienteDesde ? Math.max(0, difDias(inicio ? inicio.hoy : hoyAR(), fechaAR(v.pendienteDesde))) : null; }
+function antigHtml_(v) {
+  if (v.estado !== 'CON_PENDIENTES') return '';
+  const d = diasPendiente(v); if (d == null) return '';
+  const cls = d >= ANTIG_ROJO ? ' a4' : d >= ANTIG_NARANJA ? ' a2' : '';
+  return '<div class="antig' + cls + '" data-dias="' + d + '"><i class="ti ti-hourglass"></i>Pendiente ' + (d === 0 ? 'desde hoy' : 'hace ' + d + (d === 1 ? ' día' : ' días')) + '</div>';
+}
+const EST_GESTION = ['APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'];
+/** ¿Gestiono este vale? (perfil gestor del destino o administrar, y en un estado gestionable) */
+function gestionoVale_(v) {
+  const o = obraActual();
+  return !!(o && v && !v._local && (o.gestiona || []).includes(v.destino) && EST_GESTION.includes(v.estado));
+}
+const EST_R = { SOLICITADO: 'Pedido', ENTREGADO: 'Entregado', PENDIENTE: 'Pendiente', SIN_STOCK: 'Sin stock' };
+const EST_R_ICO = { ENTREGADO: 'ti-check', PENDIENTE: 'ti-hourglass', SIN_STOCK: 'ti-x' };
 
 // ── COLA SIN SEÑAL ───────────────────────────────────────────
 function leerCola() { return leerJson(COLA_KEY, []); }
@@ -1212,6 +1348,8 @@ function tarjeta_(v, opc) {
   if (v.estado === 'ENVIADO' && v.enviadoEn) meta.push('enviado ' + hhmm(v.enviadoEn));
   else if (v.estado === 'APROBADO' && v.aprobadoEn) meta.push('aprobado ' + hhmm(v.aprobadoEn) + (v.aprobadoPor && v.aprobadoPor !== v.solicitante ? ' por ' + escaparHtml(v.aprobadoPor) : ''));
   else if (v.estado === 'RECHAZADO') meta.push('rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : ''));
+  else if (['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado) && v.gestionadoPor) meta.push('lo atiende ' + escaparHtml(v.gestionadoPor));
+  else if (CERRADOS.includes(v.estado) && v.cerradoEn) meta.push('cerrado ' + hhmm(v.cerradoEn));
   else if (v.creadoEn) meta.push('creado ' + hhmm(v.creadoEn));
   if (v.paraCuando) meta.push(cuandoTxt(v.paraCuando));
   const acc = opc.aprobar && v.estado === 'ENVIADO'
@@ -1222,7 +1360,7 @@ function tarjeta_(v, opc) {
       '<span class="est ' + v.estado + '"><i class="ti ' + (EST_ICO[v.estado] || 'ti-point') + '"></i>' + (ESTADOS[v.estado] || v.estado) + '</span>' +
       '<span class="vale-dest"><i class="ti ' + (DEST_ICO[v.destino] || 'ti-box') + '"></i>' + escaparHtml(nombreDestino(v.destino)) + '</span></div>' +
     '<div class="vale-reng">' + (renglones || '<i>sin renglones</i>') + '</div>' +
-    '<div class="vale-meta">' + meta.filter(Boolean).join(' · ') + '</div>' +
+    '<div class="vale-meta">' + meta.filter(Boolean).join(' · ') + '</div>' + antigHtml_(v) +
     (v.estado === 'RECHAZADO' && v.rechazoMotivo ? '<div class="vale-error">Motivo: ' + escaparHtml(v.rechazoMotivo) + '</div>' : '') +
     (v._error ? '<div class="vale-error"><i class="ti ti-alert-triangle"></i> No se pudo sincronizar: ' + escaparHtml(v._error) + '</div>' : '') +
     acc + '</div>';
@@ -1277,10 +1415,10 @@ function pintarGestion_() {
   const cont = document.getElementById('vista-gestion');
   const o = obraActual();
   const todos = datosObra.gestion || [];
-  const vs = filtrar_('gestion', todos);
+  let vs = filtrar_('gestion', todos);
+  if (filtro.gestion === 'pend') vs = vs.slice().sort((a, b) => String(a.pendienteDesde || '').localeCompare(String(b.pendienteDesde || '')));   // v15.2.0: más viejo primero
   const nombres = (o.gestiona || []).map(nombreDestino).join(' y ');
-  cont.innerHTML = cabVista_('Para gestionar', 'Vales aprobados para ' + escaparHtml(nombres) + '.') +
-    '<div class="aviso-etapa"><i class="ti ti-info-circle"></i><span>Por ahora se ven y se consultan. Preparar y entregar por renglón llega en la próxima versión (v15.2).</span></div>' +
+  cont.innerHTML = cabVista_('Para gestionar', 'Vales aprobados para ' + escaparHtml(nombres) + ', del más viejo al más nuevo. Tocá un vale para prepararlo o entregarlo.') +
     pastillas_('gestion', todos) +
     seccion_('En cola', vs, { siempre: true, conSolicitante: true, vacio: todos.length ? 'No hay vales con este filtro.' : 'No hay vales para gestionar.' }) +
     (datosObra.entregadosHoy ? '<div class="vista-sub" style="margin-top:10px">Entregados hoy: ' + datosObra.entregadosHoy + '</div>' : '');
@@ -1505,44 +1643,81 @@ async function operarPropio_(tipo, id, obraId, okTxt) {
   cerrarEditor(); mostrarToast(okTxt + ' (se sincroniza al volver la señal)'); pintarVista();
 }
 
-// ── DETALLE ──────────────────────────────────────────────────
+// ── DETALLE (v15.2.0: línea de tiempo, comentarios y acciones de gestión) ──
+const detalleCache = {};        // id → vale con historial y comentarios (vd_detalle)
+let comEstado = null;           // { valeId, renglonId, interno, texto } — caja de comentario del detalle abierto
+const VER_COM_KEY = 'vd_ver_comentarios';
+function verComentarios_() { return leerPref(VER_COM_KEY) !== '0'; }
+function detalleAbierto_() { const b = document.getElementById('detalle-body'); return document.getElementById('modal-detalle').classList.contains('visible') ? b.dataset.id : null; }
+
 async function abrirVale(id) {
-  const v = buscarVale_(id);
+  const v = buscarVale_(id) || detalleCache[id];
   if (!v) return;
   if (v._local && v._error) { abrirEditor(v); return; }   // con error: directo a corregir
+  comEstado = { valeId: id, renglonId: '', interno: true, texto: '' };
   pintarDetalle_(v);
   abrirModal('modal-detalle');
-  if (!v._local && navigator.onLine) {
-    try {
-      const r = await llamarBackend('detalle', { id: id });
-      if (r && r.ok && document.getElementById('modal-detalle').classList.contains('visible') && document.getElementById('detalle-body').dataset.id === id) pintarDetalle_(Object.assign({}, v, r.vale));
-    } catch (err) { /* queda lo de la lista */ }
-  }
+  document.querySelector('#modal-detalle .modal-body').scrollTop = 0;
+  await recargarDetalle_(id);
 }
-function pintarDetalle_(v) {
-  const o = obraActual();
+/** Trae historial y comentarios del vale (con conexión) y repinta si sigue abierto. */
+async function recargarDetalle_(id) {
+  const v = buscarVale_(id);
+  if ((v && v._local) || !navigator.onLine) return;
+  try {
+    const r = await llamarBackend('detalle', { id: id });
+    if (r && r.ok) {
+      detalleCache[id] = r.vale;
+      if (detalleAbierto_() === id) pintarDetalle_(buscarVale_(id) || r.vale);
+    }
+  } catch (err) { /* queda lo de la lista */ }
+}
+/** Vale para mostrar: lo de la lista (más nuevo) + historial y comentarios del último detalle. */
+function valeParaDetalle_(v) {
+  const d = detalleCache[v.id];
+  return Object.assign({}, d || {}, v, { historial: d ? d.historial : null, comentarios: d ? d.comentarios : null });
+}
+function puedeComentar_(v) { return !v._local && !['BORRADOR', 'ELIMINADO'].includes(v.estado); }
+
+function pintarDetalle_(v0) {
+  const v = valeParaDetalle_(v0);
   document.getElementById('detalle-tit').textContent = v.numeroTxt ? 'Vale ' + v.numeroTxt : 'Vale sin número';
   const body = document.getElementById('detalle-body');
   body.dataset.id = v.id;
   const conEntrega = v.renglones.some(r => r.estado && r.estado !== 'SOLICITADO');
-  const EST_R = { SOLICITADO: 'Pedido', ENTREGADO: 'Entregado', PENDIENTE: 'Pendiente', SIN_STOCK: 'Sin stock' };
+  const comenta = puedeComentar_(v);
+  const coms = v.comentarios || [];
+  const nCom = id => coms.filter(c => c.renglonId === id).length;
   let ev = '';
   if (v.estado === 'RECHAZADO') ev = '<div class="det-evento rechazo"><b>Rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : '') + (v.rechazadoEn ? ' · ' + hhmm(v.rechazadoEn) : '') + '</b><br>' + escaparHtml(v.rechazoMotivo || '') + '</div>';
   else if (v.aprobadoPor) ev = '<div class="det-evento ok"><b>Aprobado' + (v.aprobadoPor === v.solicitante ? ' (no requería aprobación)' : ' por ' + escaparHtml(v.aprobadoPor)) + '</b>' + (v.aprobadoEn ? ' · ' + hhmm(v.aprobadoEn) : '') + '</div>';
   if (v.estado === 'ENVIADO') ev = '<div class="det-evento"><i class="ti ti-hourglass"></i> Esperando aprobación' + (v.enviadoEn ? ' · enviado ' + hhmm(v.enviadoEn) : '') + '</div>';
+  if (v.estado === 'CANCELADO') ev += '<div class="det-evento rechazo"><b>Cancelado' + (v.gestionadoPor ? ' por ' + escaparHtml(v.gestionadoPor) : '') + (v.cerradoEn ? ' · ' + hhmm(v.cerradoEn) : '') + '</b><br>' + escaparHtml(v.notaCierre || '') + '</div>';
+  else if (v.notaCierre && ['CON_PENDIENTES', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(v.estado)) ev += '<div class="det-evento"><b>Nota de ' + escaparHtml(nombreDestino(v.destino)) + ':</b> ' + escaparHtml(v.notaCierre) + '</div>';
   if (v._local) ev = '<div class="det-evento"><i class="ti ti-cloud-off"></i> ' + (v.estado === 'LOCAL_ENVIO' ? 'Se envía cuando vuelva la señal: ahí recibe su número.' : 'Guardado en este dispositivo: se sincroniza cuando vuelva la señal.') + '</div>';
   body.innerHTML =
-    '<div style="margin-bottom:12px"><span class="est ' + v.estado + '"><i class="ti ' + (EST_ICO[v.estado] || 'ti-point') + '"></i>' + (ESTADOS[v.estado] || v.estado) + '</span></div>' +
+    '<div style="margin-bottom:12px"><span class="est ' + v.estado + '"><i class="ti ' + (EST_ICO[v.estado] || 'ti-point') + '"></i>' + (ESTADOS[v.estado] || v.estado) + '</span>' + antigHtml_(v) + '</div>' +
     '<div class="det-datos">' +
       '<div><span class="lbl">Pidió</span>' + escaparHtml(v.solicitante || nombreActual) + '</div>' +
       '<div><span class="lbl">Va a</span><b>' + escaparHtml(nombreDestino(v.destino)) + '</b></div>' +
       '<div><span class="lbl">Para cuándo</span>' + (v.paraCuando ? escaparHtml(cuandoTxt(v.paraCuando)) : 'sin fecha') + '</div>' +
-      '<div><span class="lbl">Creado</span>' + (v.creadoEn ? hhmm(v.creadoEn) : '—') + (v.origen === 'telegram' ? ' · por Telegram' : '') + '</div></div>' +
-    '<table class="tabla-reng"><thead><tr><th>#</th><th>Qué</th><th style="text-align:right">Cantidad</th>' + (conEntrega ? '<th>Estado</th>' : '') + '</tr></thead><tbody>' +
+      '<div><span class="lbl">Creado</span>' + (v.creadoEn ? hhmm(v.creadoEn) : '—') + (v.origen === 'telegram' ? ' · por Telegram' : '') + '</div>' +
+      (v.gestionadoPor ? '<div><span class="lbl">Lo atiende</span>' + escaparHtml(v.gestionadoPor) + '</div>' : '') + '</div>' +
+    '<table class="tabla-reng"><thead><tr><th>#</th><th>Qué</th><th style="text-align:right">Cant.</th>' + (conEntrega ? '<th>Estado</th>' : '') + (comenta ? '<th></th>' : '') + '</tr></thead><tbody>' +
     v.renglones.map((r, i) => '<tr><td>' + (r.orden || i + 1) + '</td><td>' + escaparHtml(r.descripcion) + '</td><td class="num">' + (cantTxt(r.cantidad) || '—') +
       (r.cantidadEntregada != null && r.estado === 'ENTREGADO' && String(r.cantidadEntregada) !== String(r.cantidad) ? '<br><small>entregó ' + cantTxt(r.cantidadEntregada) + '</small>' : '') + '</td>' +
-      (conEntrega ? '<td>' + (EST_R[r.estado] || r.estado) + '</td>' : '') + '</tr>').join('') + '</tbody></table>' +
-    (v.observaciones ? '<div class="det-evento"><b>Observaciones:</b> ' + escaparHtml(v.observaciones) + '</div>' : '') + ev;
+      (conEntrega ? '<td><span class="est-r ' + r.estado + '">' + (EST_R[r.estado] || r.estado) + '</span></td>' : '') +
+      (comenta && r.id ? '<td style="width:44px;text-align:right"><button type="button" class="btn-com-r' + (nCom(r.id) ? ' tiene' : '') + '" data-com-r="' + r.id + '" title="Comentar este renglón">💬' + (nCom(r.id) ? ' ' + nCom(r.id) : '') + '</button></td>' : (comenta ? '<td></td>' : '')) +
+      '</tr>').join('') + '</tbody></table>' +
+    (v.observaciones ? '<div class="det-evento"><b>Observaciones:</b> ' + escaparHtml(v.observaciones) + '</div>' : '') + ev +
+    (v._local ? '' :
+      '<div class="tl-cab"><div class="seccion-tit"><i class="ti ti-timeline"></i> Línea de tiempo</div>' +
+      '<label class="tl-toggle"><input type="checkbox" id="tl-ver-com"' + (verComentarios_() ? ' checked' : '') + '> Ver comentarios' + (coms.length ? ' (' + coms.length + ')' : '') + '</label></div>' +
+      '<div id="tl-lista"></div>') +
+    (comenta ? cajaComentario_(v) : '');
+  pintarTimeline_(v);
+  enlazarDetalle_(v);
+  // acciones
   const acc = [];
   const on = navigator.onLine, dis = on ? '' : ' disabled title="Necesitás conexión"';
   if (v.esMio && ['BORRADOR', 'LOCAL_BORRADOR', 'LOCAL_ENVIO'].includes(v.estado)) acc.push('<button class="btn-chico" onclick="abrirEditor(buscarVale_(\'' + v.id + '\'))"><i class="ti ti-pencil"></i> Editar</button>');
@@ -1551,11 +1726,185 @@ function pintarDetalle_(v) {
     acc.push('<button class="btn-chico sec" onclick="abrirRechazo(\'' + v.id + '\')"' + dis + '><i class="ti ti-x"></i> Rechazar</button>');
     acc.push('<button class="btn-chico" onclick="aprobar(\'' + v.id + '\')"' + dis + '><i class="ti ti-check"></i> Aprobar</button>');
   }
+  if (gestionoVale_(v)) {
+    acc.push('<button class="btn-chico peligro" id="btn-det-cancelar" onclick="abrirCancelar(\'' + v.id + '\')"' + dis + '><i class="ti ti-ban"></i> Cancelar vale</button>');
+    if (v.estado === 'APROBADO') acc.push('<button class="btn-chico sec" id="btn-det-iniciar" onclick="iniciarVale(\'' + v.id + '\')"' + dis + '><i class="ti ti-package"></i> Empezar a preparar</button>');
+    acc.push('<button class="btn-chico" id="btn-det-entregar" onclick="abrirEntrega(\'' + v.id + '\')"' + dis + '><i class="ti ti-truck-delivery"></i> Entregar</button>');
+  }
   acc.unshift('<button class="btn-chico sec izq" onclick="cerrarModal(\'modal-detalle\')">Cerrar</button>');
   document.getElementById('detalle-acciones').innerHTML = acc.join('');
 }
 
-// ── APROBAR / RECHAZAR ───────────────────────────────────────
+// ── LÍNEA DE TIEMPO ──────────────────────────────────────────
+const TL_VALE = {
+  BORRADOR: 'Creó el borrador', ENVIADO: 'Envió el vale', APROBADO: 'Aprobó el vale', RECHAZADO: 'Rechazó el vale',
+  DESCARTADO: 'Descartó el vale', EN_PREPARACION: 'Empezó a preparar', CON_PENDIENTES: 'Entrega parcial: quedan pendientes',
+  ENTREGADO: 'Entrega completa', CERRADO_PARCIAL: 'Cerró el vale (parte sin stock)', CANCELADO: 'Canceló el vale', ELIMINADO: 'Eliminó el borrador'
+};
+function claseTl_(est) { return ['APROBADO', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(est) ? ' ok' : ['RECHAZADO', 'CANCELADO', 'SIN_STOCK', 'DESCARTADO'].includes(est) ? ' malo' : ['PENDIENTE', 'CON_PENDIENTES'].includes(est) ? ' pend' : ''; }
+function itemsTimeline_(v) {
+  const items = [];
+  (v.historial || []).forEach(h => items.push({ tipo: 'estado', t: Date.parse(h.fecha), h: h }));
+  if (verComentarios_()) (v.comentarios || []).forEach(c => items.push({ tipo: 'com', t: Date.parse(c.fecha), c: c }));
+  return items.sort((a, b) => a.t - b.t);   // estable: los cambios del mismo instante quedan en su orden
+}
+function pintarTimeline_(v) {
+  const cont = document.getElementById('tl-lista');
+  if (!cont) return;
+  if (!v.historial) { cont.innerHTML = '<div class="tl-vacio">' + (navigator.onLine ? 'Cargando…' : 'La línea de tiempo se ve con conexión.') + '</div>'; return; }
+  const reng = {}; v.renglones.forEach(r => { if (r.id) reng[r.id] = r; });
+  const rTxt = id => { const r = reng[id]; return r ? 'renglón ' + r.orden + ' (' + escaparHtml(r.descripcion.length > 40 ? r.descripcion.slice(0, 40) + '…' : r.descripcion) + ')' : 'un renglón'; };
+  const items = itemsTimeline_(v);
+  cont.innerHTML = '<ul class="timeline">' + items.map(it => {
+    if (it.tipo === 'estado') {
+      const h = it.h;
+      let txt, nota = h.nota || '';
+      if (h.renglonId) {
+        txt = rTxt(h.renglonId).replace(/^r/, 'R') + ': <b>' + (EST_R[h.nuevo] || h.nuevo).toLowerCase() + '</b>';
+        const m = /^Entregado: (.+)$/.exec(nota);
+        if (m) { txt += ' (' + cantTxt(m[1]) + ')'; nota = ''; }
+      } else if (h.nuevo === 'ENVIADO' && h.anterior === 'RECHAZADO') { txt = '<b>Corrigió y reenvió el vale</b>'; nota = ''; }
+      else if (h.nuevo === 'APROBADO' && nota === 'Sin aprobación requerida') { txt = '<b>Salió aprobado</b> (no requiere aprobación)'; nota = ''; }
+      else txt = '<b>' + (TL_VALE[h.nuevo] || h.nuevo) + '</b>';
+      return '<li class="tl-item estado' + claseTl_(h.nuevo) + '"><div class="tl-meta">' + hhmm(h.fecha) + ' · ' + escaparHtml(h.persona || '—') + '</div>' +
+        '<div class="tl-txt">' + txt + (nota ? ' <span class="tl-nota">«' + escaparHtml(nota) + '»</span>' : '') + '</div></li>';
+    }
+    const c = it.c;
+    return '<li class="tl-item com" data-com="' + c.id + '"><div class="tl-meta">' + hhmm(c.fecha) + ' · ' + escaparHtml(c.persona || '—') +
+      (c.interno ? '<span class="tl-tag">🔒 interno</span>' : '<span class="tl-tag pub">público</span>') + (c.renglonId ? ' · ' + rTxt(c.renglonId) : '') + '</div>' +
+      '<div class="tl-burbuja' + (c.interno ? '' : ' publico') + (c.esMio ? ' mio' : '') + '">' + escaparHtml(c.texto) + '</div></li>';
+  }).join('') + '</ul>' + (items.length ? '' : '<div class="tl-vacio">Sin movimientos.</div>');
+}
+
+// ── COMENTARIOS ──────────────────────────────────────────────
+function cajaComentario_(v) {
+  const e = comEstado && comEstado.valeId === v.id ? comEstado : (comEstado = { valeId: v.id, renglonId: '', interno: true, texto: '' });
+  const dis = navigator.onLine ? '' : ' disabled';
+  return '<div class="com-caja" id="com-caja">' +
+    '<div class="com-fila"><span class="campo-lbl" style="margin:0">Comentar sobre</span><select id="com-sobre"><option value="">Todo el vale</option>' +
+      v.renglones.filter(r => r.id).map(r => '<option value="' + r.id + '"' + (e.renglonId === r.id ? ' selected' : '') + '>Renglón ' + r.orden + ': ' + escaparHtml(r.descripcion.length > 50 ? r.descripcion.slice(0, 50) + '…' : r.descripcion) + '</option>').join('') + '</select></div>' +
+    '<textarea id="com-texto" maxlength="2000" placeholder="' + (navigator.onLine ? 'Escribí un comentario…' : 'Para comentar necesitás conexión') + '"' + dis + '>' + escaparHtml(e.texto) + '</textarea>' +
+    '<div class="com-pie">' +
+      (v.esMio ? '<span class="com-nota"><i class="ti ti-world"></i> Lo ven todos los que ven el vale.</span>'
+        : '<div class="com-vis" role="group" aria-label="Visibilidad"><button type="button" data-vis="1" class="' + (e.interno ? 'sel' : '') + '">🔒 Interno</button><button type="button" data-vis="0" class="' + (e.interno ? '' : 'sel') + '">Público</button></div>') +
+      '<button type="button" class="btn-chico" id="btn-comentar"' + dis + '><i class="ti ti-message"></i> Comentar</button></div>' +
+    (v.esMio ? '' : '<div class="com-nota" id="com-ayuda" style="margin-top:6px">' + (e.interno ? 'Interno: no lo ve quien pidió el vale.' : 'Público: lo ve también quien pidió el vale.') + '</div>') +
+    '</div>';
+}
+function enlazarDetalle_(v) {
+  const body = document.getElementById('detalle-body');
+  const tg = document.getElementById('tl-ver-com');
+  if (tg) tg.addEventListener('change', () => { guardarPref(VER_COM_KEY, tg.checked ? '1' : '0'); pintarTimeline_(valeParaDetalle_(buscarVale_(v.id) || v)); });
+  body.querySelectorAll('[data-com-r]').forEach(b => b.addEventListener('click', () => {
+    comEstado.renglonId = b.dataset.comR;
+    const sel = document.getElementById('com-sobre'); if (sel) sel.value = comEstado.renglonId;
+    const t = document.getElementById('com-texto');
+    if (t) { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); t.focus(); }
+  }));
+  const sel = document.getElementById('com-sobre');
+  if (sel) sel.addEventListener('change', () => { comEstado.renglonId = sel.value; });
+  const txt = document.getElementById('com-texto');
+  if (txt) txt.addEventListener('input', () => { comEstado.texto = txt.value; });
+  body.querySelectorAll('[data-vis]').forEach(b => b.addEventListener('click', () => {
+    comEstado.interno = b.dataset.vis === '1';
+    body.querySelectorAll('[data-vis]').forEach(x => x.classList.toggle('sel', x === b));
+    const a = document.getElementById('com-ayuda');
+    if (a) a.textContent = comEstado.interno ? 'Interno: no lo ve quien pidió el vale.' : 'Público: lo ve también quien pidió el vale.';
+  }));
+  const btn = document.getElementById('btn-comentar');
+  if (btn) btn.addEventListener('click', () => comentar_(v));
+}
+async function comentar_(v) {
+  const texto = (comEstado.texto || '').trim();
+  if (!texto) { mostrarToast('Escribí el comentario'); return; }
+  if (!navigator.onLine) { mostrarAviso('Para comentar necesitás conexión.'); return; }
+  const btn = document.getElementById('btn-comentar'); if (btn) btn.disabled = true;
+  try {
+    const r = await llamarBackend('comentar', { id: v.id, obraId: v.obraId, renglonId: comEstado.renglonId || null, texto: texto, interno: v.esMio ? false : comEstado.interno });
+    if (!r || !r.ok) { mostrarAviso((r && r.error) || 'No se pudo comentar.'); return; }
+    comEstado.texto = '';
+    if (!verComentarios_()) guardarPref(VER_COM_KEY, '1');   // para que vea lo que acaba de escribir
+    mostrarToast(r.interno ? 'Comentario interno agregado' : 'Comentario agregado');
+    await recargarDetalle_(v.id);
+  } catch (err) { mostrarAviso(err.message); }
+  finally { const b = document.getElementById('btn-comentar'); if (b) b.disabled = !navigator.onLine; }
+}
+
+// ── GESTIÓN: EMPEZAR A PREPARAR, ENTREGAR, CANCELAR ──────────
+async function iniciarVale(id) {
+  const v = buscarVale_(id); if (!v) return;
+  if (!navigator.onLine) { mostrarAviso('Para gestionar necesitás conexión.'); return; }
+  try {
+    const r = await llamarBackend('iniciar', { id: id, obraId: v.obraId });
+    if (!r || !r.ok) { await mostrarAviso((r && r.error) || 'No se pudo.'); await refrescarTodo_('iniciar'); return; }
+    mostrarToast('Vale ' + v.numeroTxt + ' en preparación');
+    await refrescarTodo_('iniciar');
+  } catch (err) { mostrarAviso(err.message); }
+}
+let entrega = null;   // { id, obraId, numeroTxt, renglones: [{ id, orden, descripcion, cantidad, antes, pendienteDesde, estado, cant }] }
+function abrirEntrega(id) {
+  const v = buscarVale_(id); if (!v || !gestionoVale_(v)) return;
+  if (!navigator.onLine) { mostrarAviso('Para entregar necesitás conexión.'); return; }
+  const abiertos = v.renglones.filter(r => ['SOLICITADO', 'PENDIENTE'].includes(r.estado));
+  if (!abiertos.length) { mostrarAviso('Este vale no tiene renglones abiertos.'); return; }
+  entrega = { id: id, obraId: v.obraId, numeroTxt: v.numeroTxt, renglones: abiertos.map(r => ({
+    id: r.id, orden: r.orden, descripcion: r.descripcion, cantidad: r.cantidad, antes: r.estado, pendienteDesde: r.pendienteDesde,
+    estado: 'ENTREGADO', cant: cantTxt(r.cantidad) })) };   // v15.2.0: todos vienen como Entregado (opción A)
+  const cerrados = v.renglones.length - abiertos.length;
+  document.getElementById('entrega-tit').textContent = 'Entregar vale ' + (v.numeroTxt || '');
+  document.getElementById('entrega-resumen').innerHTML = escaparHtml(v.solicitante || '') + ' · ' + escaparHtml(nombreDestino(v.destino)) + '<br>' +
+    'Vienen todos como <b>Entregado</b>: tocá solo los que cambian.' + (cerrados ? ' Ya cerrados antes: ' + cerrados + '.' : '');
+  document.getElementById('entrega-nota').value = '';
+  pintarEntrega_();
+  abrirModal('modal-entrega');
+  document.querySelector('#modal-entrega .editor-cuerpo').scrollTop = 0;
+}
+function pintarEntrega_() {
+  const cont = document.getElementById('entrega-renglones');
+  cont.innerHTML = entrega.renglones.map((r, i) =>
+    '<div class="ent-fila ' + r.estado + '" data-ent="' + i + '">' +
+      '<div class="ent-desc">' + r.orden + '. ' + escaparHtml(r.descripcion) + '<small>' + (cantTxt(r.cantidad) ? 'pidió ' + cantTxt(r.cantidad) : 'sin cantidad') +
+        (r.antes === 'PENDIENTE' && r.pendienteDesde ? ' · pendiente desde el ' + ddmm(fechaAR(r.pendienteDesde)) : '') + '</small></div>' +
+      '<div class="ent-opc">' + ['ENTREGADO', 'PENDIENTE', 'SIN_STOCK'].map(e =>
+        '<button type="button" class="ent-btn ' + e + (r.estado === e ? ' sel' : '') + '" data-i="' + i + '" data-est="' + e + '"><i class="ti ' + EST_R_ICO[e] + '"></i>' + EST_R[e] + '</button>').join('') + '</div>' +
+      (r.estado === 'ENTREGADO' ? '<div class="ent-cant">Cantidad entregada <input inputmode="decimal" maxlength="10" data-cant="' + i + '" value="' + escaparHtml(r.cant) + '" placeholder="—" aria-label="Cantidad entregada renglón ' + r.orden + '"></div>' : '') +
+    '</div>').join('');
+  cont.querySelectorAll('[data-est]').forEach(b => b.addEventListener('click', () => { entrega.renglones[+b.dataset.i].estado = b.dataset.est; pintarEntrega_(); }));
+  cont.querySelectorAll('[data-cant]').forEach(inp => inp.addEventListener('input', () => { entrega.renglones[+inp.dataset.cant].cant = inp.value; }));
+}
+document.getElementById('btn-entrega-ok').addEventListener('click', async () => {
+  if (!entrega) return;
+  const lista = [];
+  for (const r of entrega.renglones) {
+    const x = { id: r.id, estado: r.estado };
+    if (r.estado === 'ENTREGADO') {
+      const cs = String(r.cant || '').trim().replace(',', '.');
+      if (cs && (!/^\d+(\.\d+)?$/.test(cs) || Number(cs) <= 0)) { mostrarAviso('Renglón ' + r.orden + ': la cantidad entregada tiene que ser un número mayor que 0 (o dejala vacía). Si no se entregó nada, marcalo Pendiente o Sin stock.'); return; }
+      x.cantidadEntregada = cs ? Number(cs) : '';
+    }
+    lista.push(x);
+  }
+  const n = e => entrega.renglones.filter(r => r.estado === e).length;
+  const partes = [n('ENTREGADO') + ' entregado' + (n('ENTREGADO') === 1 ? '' : 's')];
+  if (n('PENDIENTE')) partes.push(n('PENDIENTE') + ' pendiente' + (n('PENDIENTE') === 1 ? '' : 's'));
+  if (n('SIN_STOCK')) partes.push(n('SIN_STOCK') + ' sin stock');
+  if (!(await mostrarConfirm('Confirmar entrega', 'Vale ' + (entrega.numeroTxt || '') + ': ' + partes.join(' · ') + '.' + (n('SIN_STOCK') ? ' Los sin stock se cierran y se le avisa a quien pidió.' : ''), { textoAceptar: 'Confirmar' }))) return;
+  if (!navigator.onLine) { mostrarAviso('Para entregar necesitás conexión.'); return; }
+  const btn = document.getElementById('btn-entrega-ok'); btn.disabled = true;
+  try {
+    const nota = document.getElementById('entrega-nota').value.trim();
+    const r = await llamarBackend('entregar', { id: entrega.id, obraId: entrega.obraId, renglones: lista, nota: nota });
+    if (!r || !r.ok) { await mostrarAviso((r && r.error) || 'No se pudo registrar la entrega.'); await refrescarTodo_('entregar'); return; }
+    const num = entrega.numeroTxt || '';
+    cerrarModal('modal-entrega'); entrega = null;
+    mostrarToast(r.estado === 'ENTREGADO' ? 'Vale ' + num + ' entregado completo' : r.estado === 'CERRADO_PARCIAL' ? 'Vale ' + num + ' cerrado (parte sin stock)' : r.cambios ? 'Entrega parcial: quedan pendientes' : 'Sin cambios: siguen pendientes');
+    await refrescarTodo_('entregar');
+  } catch (err) { mostrarAviso(err.message); }
+  finally { btn.disabled = false; }
+});
+
+// ── APROBAR / RECHAZAR / CANCELAR ────────────────────────────
+let motivoModo = 'rechazar';
 async function aprobar(id) {
   const v = buscarVale_(id); if (!v) return;
   if (!navigator.onLine) { mostrarAviso('Para aprobar necesitás conexión: así no se aprueba dos veces un vale que ya resolvió otro.'); return; }
@@ -1568,26 +1917,35 @@ async function aprobar(id) {
     await refrescarTodo_('aprobar');
   } catch (err) { mostrarAviso(err.message); }
 }
-function abrirRechazo(id) {
+function abrirMotivo_(id, modo) {
   const v = buscarVale_(id); if (!v) return;
-  if (!navigator.onLine) { mostrarAviso('Para rechazar necesitás conexión.'); return; }
-  rechazoId = id;
-  document.getElementById('rechazo-tit').textContent = 'Rechazar vale ' + v.numeroTxt;
+  if (!navigator.onLine) { mostrarAviso('Para ' + (modo === 'cancelar' ? 'cancelar' : 'rechazar') + ' necesitás conexión.'); return; }
+  rechazoId = id; motivoModo = modo;
+  const c = modo === 'cancelar';
+  document.getElementById('rechazo-tit').textContent = (c ? 'Cancelar vale ' : 'Rechazar vale ') + v.numeroTxt;
+  document.querySelector('#modal-rechazo .campo-lbl').textContent = c ? 'Motivo de la cancelación (lo ve quien pidió el vale)' : 'Motivo (lo ve quien pidió el vale)';
+  document.getElementById('txt-motivo').placeholder = c ? 'Por qué se cancela…' : 'Qué hay que corregir…';
+  document.getElementById('motivo-nota').textContent = c ? 'Mínimo 5 caracteres. El vale se cierra sin entregar lo que falta.' : 'Mínimo 5 caracteres. Quien lo pidió puede corregirlo y volver a enviarlo con el mismo número.';
+  document.getElementById('btn-rechazo-ok').textContent = c ? 'Cancelar vale' : 'Rechazar';
   document.getElementById('txt-motivo').value = '';
   abrirModal('modal-rechazo');
   setTimeout(() => document.getElementById('txt-motivo').focus(), 50);
 }
+function abrirRechazo(id) { abrirMotivo_(id, 'rechazar'); }
+function abrirCancelar(id) { abrirMotivo_(id, 'cancelar'); }
 document.getElementById('btn-rechazo-ok').addEventListener('click', async () => {
   const m = document.getElementById('txt-motivo').value.trim();
   if (m.length < 5) { mostrarToast('Escribí el motivo (mínimo 5 caracteres)'); return; }
   const v = buscarVale_(rechazoId); if (!v) return;
+  const c = motivoModo === 'cancelar';
   const btn = document.getElementById('btn-rechazo-ok'); btn.disabled = true;
   try {
-    const r = await llamarBackend('rechazar', { id: rechazoId, motivo: m, obraId: v.obraId });
-    if (!r || !r.ok) { cerrarModal('modal-rechazo'); await mostrarAviso((r && r.error) || 'No se pudo rechazar.'); await refrescarTodo_('rechazar'); return; }
-    cerrarModal('modal-rechazo'); cerrarModal('modal-detalle');
-    mostrarToast('Vale ' + v.numeroTxt + ' rechazado');
-    await refrescarTodo_('rechazar');
+    const r = await llamarBackend(c ? 'cancelar' : 'rechazar', { id: rechazoId, motivo: m, obraId: v.obraId });
+    if (!r || !r.ok) { cerrarModal('modal-rechazo'); await mostrarAviso((r && r.error) || (c ? 'No se pudo cancelar.' : 'No se pudo rechazar.')); await refrescarTodo_(c ? 'cancelar' : 'rechazar'); return; }
+    cerrarModal('modal-rechazo');
+    if (!c) cerrarModal('modal-detalle');
+    mostrarToast('Vale ' + v.numeroTxt + (c ? ' cancelado' : ' rechazado'));
+    await refrescarTodo_(c ? 'cancelar' : 'rechazar');
   } catch (err) { mostrarAviso(err.message); }
   finally { btn.disabled = false; }
 });
@@ -1603,8 +1961,8 @@ async function cargarNovedades() {
   if (r && r.ok) {
     (r.avisos || []).slice(0, 20).forEach(a => {
       const ob = obraPorId(a.obraId);
-      const ico = a.evento === 'rechazado' ? '↩️' : a.evento === 'enviado' ? '📝' : a.evento === 'aprobado' ? '✅' : '🔔';
-      items.push('<span class="cinta-item' + (a.evento === 'rechazado' ? ' alerta' : '') + '">' + ico + ' ' + (ob && inicio.obras.length > 1 ? '<b>' + escaparHtml(ob.codigo) + '</b> · ' : '') + '<b>' + escaparHtml(a.titulo) + '</b> · ' + hhmm(a.fecha) + '</span>');
+      const ico = { rechazado: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' }[a.evento] || '🔔';
+      items.push('<span class="cinta-item' + (['rechazado', 'cancelado'].includes(a.evento) ? ' alerta' : '') + '">' + ico + ' ' + (ob && inicio.obras.length > 1 ? '<b>' + escaparHtml(ob.codigo) + '</b> · ' : '') + '<b>' + escaparHtml(a.titulo) + '</b> · ' + hhmm(a.fecha) + '</span>');
     });
   }
   if (!items.length) items.push('<span class="cinta-item">Sin novedades de tus vales en los últimos 7 días.</span>');
@@ -1622,9 +1980,10 @@ function refrescarTodo_(motivo) {
       if (motivo === 'online' || motivo === 'foco') await cargarInicio(false);
       else await cargarObra(false, false);
       if (motivo !== 'online' && motivo !== 'foco') cargarNovedades();
-      const det = document.getElementById('detalle-body');
-      if (document.getElementById('modal-detalle').classList.contains('visible') && det.dataset.id) {
-        const v = buscarVale_(det.dataset.id); if (v) pintarDetalle_(v);
+      const abierto = detalleAbierto_();
+      if (abierto) {
+        const v = buscarVale_(abierto) || detalleCache[abierto]; if (v) pintarDetalle_(v);
+        recargarDetalle_(abierto);   // v15.2.0: historial y comentarios al día
       }
       if (motivo === 'realtime') mostrarToast('Actualizado');
       resolve();
@@ -1637,6 +1996,7 @@ function suscribirRealtime_() {
     canalRT = sb.channel('vd-cambios')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_vales' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_renglones' }, () => refrescarTodo_('realtime'))
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_comentarios' }, () => { const a = detalleAbierto_(); if (a) recargarDetalle_(a); })
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_avisos' }, () => cargarNovedades())
       .subscribe(estado => { if (estado === 'CHANNEL_ERROR' || estado === 'TIMED_OUT') console.warn('[realtime]', estado); });
   } catch (err) { console.warn('[realtime] no disponible:', err.message); }
