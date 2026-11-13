@@ -252,7 +252,7 @@ input, select, textarea { font-family: inherit; }
 .vale-card:hover { background: #fffbeb; }
 .vale-card.e-ENVIADO { border-left-color: var(--e-enviado); }
 .vale-card.e-APROBADO { border-left-color: var(--e-aprobado); }
-.vale-card.e-RECHAZADO { border-left-color: var(--e-rechazado); }
+.vale-card.e-RECHAZADO, .vale-card.e-DEVUELTO { border-left-color: var(--e-rechazado); }
 .vale-card.e-EN_PREPARACION { border-left-color: var(--e-prep); }
 .vale-card.e-CON_PENDIENTES { border-left-color: var(--e-pend); }
 .vale-card.e-ENTREGADO, .vale-card.e-CERRADO_PARCIAL { border-left-color: var(--e-ok); }
@@ -270,7 +270,7 @@ input, select, textarea { font-family: inherit; }
 .est { display: inline-flex; align-items: center; gap: 4px; font-size: .66rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #f1f5f9; color: #475569; white-space: nowrap; }
 .est.ENVIADO { background: #dbeafe; color: #1e40af; }
 .est.APROBADO { background: #ccfbf1; color: #115e59; }
-.est.RECHAZADO { background: #fee2e2; color: #991b1b; }
+.est.RECHAZADO, .est.DEVUELTO { background: #fee2e2; color: #991b1b; }
 .est.EN_PREPARACION { background: #fef3c7; color: #92400e; }
 .est.CON_PENDIENTES { background: #ffedd5; color: #9a3412; }
 .est.ENTREGADO, .est.CERRADO_PARCIAL { background: #dcfce7; color: #166534; }
@@ -496,6 +496,37 @@ input, select, textarea { font-family: inherit; }
   .tb-dest .txt { display: none; }
   /* v15.2.4: en el celular no va el Lápiz */
   #btn-lapiz-toggle { display: none !important; }
+}
+/* v15.2.5 — BUSCAR */
+#btn-buscar { font-size: .9rem; padding: 3px 9px; }
+#btn-buscar.activo { border-color: var(--accent); color: var(--accent); }
+.bus-caja { position: relative; margin: 2px 0 8px; }
+.bus-caja i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1.1rem; }
+.bus-caja input { width: 100%; padding: 11px 38px 11px 38px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; background: var(--surface); }
+.bus-caja input:focus { outline: none; border-color: var(--accent); }
+#bus-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.bus-limpiar { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: none; color: var(--muted); font-size: 1.1rem; padding: 4px 8px; }
+.bus-estado { font-size: .76rem; color: var(--muted); margin: 2px 0 8px; }
+.bus-donde { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.bus-d { font-size: .76rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; color: var(--text); overflow-wrap: anywhere; }
+.bus-d .t { font-weight: 700; color: var(--muted); }
+.bus-d mark { background: #fde68a; color: inherit; border-radius: 3px; padding: 0 1px; }
+.bus-mas { margin-top: 10px; width: 100%; }
+/* v15.2.5 — Tablero en el celular: columna vacía como tarjeta con atajos */
+.tb-vacio-cel { display: none; }
+@media (max-width: 560px) {
+  .tb-col .tb-vacio { display: none; }
+  .tb-vacio-cel { display: block; background: var(--surface); border: 2px dashed #cbd5e1; border-radius: 14px; padding: 22px 16px; text-align: center; margin-top: 4px; }
+  .tb-vacio-cel .ico { font-size: 2.6rem; color: var(--st-ok); line-height: 1; }
+  .tb-vacio-cel .tit { font-weight: 800; font-size: 1.05rem; margin-top: 6px; }
+  .tb-vacio-cel .sub { color: var(--muted); font-size: .82rem; margin: 4px 0 14px; }
+  .tb-vacio-cel .atajos { display: flex; flex-direction: column; gap: 8px; }
+  .tb-atajo { border: 1.5px solid var(--border); background: var(--surface); color: var(--text); border-radius: 10px; padding: 11px; font-weight: 700; font-size: .9rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .tb-atajo.prep { border-color: var(--e-aprobado); background: #f0fdfa; color: #115e59; }
+  .tb-atajo.curso { border-color: var(--accent); background: #fffbeb; color: #92400e; }
+  .tb-atajo.pend { border-color: #fb923c; background: #ffedd5; color: #9a3412; }
+  .tb-atajo.cerr { border-color: #86efac; background: #f0fdf4; color: #166534; }
+  .bus-caja input { font-size: 16px; }
 }
 /* pantalla completa (la pantalla de 43") */
 body.pz-completa #app-header, body.pz-completa #cinta, body.pz-completa .fab, body.pz-completa #franja-offline { display: none !important; }
@@ -743,6 +774,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
     <button class="hdr-btn hidden" id="btn-instalar" title="Instalar Vale Digital en este dispositivo"><i class="ti ti-download"></i> Instalar</button>
     <button class="hdr-btn hdr-btn-lapiz" id="btn-lapiz-toggle" onclick="lapizToggle()" title="Lápiz — anotar sobre la pantalla (Esc para salir)"><i class="ti ti-pencil"></i> Lápiz</button>
     <div class="hdr-sep"></div>
+    <button class="hdr-btn" id="btn-buscar" title="Buscar vales" aria-label="Buscar"><i class="ti ti-search"></i></button>
     <button class="hdr-btn" id="btn-campana" title="Notificaciones" aria-label="Notificaciones"><i class="ti ti-bell"></i><span class="badge-campana hidden" id="badge-campana"></span></button>
     <span class="hdr-perfil hidden" id="hdr-perfil" title="Tu perfil en esta obra (Ctrl+Alt+U: sesión)"></span>
     <div class="hdr-email" id="hdr-email" title="Sesión (Ctrl+Alt+U)"></div>
@@ -752,6 +784,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
   <div id="franja-offline" class="franja-offline hidden" role="status"><i class="ti ti-wifi-off"></i><span id="franja-offline-txt"></span></div>
 
   <main id="vista-tablero" class="view hidden"></main>
+  <main id="vista-buscar" class="view hidden"></main>
   <main id="vista-mis" class="view hidden"></main>
   <main id="vista-aprobar" class="view hidden"></main>
   <main id="vista-gestion" class="view hidden"></main>
@@ -925,7 +958,17 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_4.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_5.html  (subir como index.html al repo goeapp/vale)
+// v15.2.5 (13-nov-2026) — requiere vd_esquema_v15_2_5.sql (vd_buscar, vd_devolver, vd_cancelar nuevo, estado DEVUELTO):
+//  · Buscar: lupa 🔍 en el encabezado → pantalla Buscar. Busca en ítem, número ("12" = VD0012), comentarios de
+//    personas, observaciones y quién pidió; en lo que cada uno puede ver; toda la historia; desde 3 letras; sin
+//    mayúsculas ni acentos; mientras escribís. Tarjeta + "dónde lo encontró" resaltado; de a 30 con "Ver más";
+//    pastillas Todos · Abiertos · Cerrados.
+//  · Devolver (Almacén / Pañol): con motivo, solo si no se entregó nada; vuelve a "Para corregir" de quien lo pidió,
+//    que lo corrige y reenvía (mismo número, vuelve a aprobación si le corresponde) o lo descarta.
+//  · Cancelar: solo quien pidió el vale (el suyo, abierto) y el jefe de obra / administrar. Almacén y Pañol ya no.
+//  · Tablero en el celular: abre en la primera columna con vales (o en Con pendientes si hay uno de 4+ días);
+//    columna vacía = tarjeta con ✓ y atajos a las columnas con vales (y "Ver los de toda la obra").
 // v15.2.4 (13-nov-2026) — requiere vd_esquema_v15_2_4.sql (vd_tablero):
 //  · Tablero (vista nueva y de inicio, para todos los de la obra, solo mirar): Para preparar ·
 //    En preparación · Con pendientes (destacada) · Cerrados hoy, de Almacén y Pañol. Pastillas de
@@ -1009,7 +1052,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.4';
+const APP_VERSION   = 'v15.2.5';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -1094,7 +1137,7 @@ window.addEventListener('unhandledrejection', e => {
 // ══════════════════════════════════════════════════════════════
 // DATOS — llamarBackend(action, params) → funciones vd_* de Supabase
 // ══════════════════════════════════════════════════════════════
-const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes', 'pizarron', 'tablero']);
+const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes', 'pizarron', 'tablero', 'buscar']);
 function errRed_() { return new Error('No se pudo conectar con el servidor. Revisá tu conexión y volvé a intentar.'); }
 
 /** (= PreKOM v9) rechazo de la base → {ok:false, error}; falla de red → excepción. */
@@ -1156,6 +1199,7 @@ async function llamarBackendSb_(action, p) {
     // v15.2.3 — pizarrón y prioridad
     case 'pizarron': return rpc_(action, 'vd_pizarron', { p_obra: p.obraId, p_destino: p.destino });
     case 'tablero': return rpc_(action, 'vd_tablero', { p_obra: p.obraId });   // v15.2.4
+    case 'buscar': return rpc_(action, 'vd_buscar', { p_obra: p.obraId, p_texto: p.texto, p_filtro: p.filtro || 'todos', p_limite: p.limite || 30, p_desde: p.desde || 0 });   // v15.2.5
     case 'pizarronPoner': case 'pizarronQuitar': case 'pizarronColor': case 'prioridad': {
       const fn = { pizarronPoner: 'vd_pizarron_poner', pizarronQuitar: 'vd_pizarron_quitar', pizarronColor: 'vd_pizarron_color', prioridad: 'vd_prioridad' }[action];
       const args = action === 'pizarronPoner' ? { p_vale: p.id, p_lugar: p.lugar == null ? null : p.lugar, p_color: p.color || null }
@@ -1177,11 +1221,11 @@ async function llamarBackendSb_(action, p) {
       return r;
     }
     // v15.2.0 — gestión por renglón y comentarios
-    case 'iniciar': case 'entregar': case 'cancelar': case 'comentar': {
-      const fn = { iniciar: 'vd_iniciar', entregar: 'vd_entregar', cancelar: 'vd_cancelar', comentar: 'vd_comentar' }[action];
+    case 'iniciar': case 'entregar': case 'cancelar': case 'devolver': case 'comentar': {
+      const fn = { iniciar: 'vd_iniciar', entregar: 'vd_entregar', cancelar: 'vd_cancelar', devolver: 'vd_devolver', comentar: 'vd_comentar' }[action];
       const args = action === 'iniciar' ? { p_vale: p.id }
         : action === 'entregar' ? { p_vale: p.id, p_renglones: p.renglones, p_nota: p.nota || '' }
-        : action === 'cancelar' ? { p_vale: p.id, p_motivo: p.motivo }
+        : action === 'cancelar' || action === 'devolver' ? { p_vale: p.id, p_motivo: p.motivo }
         : { p_vale: p.id, p_renglon: p.renglonId || null, p_texto: p.texto, p_interno: !!p.interno };
       const r = await rpc_(action, fn, args);
       registrarActividad_(action, p.id, r && r.ok ? 'OK' : 'ERROR',
@@ -1396,17 +1440,18 @@ const COLA_KEY = 'vd_cola';                       // cambios hechos sin señal, 
 const CACHE_INICIO = 'vd_cache_inicio';
 const cacheObraKey = id => 'vd_cache_obra_' + id;
 const ESTADOS = {
-  BORRADOR: 'Borrador', ENVIADO: 'Esperando aprobación', APROBADO: 'Aprobado', RECHAZADO: 'Rechazado',
+  BORRADOR: 'Borrador', ENVIADO: 'Esperando aprobación', APROBADO: 'Aprobado', RECHAZADO: 'Rechazado', DEVUELTO: 'Devuelto',
   DESCARTADO: 'Descartado', EN_PREPARACION: 'En preparación', CON_PENDIENTES: 'Con pendientes',
   ENTREGADO: 'Entregado', CERRADO_PARCIAL: 'Cerrado parcial', CANCELADO: 'Cancelado',
   LOCAL_BORRADOR: 'Borrador sin sincronizar', LOCAL_ENVIO: 'Se envía al volver la señal'
 };
-const EST_ICO = { BORRADOR: 'ti-pencil', ENVIADO: 'ti-hourglass', APROBADO: 'ti-check', RECHAZADO: 'ti-x', EN_PREPARACION: 'ti-package',
+const EST_ICO = { BORRADOR: 'ti-pencil', ENVIADO: 'ti-hourglass', APROBADO: 'ti-check', RECHAZADO: 'ti-x', DEVUELTO: 'ti-arrow-back-up', EN_PREPARACION: 'ti-package',
   CON_PENDIENTES: 'ti-clock-exclamation', ENTREGADO: 'ti-circle-check', CERRADO_PARCIAL: 'ti-circle-half-2', CANCELADO: 'ti-ban', DESCARTADO: 'ti-trash',
   LOCAL_BORRADOR: 'ti-cloud-off', LOCAL_ENVIO: 'ti-cloud-upload' };
 const CERRADOS = ['ENTREGADO', 'CERRADO_PARCIAL', 'CANCELADO', 'DESCARTADO'];
+const CORREGIR = ['RECHAZADO', 'DEVUELTO'];   // v15.2.5: vuelven a quien lo pidió para corregir o descartar
 const DEST_ICO = { ALMACEN: 'ti-building-warehouse', PANOL: 'ti-tool' };
-const VISTAS = ['tablero', 'mis', 'aprobar', 'gestion', 'todos', 'pizarron'];
+const VISTAS = ['tablero', 'mis', 'aprobar', 'gestion', 'todos', 'pizarron', 'buscar'];
 // v15.2.4 — celular (mismo corte que el CSS): uso personal; la gestión se hace en la compu
 const MQ_CEL = window.matchMedia ? window.matchMedia('(max-width: 560px)') : { matches: false };
 function esCelular_() { return !!MQ_CEL.matches; }
@@ -1414,11 +1459,11 @@ const RENG_FIJOS = 6;                             // v15.1.1: el vale abre con 6
 const PERFIL_TXT = { invitado: 'Invitado', capataz: 'Capataz', supervisor: 'Supervisor', jefe_obra: 'Jefe de obra', almacenero: 'Almacenero', panolero: 'Pañolero', administrar: 'Administrar' };
 // v15.1.1 — pastillas de filtro por vista: [clave, texto, filtro]
 const PASTILLAS = {
-  mis: [['todos', 'Todos', v => true], ['corregir', 'Para corregir', v => v.estado === 'RECHAZADO' || !!v._error], ['borradores', 'Borradores', v => !v._error && ['BORRADOR', 'LOCAL_BORRADOR'].includes(v.estado)],
+  mis: [['todos', 'Todos', v => true], ['corregir', 'Para corregir', v => CORREGIR.includes(v.estado) || !!v._error], ['borradores', 'Borradores', v => !v._error && ['BORRADOR', 'LOCAL_BORRADOR'].includes(v.estado)],
         ['curso', 'En curso', v => !v._error && ['LOCAL_ENVIO', 'ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)],
         ['faltantes', 'Faltantes', null]],   // v15.2.1: renglones sin stock (no filtra vales: muestra la lista de faltantes)
   todos: [['todos', 'Todos', v => true], ['enviado', 'Esperando aprobación', v => v.estado === 'ENVIADO'], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'],
-          ['prep', 'En preparación', v => ['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['rechazado', 'Rechazados', v => v.estado === 'RECHAZADO'], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
+          ['prep', 'En preparación', v => ['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado)], ['rechazado', 'Rechazados y devueltos', v => CORREGIR.includes(v.estado)], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]],
   gestion: [['todos', 'Abiertos', v => !CERRADOS.includes(v.estado)], ['aprobado', 'Aprobados', v => v.estado === 'APROBADO'], ['prep', 'En preparación', v => v.estado === 'EN_PREPARACION'],
             ['pend', 'Con pendientes', v => v.estado === 'CON_PENDIENTES'], ['cerrados', 'Cerrados', v => CERRADOS.includes(v.estado)]]   // v15.2.2: Cerrados (30 días)
 };
@@ -1519,7 +1564,7 @@ function valeDeOp_(op, base) {
   const v = op.vale;
   return Object.assign({}, base || {}, {
     id: v.id, obraId: v.obraId, destino: v.destino, disciplina: v.disciplina || 'GENERICO', paraCuando: v.paraCuando || null, observaciones: v.observaciones || '',
-    estado: base && base.estado === 'RECHAZADO' && !op.enviar ? 'RECHAZADO' : (op.enviar ? 'LOCAL_ENVIO' : 'LOCAL_BORRADOR'),
+    estado: base && CORREGIR.includes(base.estado) && !op.enviar ? base.estado : (op.enviar ? 'LOCAL_ENVIO' : 'LOCAL_BORRADOR'),
     numeroTxt: base ? base.numeroTxt : null, esMio: true, solicitante: nombreActual,
     creadoEn: base ? base.creadoEn : new Date(op.ts).toISOString(),
     renglones: v.renglones.map((r, i) => ({ orden: i + 1, descripcion: r.descripcion, cantidad: r.cantidad === '' ? null : r.cantidad, estado: 'SOLICITADO', origenId: r.origenId || null, origenTxt: r.origenTxt || null })),
@@ -1622,6 +1667,7 @@ function vistasDisponibles_() {
   if ((o.gestiona || []).length) v.push('gestion');
   if (['jefe_obra', 'administrar', 'invitado'].includes(o.perfil) && !esCelular_()) v.push('todos');   // v15.2.4: en el celular no va
   v.push('pizarron');   // v15.2.3: todos los de la obra lo miran
+  v.push('buscar');     // v15.2.5: desde la lupa (no va en el menú)
   return v;
 }
 function pintarPerfil_() {
@@ -1666,6 +1712,8 @@ function pintarVista() {
   if (vista === 'gestion') pintarGestion_();
   if (vista === 'todos') pintarTodos_();
   if (vista === 'pizarron') pintarPizarronVista_();
+  if (vista === 'buscar') pintarBuscar_();
+  document.getElementById('btn-buscar').classList.toggle('activo', vista === 'buscar');
   pizarronActivo_(vista === 'pizarron');
 }
 /** v15.2.3 — título + pastillas fijos arriba al bajar. */
@@ -1718,6 +1766,7 @@ function tarjeta_(v, opc) {
   if (v.estado === 'ENVIADO' && v.enviadoEn) meta.push('enviado ' + hhmm(v.enviadoEn));
   else if (v.estado === 'APROBADO' && v.aprobadoEn) meta.push('aprobado ' + hhmm(v.aprobadoEn) + (v.aprobadoPor && v.aprobadoPor !== v.solicitante ? ' por ' + escaparHtml(v.aprobadoPor) : ''));
   else if (v.estado === 'RECHAZADO') meta.push('rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : ''));
+  else if (v.estado === 'DEVUELTO') meta.push('devuelto' + (v.devueltoPor ? ' por ' + escaparHtml(v.devueltoPor) : '') + ' · ' + escaparHtml(nombreDestino(v.destino)));
   else if (['EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado) && v.gestionadoPor) meta.push('lo atiende ' + escaparHtml(v.gestionadoPor));
   else if (CERRADOS.includes(v.estado) && v.cerradoEn) meta.push('cerrado ' + hhmm(v.cerradoEn));
   else if (v.creadoEn) meta.push('creado ' + hhmm(v.creadoEn));
@@ -1734,8 +1783,9 @@ function tarjeta_(v, opc) {
     '<div class="vale-meta">' + meta.filter(Boolean).join(' · ') + '</div>' + antigHtml_(v) +
     (v.entregaBorrador ? '<div class="ent-medias"><i class="ti ti-file-pencil"></i>Entrega a medias · ' + escaparHtml(v.entregaBorrador.por || '') + ' · ' + hhmm(v.entregaBorrador.en) + '</div>' : '') +
     (v.estado === 'RECHAZADO' && v.rechazoMotivo ? '<div class="vale-error">Motivo: ' + escaparHtml(v.rechazoMotivo) + '</div>' : '') +
+    (v.estado === 'DEVUELTO' && v.devolucionMotivo ? '<div class="vale-error">Motivo: ' + escaparHtml(v.devolucionMotivo) + '</div>' : '') +
     (v._error ? '<div class="vale-error"><i class="ti ti-alert-triangle"></i> No se pudo sincronizar: ' + escaparHtml(v._error) + '</div>' : '') +
-    acc + '</div>';
+    acc + (opc.extra || '') + '</div>';   // v15.2.5: extra = "dónde lo encontró" en Buscar
 }
 function enlazarTarjetas_(cont) {
   cont.querySelectorAll('[data-vale]').forEach(el => {
@@ -1762,7 +1812,7 @@ function pintarMis_() {
   const todos = misValesConCola_();
   const vs = filtrar_('mis', todos);
   const errores = vs.filter(v => v._error);
-  const corregir = vs.filter(v => !v._error && v.estado === 'RECHAZADO');
+  const corregir = vs.filter(v => !v._error && CORREGIR.includes(v.estado));
   const borr = vs.filter(v => !v._error && ['BORRADOR', 'LOCAL_BORRADOR'].includes(v.estado));
   const curso = vs.filter(v => !v._error && ['LOCAL_ENVIO', 'ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado));
   const cerr = vs.filter(v => !v._error && CERRADOS.includes(v.estado));
@@ -1855,15 +1905,17 @@ function abrirEditor(v, pre) {   // v15.2.1: pre = { destino, renglones } para "
   };
   while (editor.renglones.length < RENG_FIJOS) editor.renglones.push({ descripcion: '', cantidad: '' });   // v15.1.1: renglones fijos, no crece al escribir
   const est = v ? v.estado : 'NUEVO';
-  document.getElementById('editor-tit').textContent = !v ? 'Nuevo vale' : est === 'RECHAZADO' ? 'Corregir vale ' + (v.numeroTxt || '') : 'Editar borrador';
+  const corrige = CORREGIR.includes(est);   // v15.2.5: rechazado o devuelto
+  document.getElementById('editor-tit').textContent = !v ? 'Nuevo vale' : corrige ? 'Corregir vale ' + (v.numeroTxt || '') : 'Editar borrador';
   const rech = document.getElementById('editor-rechazo');
-  rech.classList.toggle('hidden', est !== 'RECHAZADO');
-  rech.innerHTML = est === 'RECHAZADO' ? '<b>Rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : '') + ':</b> ' + escaparHtml(v.rechazoMotivo || '') + '<br>Corregilo y volvé a enviarlo: mantiene el número.' : '';
+  rech.classList.toggle('hidden', !corrige);
+  rech.innerHTML = est === 'DEVUELTO' ? '<b>Devuelto' + (v.devueltoPor ? ' por ' + escaparHtml(v.devueltoPor) : '') + ' (' + escaparHtml(nombreDestino(v.destino)) + '):</b> ' + escaparHtml(v.devolucionMotivo || '') + '<br>Corregilo y volvé a enviarlo: mantiene el número y vuelve a pasar por aprobación si te corresponde.'
+    : est === 'RECHAZADO' ? '<b>Rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : '') + ':</b> ' + escaparHtml(v.rechazoMotivo || '') + '<br>Corregilo y volvé a enviarlo: mantiene el número.' : '';
   document.getElementById('editor-error').classList.add('hidden');
   document.getElementById('btn-editor-eliminar').classList.toggle('hidden', !(v && ['BORRADOR', 'LOCAL_BORRADOR', 'LOCAL_ENVIO'].includes(est)));
-  document.getElementById('btn-editor-descartar').classList.toggle('hidden', est !== 'RECHAZADO');
-  document.getElementById('btn-editor-guardar').textContent = est === 'RECHAZADO' ? 'Guardar sin enviar' : 'Guardar borrador';
-  document.getElementById('btn-editor-enviar').innerHTML = '<i class="ti ti-send"></i> ' + (est === 'RECHAZADO' ? 'Reenviar' : 'Enviar');
+  document.getElementById('btn-editor-descartar').classList.toggle('hidden', !corrige);
+  document.getElementById('btn-editor-guardar').textContent = corrige ? 'Guardar sin enviar' : 'Guardar borrador';
+  document.getElementById('btn-editor-enviar').innerHTML = '<i class="ti ti-send"></i> ' + (corrige ? 'Reenviar' : 'Enviar');
   document.getElementById('editor-obs').value = editor.obs;
   mostrarObs_(!!editor.obs);
   pintarEditor_();
@@ -2169,7 +2221,8 @@ function pintarDetalle_(v0) {
   const coms = (v.comentarios || []).filter(c => !c.automatico);   // v15.2.2: solo los de personas
   const nCom = id => coms.filter(c => c.renglonId === id).length;
   let ev = '';
-  if (v.estado === 'RECHAZADO') ev = '<div class="det-evento rechazo"><b>Rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : '') + (v.rechazadoEn ? ' · ' + hhmm(v.rechazadoEn) : '') + '</b><br>' + escaparHtml(v.rechazoMotivo || '') + '</div>';
+  if (v.estado === 'DEVUELTO') ev = '<div class="det-evento rechazo"><b>Devuelto' + (v.devueltoPor ? ' por ' + escaparHtml(v.devueltoPor) : '') + ' (' + escaparHtml(nombreDestino(v.destino)) + ')' + (v.devueltoEn ? ' · ' + hhmm(v.devueltoEn) : '') + '</b><br>' + escaparHtml(v.devolucionMotivo || '') + '</div>';
+  else if (v.estado === 'RECHAZADO') ev = '<div class="det-evento rechazo"><b>Rechazado' + (v.rechazadoPor ? ' por ' + escaparHtml(v.rechazadoPor) : '') + (v.rechazadoEn ? ' · ' + hhmm(v.rechazadoEn) : '') + '</b><br>' + escaparHtml(v.rechazoMotivo || '') + '</div>';
   else if (v.aprobadoPor) ev = '<div class="det-evento ok"><b>Aprobado' + (v.aprobadoPor === v.solicitante ? ' (no requería aprobación)' : ' por ' + escaparHtml(v.aprobadoPor)) + '</b>' + (v.aprobadoEn ? ' · ' + hhmm(v.aprobadoEn) : '') + '</div>';
   if (v.estado === 'ENVIADO') ev = '<div class="det-evento"><i class="ti ti-hourglass"></i> Esperando aprobación' + (v.enviadoEn ? ' · enviado ' + hhmm(v.enviadoEn) : '') + '</div>';
   if (v.estado === 'CANCELADO') ev += '<div class="det-evento rechazo"><b>Cancelado' + (v.gestionadoPor ? ' por ' + escaparHtml(v.gestionadoPor) : '') + (v.cerradoEn ? ' · ' + hhmm(v.cerradoEn) : '') + '</b><br>' + escaparHtml(v.notaCierre || '') + '</div>';
@@ -2205,7 +2258,7 @@ function pintarDetalle_(v0) {
   const acc = [];
   const on = navigator.onLine, dis = on ? '' : ' disabled title="Necesitás conexión"';
   if (v.esMio && ['BORRADOR', 'LOCAL_BORRADOR', 'LOCAL_ENVIO'].includes(v.estado)) acc.push('<button class="btn-chico" onclick="abrirEditor(buscarVale_(\'' + v.id + '\'))"><i class="ti ti-pencil"></i> Editar</button>');
-  if (v.esMio && v.estado === 'RECHAZADO') acc.push('<button class="btn-chico" onclick="abrirEditor(buscarVale_(\'' + v.id + '\'))"><i class="ti ti-arrow-back-up"></i> Corregir y reenviar</button>');
+  if (v.esMio && CORREGIR.includes(v.estado)) acc.push('<button class="btn-chico" onclick="abrirEditor(buscarVale_(\'' + v.id + '\'))"><i class="ti ti-arrow-back-up"></i> Corregir y reenviar</button>');
   if (v.estado === 'ENVIADO' && (datosObra.porAprobar || []).some(x => x.id === v.id)) {
     acc.push('<button class="btn-chico sec" onclick="abrirRechazo(\'' + v.id + '\')"' + dis + '><i class="ti ti-x"></i> Rechazar</button>');
     acc.push('<button class="btn-chico" onclick="aprobar(\'' + v.id + '\')"' + dis + '><i class="ti ti-check"></i> Aprobar</button>');
@@ -2216,8 +2269,14 @@ function pintarDetalle_(v0) {
   else if (pp && pp.quitar) acc.push('<button class="btn-chico sec" id="btn-det-prio" onclick="quitarPrioridad(\'' + v.id + '\')"' + dis + '>⚡ Quitar prioridad</button>');
   else if (pp && v.prioritario) acc.push('<button class="btn-chico sec" id="btn-det-prio" disabled title="Solo la puede sacar quien la marcó o el jefe de obra">⚡ Prioritario (lo marcó ' + escaparHtml(v.prioritarioPor || '—') + ')</button>');
   if (gestionoVale_(v) && !v.pizarron) acc.push('<button class="btn-chico sec" id="btn-det-pizarron" onclick="pzPoner_(\'' + v.id + '\', null)"' + dis + '><i class="ti ti-layout-board"></i> Poner en el pizarrón</button>');
+  // v15.2.5: cancela quien pidió el vale (el suyo) o el jefe de obra / administrar; Almacén y Pañol devuelven
+  const oDet = obraActual();
+  const puedeCancelar = !v._local && ['ENVIADO', 'APROBADO', 'EN_PREPARACION', 'CON_PENDIENTES'].includes(v.estado) &&
+    (v.esMio || !!(oDet && ['jefe_obra', 'administrar'].includes(oDet.perfil)));
+  const puedeDevolver = gestionoVale_(v) && ['APROBADO', 'EN_PREPARACION'].includes(v.estado) && v.renglones.every(r => r.estado === 'SOLICITADO');
+  if (puedeCancelar) acc.push('<button class="btn-chico peligro" id="btn-det-cancelar" onclick="abrirCancelar(\'' + v.id + '\')"' + dis + '><i class="ti ti-ban"></i> Cancelar vale</button>');
+  if (puedeDevolver) acc.push('<button class="btn-chico peligro" id="btn-det-devolver" onclick="abrirDevolver(\'' + v.id + '\')"' + dis + '><i class="ti ti-arrow-back-up"></i> Devolver vale</button>');
   if (gestionoVale_(v)) {
-    acc.push('<button class="btn-chico peligro" id="btn-det-cancelar" onclick="abrirCancelar(\'' + v.id + '\')"' + dis + '><i class="ti ti-ban"></i> Cancelar vale</button>');
     if (v.estado === 'APROBADO') acc.push('<button class="btn-chico sec" id="btn-det-iniciar" onclick="iniciarVale(\'' + v.id + '\')"' + dis + '><i class="ti ti-package"></i> Empezar a preparar</button>');
     acc.push('<button class="btn-chico" id="btn-det-entregar" onclick="abrirEntrega(\'' + v.id + '\')"' + dis + '><i class="ti ti-truck-delivery"></i> Entregar</button>');
   }
@@ -2227,12 +2286,12 @@ function pintarDetalle_(v0) {
 
 // ── LÍNEA DE TIEMPO ──────────────────────────────────────────
 const TL_VALE = {
-  BORRADOR: 'Creó el borrador', ENVIADO: 'Envió el vale', APROBADO: 'Aprobó el vale', RECHAZADO: 'Rechazó el vale',
+  BORRADOR: 'Creó el borrador', ENVIADO: 'Envió el vale', APROBADO: 'Aprobó el vale', RECHAZADO: 'Rechazó el vale', DEVUELTO: 'Devolvió el vale a quien lo pidió',
   DESCARTADO: 'Descartó el vale', EN_PREPARACION: 'Empezó a preparar', CON_PENDIENTES: 'Entrega parcial: quedan pendientes',
   ENTREGADO: 'Entrega completa', CERRADO_PARCIAL: 'Cerró el vale (parte sin stock)', CANCELADO: 'Canceló el vale', ELIMINADO: 'Eliminó el borrador',
   PRIORITARIO: '⚡ Marcó el vale como prioritario', NO_PRIORITARIO: 'Le sacó la prioridad'   // v15.2.3
 };
-function claseTl_(est) { return ['APROBADO', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(est) ? ' ok' : ['RECHAZADO', 'CANCELADO', 'SIN_STOCK', 'DESCARTADO', 'PRIORITARIO'].includes(est) ? ' malo' : ['PENDIENTE', 'CON_PENDIENTES'].includes(est) ? ' pend' : ''; }
+function claseTl_(est) { return ['APROBADO', 'ENTREGADO', 'CERRADO_PARCIAL'].includes(est) ? ' ok' : ['RECHAZADO', 'DEVUELTO', 'CANCELADO', 'SIN_STOCK', 'DESCARTADO', 'PRIORITARIO'].includes(est) ? ' malo' : ['PENDIENTE', 'CON_PENDIENTES'].includes(est) ? ' pend' : ''; }
 const tlAbierto = {};                   // valeId → la línea de tiempo está desplegada (v15.2.1: viene plegada)
 const tlGruposAbiertos = new Set();     // entregas desplegadas dentro de la línea de tiempo
 function haceTxt_(ts) {
@@ -2311,7 +2370,7 @@ function pintarListaTimeline_(v) {
       if (!g.h) { txt = '<b>Registró una entrega</b>'; cls = ' pend'; }
       else if (h.renglonId) {   // un cambio suelto de renglón (no debería pasar, queda por si acaso)
         txt = rTxt(h.renglonId).replace(/^r/, 'R') + ': <b>' + (EST_R[h.nuevo] || h.nuevo).toLowerCase() + '</b>'; nota = '';
-      } else if (h.nuevo === 'ENVIADO' && h.anterior === 'RECHAZADO') { txt = '<b>Corrigió y reenvió el vale</b>'; nota = ''; }
+      } else if (h.nuevo === 'ENVIADO' && CORREGIR.includes(h.anterior)) { txt = '<b>Corrigió y reenvió el vale</b>'; nota = ''; }
       else if (h.nuevo === 'APROBADO' && nota === 'Sin aprobación requerida') { txt = '<b>Salió aprobado</b> (no requiere aprobación)'; nota = ''; }
       else txt = '<b>' + (TL_VALE[h.nuevo] || h.nuevo) + '</b>';
       return '<li class="tl-item estado' + cls + '"><div class="tl-meta">' + hhmm(h.fecha) + ' · ' + escaparHtml(h.persona || '—') + '</div>' +
@@ -2570,7 +2629,7 @@ async function aprobar(id) {
 }
 function abrirMotivo_(id, modo) {
   const v = buscarVale_(id); if (!v) return;
-  if (!navigator.onLine) { mostrarAviso('Para ' + (modo === 'cancelar' ? 'cancelar' : modo === 'prioridad' ? 'marcar la prioridad' : 'rechazar') + ' necesitás conexión.'); return; }
+  if (!navigator.onLine) { mostrarAviso('Para ' + ({ cancelar: 'cancelar', prioridad: 'marcar la prioridad', devolver: 'devolver' }[modo] || 'rechazar') + ' necesitás conexión.'); return; }
   rechazoId = id; motivoModo = modo;
   const c = modo === 'cancelar';
   if (modo === 'prioridad') {   // v15.2.3: motivo opcional
@@ -2584,8 +2643,19 @@ function abrirMotivo_(id, modo) {
     setTimeout(() => document.getElementById('txt-motivo').focus(), 50);
     return;
   }
+  if (modo === 'devolver') {   // v15.2.5: Almacén / Pañol se lo devuelven a quien lo pidió
+    document.getElementById('rechazo-tit').textContent = 'Devolver vale ' + v.numeroTxt;
+    document.querySelector('#modal-rechazo .campo-lbl').textContent = 'Motivo (lo ve quien pidió el vale)';
+    document.getElementById('txt-motivo').placeholder = 'Ej.: esto se pide a Pañol · falta la medida del disco';
+    document.getElementById('motivo-nota').textContent = 'Mínimo 5 caracteres. Vuelve a ' + (v.solicitante || 'quien lo pidió') + ': lo corrige y lo reenvía (pasa de nuevo por aprobación si le corresponde) o lo descarta. Sale del tablero y del pizarrón.';
+    document.getElementById('btn-rechazo-ok').textContent = 'Devolver';
+    document.getElementById('txt-motivo').value = '';
+    abrirModal('modal-rechazo');
+    setTimeout(() => document.getElementById('txt-motivo').focus(), 50);
+    return;
+  }
   document.getElementById('rechazo-tit').textContent = (c ? 'Cancelar vale ' : 'Rechazar vale ') + v.numeroTxt;
-  document.querySelector('#modal-rechazo .campo-lbl').textContent = c ? 'Motivo de la cancelación (lo ve quien pidió el vale)' : 'Motivo (lo ve quien pidió el vale)';
+  document.querySelector('#modal-rechazo .campo-lbl').textContent = c ? (v.esMio ? 'Motivo de la cancelación (queda en la línea de tiempo)' : 'Motivo de la cancelación (lo ve quien pidió el vale)') : 'Motivo (lo ve quien pidió el vale)';
   document.getElementById('txt-motivo').placeholder = c ? 'Por qué se cancela…' : 'Qué hay que corregir…';
   document.getElementById('motivo-nota').textContent = c ? 'Mínimo 5 caracteres. El vale se cierra sin entregar lo que falta.' : 'Mínimo 5 caracteres. Quien lo pidió puede corregirlo y volver a enviarlo con el mismo número.';
   document.getElementById('btn-rechazo-ok').textContent = c ? 'Cancelar vale' : 'Rechazar';
@@ -2595,6 +2665,7 @@ function abrirMotivo_(id, modo) {
 }
 function abrirRechazo(id) { abrirMotivo_(id, 'rechazar'); }
 function abrirCancelar(id) { abrirMotivo_(id, 'cancelar'); }
+function abrirDevolver(id) { abrirMotivo_(id, 'devolver'); }   // v15.2.5
 function abrirPrioridad(id) { abrirMotivo_(id, 'prioridad'); }
 async function cambiarPrioridad_(id, marcar, nota) {
   const v = buscarVale_(id) || detalleCache[id]; if (!v) return;
@@ -2616,15 +2687,15 @@ document.getElementById('btn-rechazo-ok').addEventListener('click', async () => 
   if (motivoModo === 'prioridad') { cerrarModal('modal-rechazo'); await cambiarPrioridad_(rechazoId, true, m); return; }
   if (m.length < 5) { mostrarToast('Escribí el motivo (mínimo 5 caracteres)'); return; }
   const v = buscarVale_(rechazoId); if (!v) return;
-  const c = motivoModo === 'cancelar';
+  const c = motivoModo === 'cancelar', accion = motivoModo === 'devolver' ? 'devolver' : c ? 'cancelar' : 'rechazar';   // v15.2.5: + devolver
   const btn = document.getElementById('btn-rechazo-ok'); btn.disabled = true;
   try {
-    const r = await llamarBackend(c ? 'cancelar' : 'rechazar', { id: rechazoId, motivo: m, obraId: v.obraId });
-    if (!r || !r.ok) { cerrarModal('modal-rechazo'); await mostrarAviso((r && r.error) || (c ? 'No se pudo cancelar.' : 'No se pudo rechazar.')); await refrescarTodo_(c ? 'cancelar' : 'rechazar'); return; }
+    const r = await llamarBackend(accion, { id: rechazoId, motivo: m, obraId: v.obraId });
+    if (!r || !r.ok) { cerrarModal('modal-rechazo'); await mostrarAviso((r && r.error) || ({ cancelar: 'No se pudo cancelar.', devolver: 'No se pudo devolver.' }[accion] || 'No se pudo rechazar.')); await refrescarTodo_(accion); return; }
     cerrarModal('modal-rechazo');
     if (!c) cerrarModal('modal-detalle');
-    mostrarToast('Vale ' + v.numeroTxt + (c ? ' cancelado' : ' rechazado'));
-    await refrescarTodo_(c ? 'cancelar' : 'rechazar');
+    mostrarToast('Vale ' + v.numeroTxt + ({ cancelar: ' cancelado', devolver: ' devuelto a ' + (v.solicitante || 'quien lo pidió') }[accion] || ' rechazado'));
+    await refrescarTodo_(accion);
   } catch (err) { mostrarAviso(err.message); }
   finally { btn.disabled = false; }
 });
@@ -2641,13 +2712,110 @@ async function cargarNovedades() {
     avisosCache = r.avisos || []; pintarCampana_();   // v15.2.2: campanita
     (r.avisos || []).slice(0, 20).forEach(a => {
       const ob = obraPorId(a.obraId);
-      const ico = { rechazado: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' }[a.evento] || '🔔';
-      items.push('<span class="cinta-item' + (['rechazado', 'cancelado'].includes(a.evento) ? ' alerta' : '') + '">' + ico + ' ' + (ob && inicio.obras.length > 1 ? '<b>' + escaparHtml(ob.codigo) + '</b> · ' : '') + '<b>' + escaparHtml(a.titulo) + '</b> · ' + hhmm(a.fecha) + '</span>');
+      const ico = { rechazado: '↩️', devuelto: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' }[a.evento] || '🔔';
+      items.push('<span class="cinta-item' + (['rechazado', 'devuelto', 'cancelado'].includes(a.evento) ? ' alerta' : '') + '">' + ico + ' ' + (ob && inicio.obras.length > 1 ? '<b>' + escaparHtml(ob.codigo) + '</b> · ' : '') + '<b>' + escaparHtml(a.titulo) + '</b> · ' + hhmm(a.fecha) + '</span>');
     });
   }
   if (!items.length) items.push('<span class="cinta-item">Sin novedades de tus vales en los últimos 7 días.</span>');
   pista.innerHTML = items.join('');
   pista.style.animationDuration = Math.max(25, pista.textContent.length * 0.22) + 's';
+}
+
+// ── BUSCAR (v15.2.5): lupa en el encabezado, resultados mientras escribís ──
+const BUS_LIMITE = 30;
+const bus = { obra: null, q: '', filtro: 'todos', res: [], totales: null, hayMas: false, cargando: false, error: null, corto: false, seq: 0, timer: null };
+document.getElementById('btn-buscar').addEventListener('click', () => { if (!datosObra) return; irA('buscar'); });
+/** Igual que vd_norm de la base: minúsculas y sin acentos, carácter por carácter (mismo largo). */
+const BUS_DE = 'ÁÀÄÂÉÈËÊÍÌÏÎÓÒÖÔÚÙÜÛÑáàäâéèëêíìïîóòöôúùüûñ', BUS_A = 'AAAAEEEEIIIIOOOOUUUUNaaaaeeeeiiiioooouuuun';
+function busNorm_(t) { return Array.from(String(t || '')).map(ch => { const i = BUS_DE.indexOf(ch); return (i >= 0 ? BUS_A[i] : ch).toLowerCase().charAt(0) || ch; }).join(''); }
+function busValido_(q) { return /^\d{1,7}$/.test(q) || q.length >= 3; }
+/** Texto con la búsqueda resaltada; si es largo, recorta alrededor de la primera coincidencia. */
+function busResaltar_(texto, q) {
+  const t = Array.from(String(texto || '')), n = busNorm_(t.join('')), qn = busNorm_(q);
+  let ini = 0, fin = t.length;
+  const p0 = qn ? n.indexOf(qn) : -1;
+  if (t.length > 140 && p0 >= 0) { ini = Math.max(0, p0 - 50); fin = Math.min(t.length, p0 + qn.length + 80); }
+  let out = '', i = ini;
+  while (qn && i < fin) {
+    const p = n.indexOf(qn, i);
+    if (p < 0 || p >= fin) break;
+    out += escaparHtml(t.slice(i, p).join('')) + '<mark>' + escaparHtml(t.slice(p, p + qn.length).join('')) + '</mark>';
+    i = p + qn.length;
+  }
+  out += escaparHtml(t.slice(i, fin).join(''));
+  return (ini > 0 ? '…' : '') + out + (fin < t.length ? '…' : '');
+}
+function busDonde_(d, q) {
+  const lbl = { numero: 'Número', renglon: 'Renglón' + (d.orden ? ' ' + d.orden : ''), comentario: 'Comentario de ' + (d.persona || '—'), observacion: 'Observación', pidio: 'Pidió' }[d.tipo] || d.tipo;
+  const txt = d.tipo === 'numero' && /^\d+$/.test(q) ? '<mark>' + escaparHtml(d.texto) + '</mark>' : busResaltar_(d.texto, q);
+  return '<div class="bus-d" data-donde="' + d.tipo + '"><span class="t">' + escaparHtml(lbl) + ':</span> ' + (d.tipo === 'comentario' ? '«' + txt + '»' : txt) + '</div>';
+}
+async function buscar_(desde) {
+  const q = bus.q.trim();
+  clearTimeout(bus.timer);
+  const seq = ++bus.seq;
+  bus.error = null; bus.corto = false;
+  if (!q) { bus.res = []; bus.totales = null; bus.hayMas = false; bus.cargando = false; pintarBuscarResultados_(); return; }
+  if (!busValido_(q)) { bus.res = []; bus.totales = null; bus.hayMas = false; bus.cargando = false; bus.corto = true; pintarBuscarResultados_(); return; }
+  if (!navigator.onLine) { bus.cargando = false; bus.error = 'La búsqueda necesita conexión.'; pintarBuscarResultados_(); return; }
+  bus.cargando = true; if (!desde) pintarBuscarResultados_();
+  try {
+    const r = await llamarBackend('buscar', { obraId: obraSel, texto: q, filtro: bus.filtro, limite: BUS_LIMITE, desde: desde || 0 });
+    if (seq !== bus.seq) return;   // llegó una búsqueda más nueva
+    if (r && r.ok) {
+      bus.res = desde ? bus.res.concat(r.resultados || []) : (r.resultados || []);
+      bus.totales = r.totales; bus.hayMas = !!r.hayMas; bus.corto = !!r.corto;
+      if (!desde) registrarActividad_('buscar', q.slice(0, 100), 'OK', { filtro: bus.filtro, total: r.totales && r.totales.todos });
+    } else bus.error = (r && r.error) || 'No se pudo buscar.';
+  } catch (err) { if (seq === bus.seq) bus.error = err.message; }
+  finally { if (seq === bus.seq) { bus.cargando = false; pintarBuscarResultados_(); } }
+}
+function pintarBuscar_() {
+  const cont = document.getElementById('vista-buscar');
+  const o = obraActual(); if (!o) return;
+  if (bus.obra !== obraSel) { bus.obra = obraSel; bus.res = []; bus.totales = null; bus.hayMas = false; cont.innerHTML = ''; }
+  if (!document.getElementById('bus-input')) {
+    cont.innerHTML = fija_('<div class="vista-cab"><div class="vista-tit">Buscar<small>' + escaparHtml(o.codigo + ' ' + o.nombreCorto) + '</small></div>' +
+        '<div class="vista-sub">En ítems, número de vale, comentarios, observaciones y quién pidió. Toda la historia de la obra.</div></div>' +
+        '<div class="bus-caja"><i class="ti ti-search"></i><input id="bus-input" type="search" enterkeyhint="search" autocomplete="off" maxlength="100" placeholder="Ej.: amoladora · 12 · lunes · Gómez" aria-label="Buscar">' +
+        '<button type="button" class="bus-limpiar hidden" id="bus-limpiar" aria-label="Borrar búsqueda">✕</button></div>' +
+        '<div class="pastillas" id="bus-pastillas"></div>') +
+      '<div id="bus-resultados"></div>';
+    const inp = document.getElementById('bus-input');
+    inp.value = bus.q;
+    inp.addEventListener('input', () => {
+      bus.q = inp.value; document.getElementById('bus-limpiar').classList.toggle('hidden', !bus.q);
+      clearTimeout(bus.timer); bus.timer = setTimeout(() => buscar_(0), 300);
+    });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); buscar_(0); inp.blur(); } });
+    document.getElementById('bus-limpiar').addEventListener('click', () => { bus.q = ''; inp.value = ''; document.getElementById('bus-limpiar').classList.add('hidden'); buscar_(0); inp.focus(); });
+  }
+  document.getElementById('bus-limpiar').classList.toggle('hidden', !bus.q);
+  pintarBuscarResultados_();
+  if (!esCelular_() || !bus.q) setTimeout(() => { const i = document.getElementById('bus-input'); if (i && vista === 'buscar' && document.activeElement !== i && !document.querySelector('.modal-overlay.visible')) i.focus(); }, 30);
+}
+function pintarBuscarResultados_() {
+  const cont = document.getElementById('bus-resultados'), ps = document.getElementById('bus-pastillas');
+  if (!cont || !ps) return;
+  const q = bus.q.trim(), t = bus.totales;
+  ps.innerHTML = t ? [['todos', 'Todos'], ['abiertos', 'Abiertos'], ['cerrados', 'Cerrados']].map(p =>
+    '<button type="button" class="pastilla' + (bus.filtro === p[0] ? ' sel' : '') + (t[p[0]] ? '' : ' cero') + '" data-bus-filtro="' + p[0] + '">' + p[1] + '<span class="n">' + (t[p[0]] || 0) + '</span></button>').join('') : '';
+  ps.querySelectorAll('[data-bus-filtro]').forEach(b => b.addEventListener('click', () => { bus.filtro = b.dataset.busFiltro; buscar_(0); }));
+  let html;
+  if (bus.error) html = '<div class="vacio-txt">' + escaparHtml(bus.error) + '</div>';
+  else if (!q) html = '<div class="vacio-txt"><i class="ti ti-search" style="font-size:1.6rem;display:block;margin-bottom:4px"></i>Escribí al menos 3 letras, o un número de vale (por ejemplo <b>12</b> encuentra el VD0012).<br>No importan las mayúsculas ni los acentos.</div>';
+  else if (bus.corto) html = '<div class="vacio-txt">Escribí al menos 3 letras (o un número de vale).</div>';
+  else if (bus.cargando && !bus.res.length) html = '<div class="cargando" style="padding:30px 10px"><div class="spinner"></div>Buscando…</div>';
+  else if (!bus.res.length) html = '<div class="vacio-txt">No encontramos nada con «' + escaparHtml(q) + '»' + (bus.filtro !== 'todos' && t && t.todos ? ' en ' + (bus.filtro === 'abiertos' ? 'los abiertos' : 'los cerrados') + '.' : '.') + '</div>';
+  else {
+    const n = t ? (t[bus.filtro] || 0) : bus.res.length;
+    html = '<div class="bus-estado" id="bus-estado">' + n + (n === 1 ? ' vale' : ' vales') + ' · los más recientes primero</div><div class="lista-vales">' +
+      bus.res.map(x => tarjeta_(x.vale, { conSolicitante: true, extra: '<div class="bus-donde">' + (x.donde || []).map(d => busDonde_(d, q)).join('') + '</div>' })).join('') + '</div>' +
+      (bus.hayMas ? '<button type="button" class="btn-chico sec bus-mas" id="bus-mas"' + (bus.cargando ? ' disabled' : '') + '>' + (bus.cargando ? 'Buscando…' : 'Ver más (' + (n - bus.res.length) + ')') + '</button>' : '');
+  }
+  cont.innerHTML = html;
+  enlazarTarjetas_(cont);
+  const bm = document.getElementById('bus-mas'); if (bm) bm.addEventListener('click', () => buscar_(bus.res.length));
 }
 
 // ── TABLERO (v15.2.4): 4 columnas, solo mirar, todos los de la obra ──
@@ -2676,7 +2844,7 @@ async function cargarTablero_() {
   const obraId = obraSel;
   try {
     const r = await llamarBackend('tablero', { obraId: obraId });
-    if (r && r.ok && r.obraId === obraSel) { tb.datos = r; tb.ts = Date.now(); tb.error = null; tb.deCache = false; guardarJson(cacheTableroKey(obraId), { ts: tb.ts, data: r }); }
+    if (r && r.ok && r.obraId === obraSel) { tb.datos = r; tb.ts = Date.now(); tb.error = null; tb.deCache = false; tb.sucio = false; guardarJson(cacheTableroKey(obraId), { ts: tb.ts, data: r }); }
     else if (r && !r.ok) tb.error = r.error;
   } catch (err) { tb.error = err.message; }
   finally { tb.cargando = false; }
@@ -2686,7 +2854,7 @@ async function cargarTablero_() {
 function pintarTableroVista_() {
   tbObra_();
   pintarTablero_();
-  if (!tb.datos || tb.deCache || Date.now() - tb.ts > 15000) cargarTablero_();
+  if (!tb.datos || tb.deCache || tb.sucio || Date.now() - tb.ts > 15000) cargarTablero_();
 }
 /** Filtro de destino y de quién pidió. */
 function tbPasa_(v, conPidio) {
@@ -2728,10 +2896,24 @@ function tbCard_(v, col) {
     '<div class="tb-reng">' + (tbRenglones_(v, col) || '<i>sin renglones</i>') + '</div>' +
     (col === 'pend' ? tbChips_(v) + antigHtml_(v) : '') + '</div>';
 }
-/** Columna con la que abre el celular: Para preparar, o Con pendientes si hay alguno de 4 días o más. */
+/** Columna con la que abre el celular (v15.2.5): Con pendientes si hay alguno de 4 días o más; si no, la primera con vales. */
 function tbColInicial_(cols) {
   const pend = (cols.find(c => c.k === 'pend') || { vales: [] }).vales;
-  return pend.some(v => (diasPendiente(v) || 0) >= ANTIG_ROJO) ? 'pend' : 'prep';
+  if (pend.some(v => (diasPendiente(v) || 0) >= ANTIG_ROJO)) return 'pend';
+  const c = cols.find(x => x.vales.length);
+  return c ? c.k : 'prep';
+}
+const TB_ICO = { prep: 'ti-checks', curso: 'ti-package', pend: 'ti-clock-exclamation', cerr: 'ti-circle-check' };
+const TB_VACIO_TIT = { prep: 'Nada para preparar', curso: 'Nada en preparación', pend: 'Sin pendientes', cerr: 'Nada cerrado hoy' };
+/** Celular: columna vacía = tarjeta con ✓ y atajos a las columnas que tienen vales. */
+function tbVacioCel_(k, cols) {
+  const otras = cols.filter(c => c.k !== k && c.vales.length);
+  const mios = tb.pidio === 'mios';
+  const sub = otras.length ? (mios ? 'Tus vales están en otras columnas:' : 'Hay vales en otras columnas:')
+    : mios ? 'No tenés vales en el tablero.' : (tb.pidio !== 'todos' || tb.destino !== 'todos' ? 'No hay vales con este filtro.' : 'No hay vales en el tablero.');
+  return '<div class="tb-vacio-cel"><div class="ico"><i class="ti ti-circle-check"></i></div><div class="tit">' + TB_VACIO_TIT[k] + '</div><div class="sub">' + sub + '</div><div class="atajos">' +
+    otras.map(c => '<button type="button" class="tb-atajo ' + c.k + '" data-tb-col="' + c.k + '"><i class="ti ' + TB_ICO[c.k] + '"></i>Ver ' + c.tit + ' (' + c.vales.length + ')</button>').join('') +
+    (tb.pidio !== 'todos' ? '<button type="button" class="tb-atajo" data-tb-pidio="todos"><i class="ti ti-users"></i>Ver los de toda la obra</button>' : '') + '</div></div>';
 }
 function pintarTablero_() {
   const cont = document.getElementById('vista-tablero');
@@ -2768,13 +2950,13 @@ function pintarTablero_() {
     '<div class="tb-grid" id="tb-grid">' + cols.map(c =>
       '<section class="tb-col ' + c.k + (c.k === colSel ? ' activa' : '') + '" data-tb-columna="' + c.k + '">' +
         '<div class="tb-ch">' + (c.k === 'pend' ? '<i class="ti ti-clock-exclamation"></i>' : '<span class="dot" style="background:' + c.color + '"></span>') + c.tit + '<span class="c">' + c.vales.length + '</span></div>' +
-        (c.vales.length ? c.vales.map(v => tbCard_(v, c.k)).join('') : '<div class="tb-vacio">' + (tb.pidio !== 'todos' || tb.destino !== 'todos' ? 'Nada con este filtro.' : vacio[c.k]) + '</div>') +
+        (c.vales.length ? c.vales.map(v => tbCard_(v, c.k)).join('') : '<div class="tb-vacio">' + (tb.pidio !== 'todos' || tb.destino !== 'todos' ? 'Nada con este filtro.' : vacio[c.k]) + '</div>' + tbVacioCel_(c.k, cols)) +
       '</section>').join('') + '</div>';
   enlazarTablero_(cont);
 }
 function enlazarTablero_(cont) {
   cont.querySelectorAll('[data-tb-destino]').forEach(b => b.addEventListener('click', () => { tb.destino = b.dataset.tbDestino; pintarTablero_(); }));
-  cont.querySelectorAll('[data-tb-pidio]').forEach(b => b.addEventListener('click', () => { tb.pidio = b.dataset.tbPidio; pintarTablero_(); }));
+  cont.querySelectorAll('[data-tb-pidio]').forEach(b => b.addEventListener('click', () => { tb.pidio = b.dataset.tbPidio; if (b.classList.contains('tb-atajo')) tb.col = null; pintarTablero_(); }));
   cont.querySelectorAll('[data-tb-col]').forEach(b => b.addEventListener('click', () => { tb.col = b.dataset.tbCol; pintarTablero_(); window.scrollTo(0, 0); }));
   cont.querySelectorAll('[data-tb-vale]').forEach(el => {
     el.addEventListener('click', () => tbAbrir_(el.dataset.tbVale));
@@ -2812,7 +2994,7 @@ async function cargarPizarron_() {
   pz.cargando = true; pz.otraVez = false;
   try {
     const r = await llamarBackend('pizarron', { obraId: obraSel, destino: pz.destino });
-    if (r && r.ok && r.obraId === obraSel && r.destino === pz.destino) { pz.datos = r; pz.ts = Date.now(); pz.error = null; }
+    if (r && r.ok && r.obraId === obraSel && r.destino === pz.destino) { pz.datos = r; pz.ts = Date.now(); pz.error = null; pz.sucio = false; }
     else if (r && !r.ok) pz.error = r.error;
   } catch (err) { pz.error = err.message; }
   finally { pz.cargando = false; }
@@ -2822,7 +3004,7 @@ async function cargarPizarron_() {
 function pintarPizarronVista_() {
   if (pz.obra !== obraSel || !pz.datos) { pintarPizarron_(); cargarPizarron_(); return; }
   pintarPizarron_();
-  if (Date.now() - pz.ts > 15000) cargarPizarron_();
+  if (pz.sucio || Date.now() - pz.ts > 15000) cargarPizarron_();
 }
 function pzHace_(v) {
   if (v.estado === 'CON_PENDIENTES') return antigHtml_(v).replace('class="antig', 'style="margin-top:2px" class="antig');
@@ -2984,7 +3166,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && vi
 
 // ── CAMPANITA 🔔 (v15.2.2): avisos de la base con contador y panel ──
 let avisosCache = null;   // último vd_avisos_listar (no leídos + leídos de los últimos 7 días)
-const AVISO_ICO = { rechazado: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' };
+const AVISO_ICO = { rechazado: '↩️', devuelto: '↩️', enviado: '📝', aprobado: '✅', entregado: '📦', cerrado_parcial: '📦', con_pendientes: '⏳', cancelado: '🚫' };
 function pintarCampana_() {
   const n = avisosCache ? avisosCache.filter(a => !a.leido).length : ((inicio && inicio.avisosNoLeidos) || 0);
   const b = document.getElementById('badge-campana');
@@ -3105,13 +3287,15 @@ function refrescarTodo_(motivo) {
       else await cargarObra(false, false);
       if (vista === 'pizarron') await cargarPizarron_();   // v15.2.3
       if (vista === 'tablero') await cargarTablero_();     // v15.2.4
+      else tb.sucio = true;                                 // v15.2.5: al volver al Tablero se recarga (hubo cambios)
+      if (vista !== 'pizarron') pz.sucio = true;
       if (motivo !== 'online' && motivo !== 'foco') cargarNovedades();
       const abierto = detalleAbierto_();
       if (abierto) {
         const v = buscarVale_(abierto) || detalleCache[abierto]; if (v) pintarDetalle_(v);
         recargarDetalle_(abierto);   // v15.2.0: historial y comentarios al día
       }
-      if (motivo === 'realtime' && vista !== 'pizarron' && vista !== 'tablero') mostrarToast('Actualizado');   // en el pizarrón y el tablero (solo mirar) no molesta
+      if (motivo === 'realtime' && !['pizarron', 'tablero', 'buscar'].includes(vista)) mostrarToast('Actualizado');   // en el pizarrón y el tablero (solo mirar) no molesta
       resolve();
     }, motivo === 'realtime' ? 600 : 0);
   });
@@ -3123,7 +3307,7 @@ function suscribirRealtime_() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_vales' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_renglones' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_comentarios' }, () => { const a = detalleAbierto_(); if (a) recargarDetalle_(a); })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_pizarron' }, () => { if (vista === 'pizarron') cargarPizarron_(); if (vista === 'tablero') cargarTablero_(); })   // v15.2.3 / v15.2.4
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_pizarron' }, () => { if (vista === 'pizarron') cargarPizarron_(); else pz.sucio = true; if (vista === 'tablero') cargarTablero_(); else tb.sucio = true; })   // v15.2.3 / v15.2.4
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_avisos' }, () => cargarNovedades())
       .subscribe(estado => { if (estado === 'CHANNEL_ERROR' || estado === 'TIMED_OUT') console.warn('[realtime]', estado); });
   } catch (err) { console.warn('[realtime] no disponible:', err.message); }
