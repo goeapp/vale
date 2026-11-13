@@ -498,6 +498,14 @@ input, select, textarea { font-family: inherit; }
   /* v15.2.4: en el celular no va el Lápiz */
   #btn-lapiz-toggle { display: none !important; }
 }
+/* v15.2.8 — celular: "VD" en vez de "Vale Digital" y sin la cinta de Novedades (siguen en la campanita) */
+.logo-corto { display: none; }
+@media (max-width: 560px) {
+  :root { --cinta-h: 0px; }
+  #app-header .logo-largo { display: none; }
+  #app-header .logo-corto { display: inline; }
+  #cinta { display: none !important; }
+}
 /* v15.2.5 — BUSCAR */
 #btn-buscar { font-size: .9rem; padding: 3px 9px; }
 #btn-buscar.activo { border-color: var(--accent); color: var(--accent); }
@@ -760,7 +768,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 <!-- ═══════════════ APP ═══════════════ -->
 <div id="app">
   <header id="app-header">
-    <div class="hdr-logo"><span class="logo-pre">Vale</span> <span class="logo-kom">Digital</span></div>
+    <div class="hdr-logo"><span class="logo-largo"><span class="logo-pre">Vale</span> <span class="logo-kom">Digital</span></span><span class="logo-corto">VD</span></div>
     <div class="hdr-version" id="version-label-app"></div>
     <nav class="hdr-nav" id="hdr-nav">
       <button class="hdr-nav-btn hidden" data-vista="tablero"><i class="ti ti-layout-kanban"></i> Tablero</button>
@@ -959,7 +967,10 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_7.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_8.html  (subir como index.html al repo goeapp/vale)
+// v15.2.8 (13-nov-2026) — celular (hasta 560 px), sin SQL y sw.js igual:
+//  · El encabezado dice "VD" en vez de "Vale Digital" (en la compu y en el login sigue completo).
+//  · Sin la cinta de Novedades abajo: las novedades siguen en la campanita y "sin señal" en su franja.
 // v15.2.7 (13-nov-2026) — Anotador integrado (receta Instrucciones_Integracion_Anotador_v1_0_0.md). Sin SQL nuevo, sw.js igual:
 //  · Botón Anotador en el encabezado, al lado del Lápiz. Compu: Notas y Pizarrón en una ventana; celular: la libreta.
 //  · Etiquetas automáticas #valedigital y la obra (código, ej. 1329-3); si hay un vale abierto, el vale.
@@ -1060,7 +1071,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.7';
+const APP_VERSION   = 'v15.2.8';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
