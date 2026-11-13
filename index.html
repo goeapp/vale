@@ -443,6 +443,60 @@ input, select, textarea { font-family: inherit; }
 .pz-atiende { font-size: .76rem; color: #475569; margin-right: auto; }
 @media (max-width: 900px) { .pz-grid { grid-template-columns: 1fr; } .pz-cola { max-height: none; } }
 @media (max-width: 640px) { .pz-lugares { grid-template-columns: 1fr; } }
+/* v15.2.4 — TABLERO (solo mirar): 4 columnas en la compu, una por vez en el celular */
+#vista-tablero.view { max-width: 1600px; }
+.tb-filas { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; }
+.tb-filas .pastillas { align-items: center; }
+.tb-lbl { font-size: .64rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-right: 2px; flex: none; }
+.tb-info { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: .76rem; color: var(--muted); }
+.tb-tabs { display: none; }
+.tb-grid { display: grid; grid-template-columns: 1fr 1fr 1.25fr .85fr; gap: 12px; align-items: start; margin-top: 4px; }
+.tb-col { background: #e2e8f0; border-radius: var(--radius); padding: 8px; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.tb-col.pend { background: #ffedd5; box-shadow: 0 0 0 2px #fb923c; }
+.tb-col.cerr { background: #e9eef4; }
+.tb-ch { display: flex; align-items: center; gap: 8px; padding: 3px 6px 5px; font-weight: 800; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text); }
+.tb-ch .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.tb-ch .c { margin-left: auto; background: #fff; border-radius: 99px; padding: 0 9px; font-size: .74rem; }
+.tb-col.pend .tb-ch { color: #9a3412; }
+.tb-col.cerr .tb-ch { color: #475569; }
+.tb-vacio { font-size: .74rem; color: var(--muted); padding: 4px 6px 6px; }
+.tb-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--e-aprobado); border-radius: var(--radius-sm); padding: 8px 10px; font-size: .78rem; box-shadow: var(--shadow); cursor: pointer; text-align: left; width: 100%; color: var(--text); }
+.tb-card:hover { background: #fffbeb; }
+.tb-card.e-EN_PREPARACION { border-left-color: var(--e-prep); }
+.tb-card.e-CON_PENDIENTES { border-left-color: var(--e-pend); }
+.tb-card.e-ENTREGADO, .tb-card.e-CERRADO_PARCIAL { border-left-color: var(--e-ok); }
+.tb-card.e-CANCELADO { border-left-color: var(--e-cerrado); opacity: .8; }
+.tb-card.es-prio { border-color: #fca5a5; border-left-color: #dc2626; background: #fff5f5; box-shadow: 0 0 0 1px #fca5a5; }
+.tb-n1 { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.tb-num { font-weight: 800; font-size: .86rem; }
+.tb-dest { margin-left: auto; font-size: .72rem; font-weight: 700; color: var(--accent2); display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+.tb-meta { color: var(--muted); font-size: .7rem; margin-top: 2px; }
+.tb-reng { margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tb-reng b { font-weight: 700; color: #9a3412; }
+.tb-chips { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+.tb-pz { font-size: .64rem; font-weight: 700; padding: 1px 7px; border-radius: 99px; background: #fef3c7; color: #92400e; white-space: nowrap; }
+.tb-card .antig { margin-top: 3px; }
+.tb-card .ent-medias { margin-top: 3px; }
+@media (max-width: 1100px) and (min-width: 561px) { .tb-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) {
+  .tb-filas { display: block; }
+  .tb-filas .pastillas { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 4px 0; }
+  .tb-filas .pastilla { flex: none; }
+  .tb-info { display: none; }
+  .tb-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 6px 0 4px; }
+  .tb-tab { border: 1.5px solid var(--border); background: var(--surface); border-radius: 10px; padding: 5px 2px; text-align: center; font-size: .66rem; font-weight: 700; line-height: 1.2; color: var(--text); }
+  .tb-tab b { display: block; font-size: 1.05rem; }
+  .tb-tab.sel { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+  .tb-tab.pend { border-color: #fb923c; background: #ffedd5; color: #9a3412; }
+  .tb-tab.pend.sel { background: #ea580c; border-color: #ea580c; color: #fff; }
+  .tb-grid { display: block; }
+  .tb-col { background: none !important; box-shadow: none !important; padding: 0; }
+  .tb-col:not(.activa) { display: none; }
+  .tb-ch { display: none; }
+  .tb-dest .txt { display: none; }
+  /* v15.2.4: en el celular no va el Lápiz */
+  #btn-lapiz-toggle { display: none !important; }
+}
 /* pantalla completa (la pantalla de 43") */
 body.pz-completa #app-header, body.pz-completa #cinta, body.pz-completa .fab, body.pz-completa #franja-offline { display: none !important; }
 body.pz-completa #app { padding-bottom: 0; }
@@ -677,6 +731,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
     <div class="hdr-logo"><span class="logo-pre">Vale</span> <span class="logo-kom">Digital</span></div>
     <div class="hdr-version" id="version-label-app"></div>
     <nav class="hdr-nav" id="hdr-nav">
+      <button class="hdr-nav-btn hidden" data-vista="tablero"><i class="ti ti-layout-kanban"></i> Tablero</button>
       <button class="hdr-nav-btn hidden" data-vista="mis"><i class="ti ti-clipboard-list"></i> Mis vales</button>
       <button class="hdr-nav-btn hidden" data-vista="aprobar"><i class="ti ti-checks"></i> Por aprobar<span class="nav-cnt hidden" id="cnt-aprobar"></span></button>
       <button class="hdr-nav-btn hidden" data-vista="gestion"><i class="ti ti-building-warehouse"></i> Para gestionar<span class="nav-cnt hidden" id="cnt-gestion"></span></button>
@@ -696,6 +751,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
   <div id="franja-version" class="franja-version hidden" role="status"><i class="ti ti-sparkles"></i><span id="franja-version-txt"></span><button type="button" class="btn-chico" id="btn-actualizar"><i class="ti ti-refresh"></i> Actualizar</button></div>
   <div id="franja-offline" class="franja-offline hidden" role="status"><i class="ti ti-wifi-off"></i><span id="franja-offline-txt"></span></div>
 
+  <main id="vista-tablero" class="view hidden"></main>
   <main id="vista-mis" class="view hidden"></main>
   <main id="vista-aprobar" class="view hidden"></main>
   <main id="vista-gestion" class="view hidden"></main>
@@ -869,7 +925,15 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_3.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_4.html  (subir como index.html al repo goeapp/vale)
+// v15.2.4 (13-nov-2026) — requiere vd_esquema_v15_2_4.sql (vd_tablero):
+//  · Tablero (vista nueva y de inicio, para todos los de la obra, solo mirar): Para preparar ·
+//    En preparación · Con pendientes (destacada) · Cerrados hoy, de Almacén y Pañol. Pastillas de
+//    Destino y de Pidió (ordenado por cantidad, "Los míos" primero para quien pide). Tarjeta reducida:
+//    2 renglones y "(+N)"; en Con pendientes, los renglones que faltan. Tocar una abre el detalle.
+//    Botón "+ Nuevo vale" también en el Tablero.
+//  · Celular: una columna por vez con 4 botones (abre en Para preparar, o en Con pendientes si hay
+//    alguno de 4 días o más); quien pide abre con "Los míos". Sin botón Lápiz y sin la vista Todos.
 // v15.2.3 (12-nov-2026) — requiere vd_esquema_v15_2_3.sql:
 //  · Pizarrón (vista nueva, para la pantalla del almacén con mouse): cola a la izquierda (para preparar ·
 //    con pendientes) y 4 lugares en 2×2 con los renglones en letra grande. Arrastrar un vale a un lugar
@@ -945,7 +1009,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.3';
+const APP_VERSION   = 'v15.2.4';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -1030,7 +1094,7 @@ window.addEventListener('unhandledrejection', e => {
 // ══════════════════════════════════════════════════════════════
 // DATOS — llamarBackend(action, params) → funciones vd_* de Supabase
 // ══════════════════════════════════════════════════════════════
-const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes', 'pizarron']);
+const ACCIONES_LECTURA = new Set(['validarSesion', 'inicio', 'obra', 'detalle', 'avisos', 'faltantes', 'pizarron', 'tablero']);
 function errRed_() { return new Error('No se pudo conectar con el servidor. Revisá tu conexión y volvé a intentar.'); }
 
 /** (= PreKOM v9) rechazo de la base → {ok:false, error}; falla de red → excepción. */
@@ -1091,6 +1155,7 @@ async function llamarBackendSb_(action, p) {
     case 'leerAvisos': return rpc_(action, 'vd_avisos_leidos', { p_ids: p.ids || null });   // v15.2.2
     // v15.2.3 — pizarrón y prioridad
     case 'pizarron': return rpc_(action, 'vd_pizarron', { p_obra: p.obraId, p_destino: p.destino });
+    case 'tablero': return rpc_(action, 'vd_tablero', { p_obra: p.obraId });   // v15.2.4
     case 'pizarronPoner': case 'pizarronQuitar': case 'pizarronColor': case 'prioridad': {
       const fn = { pizarronPoner: 'vd_pizarron_poner', pizarronQuitar: 'vd_pizarron_quitar', pizarronColor: 'vd_pizarron_color', prioridad: 'vd_prioridad' }[action];
       const args = action === 'pizarronPoner' ? { p_vale: p.id, p_lugar: p.lugar == null ? null : p.lugar, p_color: p.color || null }
@@ -1341,7 +1406,10 @@ const EST_ICO = { BORRADOR: 'ti-pencil', ENVIADO: 'ti-hourglass', APROBADO: 'ti-
   LOCAL_BORRADOR: 'ti-cloud-off', LOCAL_ENVIO: 'ti-cloud-upload' };
 const CERRADOS = ['ENTREGADO', 'CERRADO_PARCIAL', 'CANCELADO', 'DESCARTADO'];
 const DEST_ICO = { ALMACEN: 'ti-building-warehouse', PANOL: 'ti-tool' };
-const VISTAS = ['mis', 'aprobar', 'gestion', 'todos', 'pizarron'];
+const VISTAS = ['tablero', 'mis', 'aprobar', 'gestion', 'todos', 'pizarron'];
+// v15.2.4 — celular (mismo corte que el CSS): uso personal; la gestión se hace en la compu
+const MQ_CEL = window.matchMedia ? window.matchMedia('(max-width: 560px)') : { matches: false };
+function esCelular_() { return !!MQ_CEL.matches; }
 const RENG_FIJOS = 6;                             // v15.1.1: el vale abre con 6 renglones, como el papel
 const PERFIL_TXT = { invitado: 'Invitado', capataz: 'Capataz', supervisor: 'Supervisor', jefe_obra: 'Jefe de obra', almacenero: 'Almacenero', panolero: 'Pañolero', administrar: 'Administrar' };
 // v15.1.1 — pastillas de filtro por vista: [clave, texto, filtro]
@@ -1548,11 +1616,11 @@ async function cargarObra(primera, forzarCache) {
 }
 function vistasDisponibles_() {
   const o = obraActual(); if (!o) return [];
-  const v = [];
+  const v = ['tablero'];   // v15.2.4: vista de inicio para todos
   if (o.puedePedir) v.push('mis');
   if (o.aprueba) v.push('aprobar');
   if ((o.gestiona || []).length) v.push('gestion');
-  if (['jefe_obra', 'administrar', 'invitado'].includes(o.perfil)) v.push('todos');
+  if (['jefe_obra', 'administrar', 'invitado'].includes(o.perfil) && !esCelular_()) v.push('todos');   // v15.2.4: en el celular no va
   v.push('pizarron');   // v15.2.3: todos los de la obra lo miran
   return v;
 }
@@ -1591,7 +1659,8 @@ function pintarVista() {
   document.querySelectorAll('#hdr-nav .hdr-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.vista === vista));
   VISTAS.forEach(v => document.getElementById('vista-' + v).classList.toggle('hidden', v !== vista));
   const o = obraActual();
-  document.getElementById('btn-nuevo').classList.toggle('hidden', !(o && o.puedePedir && vista === 'mis'));
+  document.getElementById('btn-nuevo').classList.toggle('hidden', !(o && o.puedePedir && (vista === 'mis' || vista === 'tablero')));   // v15.2.4: también en el Tablero
+  if (vista === 'tablero') pintarTableroVista_();
   if (vista === 'mis') pintarMis_();
   if (vista === 'aprobar') pintarAprobar_();
   if (vista === 'gestion') pintarGestion_();
@@ -2581,6 +2650,151 @@ async function cargarNovedades() {
   pista.style.animationDuration = Math.max(25, pista.textContent.length * 0.22) + 's';
 }
 
+// ── TABLERO (v15.2.4): 4 columnas, solo mirar, todos los de la obra ──
+const TB_COLS = [   // [clave, título, campo de vd_tablero, color del punto]
+  ['prep', 'Para preparar', 'paraPreparar', 'var(--e-aprobado)'],
+  ['curso', 'En preparación', 'enPreparacion', 'var(--e-prep)'],
+  ['pend', 'Con pendientes', 'conPendientes', 'var(--e-pend)'],
+  ['cerr', 'Cerrados hoy', 'cerradosHoy', 'var(--e-ok)']];
+const TB_TAB_CORTO = { prep: 'Para preparar', curso: 'En prepar.', pend: 'Con pend.', cerr: 'Cerrados hoy' };
+const tb = { obra: null, datos: null, ts: 0, cargando: false, otraVez: false, error: null, deCache: false, destino: 'todos', pidio: 'todos', col: null };
+const cacheTableroKey = id => 'vd_cache_tablero_' + id;
+/** Al cambiar de obra (o la primera vez): filtros por defecto y lo guardado en el dispositivo. */
+function tbObra_() {
+  if (tb.obra === obraSel) return;
+  const o = obraActual();
+  tb.obra = obraSel; tb.datos = null; tb.ts = 0; tb.error = null; tb.col = null; tb.destino = 'todos';
+  tb.pidio = o && o.puedePedir && esCelular_() ? 'mios' : 'todos';   // celular = lo personal
+  const c = leerJson(cacheTableroKey(obraSel), null);
+  if (c && c.data && c.data.obraId === obraSel) { tb.datos = c.data; tb.ts = c.ts; tb.deCache = true; }
+}
+async function cargarTablero_() {
+  tbObra_();
+  if (tb.cargando) { tb.otraVez = true; return; }
+  if (!navigator.onLine) { if (vista === 'tablero') pintarTablero_(); return; }
+  tb.cargando = true; tb.otraVez = false;
+  const obraId = obraSel;
+  try {
+    const r = await llamarBackend('tablero', { obraId: obraId });
+    if (r && r.ok && r.obraId === obraSel) { tb.datos = r; tb.ts = Date.now(); tb.error = null; tb.deCache = false; guardarJson(cacheTableroKey(obraId), { ts: tb.ts, data: r }); }
+    else if (r && !r.ok) tb.error = r.error;
+  } catch (err) { tb.error = err.message; }
+  finally { tb.cargando = false; }
+  if (vista === 'tablero') pintarTablero_();
+  if (tb.otraVez) { tb.otraVez = false; return cargarTablero_(); }
+}
+function pintarTableroVista_() {
+  tbObra_();
+  pintarTablero_();
+  if (!tb.datos || tb.deCache || Date.now() - tb.ts > 15000) cargarTablero_();
+}
+/** Filtro de destino y de quién pidió. */
+function tbPasa_(v, conPidio) {
+  if (tb.destino !== 'todos' && v.destino !== tb.destino) return false;
+  if (!conPidio || tb.pidio === 'todos') return true;
+  if (tb.pidio === 'mios') return !!v.esMio;
+  return v.solicitanteId === tb.pidio;
+}
+function tbTodos_() { const d = tb.datos; return d ? TB_COLS.reduce((a, c) => a.concat(d[c[2]] || []), []) : []; }
+function tbRenglones_(v, col) {
+  const r = v.renglones || [];
+  const txt = x => escaparHtml(x.descripcion) + (cantTxt(x.cantidad) ? ' ×' + cantTxt(x.cantidad) : '');
+  if (col === 'pend') {   // en Con pendientes: lo que falta entregar
+    const p = r.filter(x => x.estado === 'PENDIENTE');
+    if (p.length) return '<b>Pendiente:</b> ' + p.slice(0, 2).map(txt).join(' · ') + (p.length > 2 ? ' (+' + (p.length - 2) + ')' : '');
+  }
+  return r.slice(0, 2).map(txt).join(' · ') + (r.length > 2 ? ' (+' + (r.length - 2) + ')' : '');
+}
+function tbChips_(v) {
+  const n = e => (v.renglones || []).filter(x => x.estado === e).length;
+  const pl = { ENTREGADO: ['entregado', 'entregados'], PENDIENTE: ['pendiente', 'pendientes'], SIN_STOCK: ['sin stock', 'sin stock'] };
+  const ch = ['ENTREGADO', 'PENDIENTE', 'SIN_STOCK'].filter(e => n(e)).map(e => '<span class="tl-chip ' + e + '">' + n(e) + ' ' + pl[e][n(e) === 1 ? 0 : 1] + '</span>');
+  return ch.length ? '<div class="tb-chips">' + ch.join('') + '</div>' : '';
+}
+function tbCard_(v, col) {
+  const dest = '<span class="tb-dest"><i class="ti ' + (DEST_ICO[v.destino] || 'ti-box') + '"></i><span class="txt">' + escaparHtml(nombreDestino(v.destino)) + '</span></span>';
+  const cab = '<div class="tb-n1"><span class="tb-num">' + escaparHtml(v.numeroTxt || '') + '</span>';
+  const abre = '<div class="tb-card e-' + v.estado + (v.prioritario ? ' es-prio' : '') + '" role="button" tabindex="0" data-tb-vale="' + v.id + '">';
+  if (col === 'cerr') {
+    return abre + cab + '<span class="est ' + v.estado + '">' + (ESTADOS[v.estado] || v.estado) + '</span>' + dest + '</div>' +
+      '<div class="tb-meta">' + escaparHtml(v.solicitante || '') + (v.cerradoEn ? ' · ' + hhmm(v.cerradoEn).slice(-5) : '') + '</div>' +
+      (v.estado === 'CERRADO_PARCIAL' ? tbChips_(v) : '') + '</div>';
+  }
+  const meta = [escaparHtml(v.solicitante || '')];
+  if (col === 'prep') { const t = v.aprobadoEn || v.enviadoEn; if (t) meta.push('aprobado ' + haceTxt_(t)); if (v.paraCuando) meta.push(escaparHtml(cuandoTxt(v.paraCuando))); }
+  else if (v.gestionadoPor) meta.push('lo atiende ' + escaparHtml(v.gestionadoPor));
+  return abre + cab + prioTag_(v) + (v.pizarron ? '<span class="tb-pz" title="Está en el pizarrón">Pizarrón ' + (v.pizarron.lugar + 1) + '</span>' : '') + discTag_(v.disciplina) + dest + '</div>' +
+    '<div class="tb-meta">' + meta.join(' · ') + '</div>' +
+    '<div class="tb-reng">' + (tbRenglones_(v, col) || '<i>sin renglones</i>') + '</div>' +
+    (col === 'pend' ? tbChips_(v) + antigHtml_(v) : '') + '</div>';
+}
+/** Columna con la que abre el celular: Para preparar, o Con pendientes si hay alguno de 4 días o más. */
+function tbColInicial_(cols) {
+  const pend = (cols.find(c => c.k === 'pend') || { vales: [] }).vales;
+  return pend.some(v => (diasPendiente(v) || 0) >= ANTIG_ROJO) ? 'pend' : 'prep';
+}
+function pintarTablero_() {
+  const cont = document.getElementById('vista-tablero');
+  const o = obraActual(); if (!o) return;
+  tbObra_();
+  const d = tb.datos, destinos = inicio.destinos || [];
+  // pastillas de Pidió: quienes tienen vales en el tablero (con el destino elegido), por cantidad
+  const base = tbTodos_().filter(v => tbPasa_(v, false));
+  const personas = {};
+  base.forEach(v => { if (o.puedePedir && v.esMio) return; const k = v.solicitanteId || v.solicitante; (personas[k] = personas[k] || { id: k, nombre: v.solicitante || '—', n: 0 }).n++; });
+  const lista = Object.values(personas).sort((a, b) => b.n - a.n || String(a.nombre).localeCompare(String(b.nombre), 'es'));
+  if (!['todos', 'mios'].includes(tb.pidio) && !personas[tb.pidio]) tb.pidio = 'todos';
+  if (tb.pidio === 'mios' && !o.puedePedir) tb.pidio = 'todos';
+  const pst = (val, txt, n, attr) => '<button type="button" class="pastilla' + (val === (attr === 'd' ? tb.destino : tb.pidio) ? ' sel' : '') + (n === 0 ? ' cero' : '') + '" data-tb-' + (attr === 'd' ? 'destino' : 'pidio') + '="' + escaparHtml(val) + '">' + txt + (n == null ? '' : '<span class="n">' + n + '</span>') + '</button>';
+  const todos = tbTodos_();
+  const filaDest = destinos.length > 1 ? '<div class="pastillas" data-pastillas="tb-destino"><span class="tb-lbl">Destino</span>' + pst('todos', 'Todos', todos.length, 'd') +
+    destinos.map(x => pst(x.destino, '<i class="ti ' + (DEST_ICO[x.destino] || 'ti-box') + '"></i>' + escaparHtml(x.nombre), todos.filter(v => v.destino === x.destino).length, 'd')).join('') + '</div>' : '';
+  const filaPidio = '<div class="pastillas" data-pastillas="tb-pidio"><span class="tb-lbl">Pidió</span>' + pst('todos', 'Todos', null, 'p') +
+    (o.puedePedir ? pst('mios', '<i class="ti ti-user"></i>Los míos', base.filter(v => v.esMio).length, 'p') : '') +
+    lista.map(p => pst(p.id, escaparHtml(p.nombre), p.n, 'p')).join('') + '</div>';
+  const cols = TB_COLS.map(c => ({ k: c[0], tit: c[1], color: c[3], vales: d ? (d[c[2]] || []).filter(v => tbPasa_(v, true)) : [] }));
+  if (!tb.col && d) tb.col = tbColInicial_(cols);
+  const colSel = tb.col || 'prep';
+  const info = '<div class="tb-info"><span class="pz-solo"><i class="ti ti-eye"></i> Solo mirar</span>' + (tb.ts ? '<span>Actualizado ' + hhmm(new Date(tb.ts).toISOString()).slice(-5) + '</span>' : '') + '</div>';
+  const cab = '<div class="vista-cab"><div class="vista-tit">Tablero<small>' + escaparHtml(o.codigo + ' ' + o.nombreCorto) + '</small></div>' +
+    '<div class="vista-sub">Dónde está cada vale de la obra. Tocá uno para ver el detalle.</div>' + info + '</div>';
+  const tabs = '<div class="tb-tabs" role="tablist">' + cols.map(c => '<button type="button" role="tab" class="tb-tab' + (c.k === 'pend' ? ' pend' : '') + (c.k === colSel ? ' sel' : '') + '" data-tb-col="' + c.k + '" aria-selected="' + (c.k === colSel) + '">' + TB_TAB_CORTO[c.k] + '<b>' + c.vales.length + '</b></button>').join('') + '</div>';
+  if (!d) {
+    cont.innerHTML = fija_(cab + '<div class="tb-filas">' + filaDest + '</div>') + '<div class="cargando">' + (tb.error ? escaparHtml(tb.error) : navigator.onLine ? '<div class="spinner"></div>Cargando el tablero…' : 'El tablero se ve con conexión.') + '</div>';
+    enlazarTablero_(cont); return;
+  }
+  const vacio = { prep: 'Nada para preparar.', curso: 'Nada en preparación.', pend: 'Sin pendientes.', cerr: 'Todavía no se cerró ninguno hoy.' };
+  cont.innerHTML = fija_(cab + '<div class="tb-filas">' + filaDest + filaPidio + '</div>' + tabs) +
+    '<div class="tb-grid" id="tb-grid">' + cols.map(c =>
+      '<section class="tb-col ' + c.k + (c.k === colSel ? ' activa' : '') + '" data-tb-columna="' + c.k + '">' +
+        '<div class="tb-ch">' + (c.k === 'pend' ? '<i class="ti ti-clock-exclamation"></i>' : '<span class="dot" style="background:' + c.color + '"></span>') + c.tit + '<span class="c">' + c.vales.length + '</span></div>' +
+        (c.vales.length ? c.vales.map(v => tbCard_(v, c.k)).join('') : '<div class="tb-vacio">' + (tb.pidio !== 'todos' || tb.destino !== 'todos' ? 'Nada con este filtro.' : vacio[c.k]) + '</div>') +
+      '</section>').join('') + '</div>';
+  enlazarTablero_(cont);
+}
+function enlazarTablero_(cont) {
+  cont.querySelectorAll('[data-tb-destino]').forEach(b => b.addEventListener('click', () => { tb.destino = b.dataset.tbDestino; pintarTablero_(); }));
+  cont.querySelectorAll('[data-tb-pidio]').forEach(b => b.addEventListener('click', () => { tb.pidio = b.dataset.tbPidio; pintarTablero_(); }));
+  cont.querySelectorAll('[data-tb-col]').forEach(b => b.addEventListener('click', () => { tb.col = b.dataset.tbCol; pintarTablero_(); window.scrollTo(0, 0); }));
+  cont.querySelectorAll('[data-tb-vale]').forEach(el => {
+    el.addEventListener('click', () => tbAbrir_(el.dataset.tbVale));
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') tbAbrir_(el.dataset.tbVale); });
+  });
+}
+/** Abre el detalle si lo puedo ver (está en mis listas: mío, lo apruebo, lo gestiono, o veo Todos). Si no, avisa de quién es. */
+function tbAbrir_(id) {
+  if (buscarVale_(id)) { abrirVale(id); return; }
+  const v = tbTodos_().find(x => x.id === id);
+  mostrarAviso('El vale ' + (v ? v.numeroTxt + ' es de ' + v.solicitante : 'es de otra persona') + '. En el tablero ves dónde está; el detalle completo lo ven quien lo pidió, su aprobador, el jefe de obra y ' + (v ? nombreDestino(v.destino) : 'Almacén o Pañol') + '.', 'Tablero');
+}
+// si el celular gira o la ventana cambia de tamaño: rearmar el menú (Todos no va en el celular)
+if (MQ_CEL.addEventListener) MQ_CEL.addEventListener('change', () => {
+  if (!datosObra) return;
+  pintarNav_();
+  if (!vistasDisponibles_().includes(vista)) vista = 'tablero';
+  pintarVista();
+});
+
 // ── PIZARRÓN (v15.2.3): cola + 4 lugares, guardado en la base, todos lo miran ──
 const PZ_COLORES = [['amarillo', '#facc15'], ['celeste', '#38bdf8'], ['verde', '#4ade80'], ['rosa', '#f472b6'], ['naranja', '#fb923c'], ['lila', '#c084fc']];
 const pz = { obra: null, destino: null, datos: null, ts: 0, cargando: false, wake: null };
@@ -2890,13 +3104,14 @@ function refrescarTodo_(motivo) {
       if (motivo === 'online' || motivo === 'foco') await cargarInicio(false);
       else await cargarObra(false, false);
       if (vista === 'pizarron') await cargarPizarron_();   // v15.2.3
+      if (vista === 'tablero') await cargarTablero_();     // v15.2.4
       if (motivo !== 'online' && motivo !== 'foco') cargarNovedades();
       const abierto = detalleAbierto_();
       if (abierto) {
         const v = buscarVale_(abierto) || detalleCache[abierto]; if (v) pintarDetalle_(v);
         recargarDetalle_(abierto);   // v15.2.0: historial y comentarios al día
       }
-      if (motivo === 'realtime' && vista !== 'pizarron') mostrarToast('Actualizado');   // en el pizarrón (pantalla grande) no molesta
+      if (motivo === 'realtime' && vista !== 'pizarron' && vista !== 'tablero') mostrarToast('Actualizado');   // en el pizarrón y el tablero (solo mirar) no molesta
       resolve();
     }, motivo === 'realtime' ? 600 : 0);
   });
@@ -2908,7 +3123,7 @@ function suscribirRealtime_() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_vales' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_renglones' }, () => refrescarTodo_('realtime'))
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_comentarios' }, () => { const a = detalleAbierto_(); if (a) recargarDetalle_(a); })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_pizarron' }, () => { if (vista === 'pizarron') cargarPizarron_(); })   // v15.2.3
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'vd_pizarron' }, () => { if (vista === 'pizarron') cargarPizarron_(); if (vista === 'tablero') cargarTablero_(); })   // v15.2.3 / v15.2.4
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'vd_avisos' }, () => cargarNovedades())
       .subscribe(estado => { if (estado === 'CHANNEL_ERROR' || estado === 'TIMED_OUT') console.warn('[realtime]', estado); });
   } catch (err) { console.warn('[realtime] no disponible:', err.message); }
