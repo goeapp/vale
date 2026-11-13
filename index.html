@@ -958,7 +958,10 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 
 <script>
 // ============================================================
-// Vale Digital — index_vd_v15_2_5.html  (subir como index.html al repo goeapp/vale)
+// Vale Digital — index_vd_v15_2_6.html  (subir como index.html al repo goeapp/vale)
+// v15.2.6 (13-nov-2026) — requiere vd_esquema_v15_2_6.sql (vd_buscar con notas y motivos):
+//  · Buscar también en las notas y motivos del vale: nota de entrega, motivo de rechazo, de devolución, de
+//    cancelación y de prioridad, y nota al descartar. Ej.: Nota de entrega de Pérez: «Retiro Zabala».
 // v15.2.5 (13-nov-2026) — requiere vd_esquema_v15_2_5.sql (vd_buscar, vd_devolver, vd_cancelar nuevo, estado DEVUELTO):
 //  · Buscar: lupa 🔍 en el encabezado → pantalla Buscar. Busca en ítem, número ("12" = VD0012), comentarios de
 //    personas, observaciones y quién pidió; en lo que cada uno puede ver; toda la historia; desde 3 letras; sin
@@ -1052,7 +1055,7 @@ body.pz-completa .pz-l-num { font-size: 1.7rem; }
 //    Actividad en goe_actividad (app vd).
 // ============================================================
 
-const APP_VERSION   = 'v15.2.5';
+const APP_VERSION   = 'v15.2.6';
 const SUPABASE_URL  = 'https://uhuftsxrzwhmvzygcuvp.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_TCibRAnzgaDIbn_MIirw6w_FltKG8X3';
 const REDIRECT_MAIL = 'https://goeapp.github.io/vale/';   // la plantilla del mail lo usa para poner "VALE DIGITAL"
@@ -2746,9 +2749,12 @@ function busResaltar_(texto, q) {
   return (ini > 0 ? '…' : '') + out + (fin < t.length ? '…' : '');
 }
 function busDonde_(d, q) {
-  const lbl = { numero: 'Número', renglon: 'Renglón' + (d.orden ? ' ' + d.orden : ''), comentario: 'Comentario de ' + (d.persona || '—'), observacion: 'Observación', pidio: 'Pidió' }[d.tipo] || d.tipo;
+  // v15.2.6: + notas y motivos del vale (tipo 'nota', según la clase)
+  const nota = { entrega: 'Nota de entrega de ' + (d.persona || '—'), rechazo: 'Motivo de rechazo', devolucion: 'Motivo de devolución',
+                 cancelacion: 'Motivo de cancelación', prioridad: 'Motivo de prioridad', sin_prioridad: 'Al sacar la prioridad', descarte: 'Nota al descartar' }[d.clase] || 'Nota';
+  const lbl = { numero: 'Número', renglon: 'Renglón' + (d.orden ? ' ' + d.orden : ''), comentario: 'Comentario de ' + (d.persona || '—'), nota: nota, observacion: 'Observación', pidio: 'Pidió' }[d.tipo] || d.tipo;
   const txt = d.tipo === 'numero' && /^\d+$/.test(q) ? '<mark>' + escaparHtml(d.texto) + '</mark>' : busResaltar_(d.texto, q);
-  return '<div class="bus-d" data-donde="' + d.tipo + '"><span class="t">' + escaparHtml(lbl) + ':</span> ' + (d.tipo === 'comentario' ? '«' + txt + '»' : txt) + '</div>';
+  return '<div class="bus-d" data-donde="' + d.tipo + '"><span class="t">' + escaparHtml(lbl) + ':</span> ' + (d.tipo === 'comentario' || d.tipo === 'nota' ? '«' + txt + '»' : txt) + '</div>';
 }
 async function buscar_(desde) {
   const q = bus.q.trim();
@@ -2776,7 +2782,7 @@ function pintarBuscar_() {
   if (bus.obra !== obraSel) { bus.obra = obraSel; bus.res = []; bus.totales = null; bus.hayMas = false; cont.innerHTML = ''; }
   if (!document.getElementById('bus-input')) {
     cont.innerHTML = fija_('<div class="vista-cab"><div class="vista-tit">Buscar<small>' + escaparHtml(o.codigo + ' ' + o.nombreCorto) + '</small></div>' +
-        '<div class="vista-sub">En ítems, número de vale, comentarios, observaciones y quién pidió. Toda la historia de la obra.</div></div>' +
+        '<div class="vista-sub">En ítems, número de vale, comentarios, notas y motivos, observaciones y quién pidió. Toda la historia de la obra.</div></div>' +
         '<div class="bus-caja"><i class="ti ti-search"></i><input id="bus-input" type="search" enterkeyhint="search" autocomplete="off" maxlength="100" placeholder="Ej.: amoladora · 12 · lunes · Gómez" aria-label="Buscar">' +
         '<button type="button" class="bus-limpiar hidden" id="bus-limpiar" aria-label="Borrar búsqueda">✕</button></div>' +
         '<div class="pastillas" id="bus-pastillas"></div>') +
